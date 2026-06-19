@@ -263,6 +263,54 @@ body.app-mode{overflow-x:hidden}
 body.app-mode[data-mode="mobile"] #appbar{padding:max(18px,env(safe-area-inset-top)) 18px 14px}
 
 /* ============================================================
+   BANNER DE INSTALAÇÃO (PWA) — sheet inferior dentro do device
+   ============================================================ */
+#install-banner{
+  position:absolute;left:12px;right:12px;
+  bottom:calc(12px + env(safe-area-inset-bottom));
+  z-index:120;
+  background:var(--grad-navy);
+  border:1px solid rgba(133,198,6,.35);
+  border-radius:18px;padding:16px 16px 14px;
+  box-shadow:0 18px 40px rgba(0,0,0,.45);
+  color:#fff;
+  animation:ibUp .35s var(--transition-bounce);
+}
+@keyframes ibUp{from{transform:translateY(140%);opacity:0}to{transform:translateY(0);opacity:1}}
+#install-banner .ib-close{
+  position:absolute;top:8px;right:10px;
+  width:28px;height:28px;border:none;border-radius:50%;
+  background:rgba(255,255,255,.10);color:#fff;
+  font-size:18px;line-height:1;cursor:pointer;
+}
+#install-banner .ib-row{display:flex;gap:12px;align-items:center}
+#install-banner .ib-icon{
+  flex:none;width:46px;height:46px;border-radius:12px;
+  background:#fff;display:flex;align-items:center;justify-content:center;padding:7px;
+}
+#install-banner .ib-icon img{width:100%;height:100%;object-fit:contain;display:block}
+#install-banner .ib-text strong{
+  font-family:var(--font-display);font-weight:800;font-size:15px;display:block;color:#fff;
+}
+#install-banner .ib-text p{font-size:12px;line-height:1.45;color:rgba(255,255,255,.78);margin-top:2px}
+#install-banner .ib-btn{
+  margin-top:12px;width:100%;border:none;cursor:pointer;
+  background:var(--grad-green);color:var(--navy);
+  font-family:var(--font-display);font-weight:800;font-size:14px;
+  padding:12px;border-radius:12px;
+}
+#install-banner .ib-ios{margin-top:12px;display:flex;flex-direction:column;gap:8px}
+#install-banner .ib-step{
+  display:flex;align-items:center;gap:7px;flex-wrap:wrap;
+  font-size:12.5px;line-height:1.4;color:rgba(255,255,255,.92);
+}
+#install-banner .ib-step b{color:var(--green-bright);font-weight:700}
+#install-banner .ib-step em{font-style:normal;color:#fff;font-weight:600}
+#install-banner .ib-share{
+  width:18px;height:18px;color:var(--green-bright);flex:none;vertical-align:middle;
+}
+
+/* ============================================================
    APP SHELL — Inside the device
    ============================================================ */
 #appwrap{
@@ -2446,6 +2494,25 @@ body[data-mode="web"] .req-prio{display:none}
 </nav>
 
 </div><!-- /#appwrap -->
+
+  <!-- BANNER DE INSTALAÇÃO (PWA) — aparece ao abrir pelo QR; some quando já instalado -->
+  <div id="install-banner" hidden>
+    <button class="ib-close" onclick="fecharInstall()" aria-label="Fechar">&times;</button>
+    <div class="ib-row">
+      <span class="ib-icon"><img src="logo.svg" alt="" /></span>
+      <div class="ib-text">
+        <strong>Tenha o app na tela inicial</strong>
+        <p id="ib-msg">Instale o Eu Que Indico e abra em tela cheia, como um app.</p>
+      </div>
+    </div>
+    <!-- Android: botão de instalação de 1 toque -->
+    <button id="ib-install-btn" class="ib-btn" onclick="instalarApp()" hidden>Instalar app</button>
+    <!-- iOS: passos guiados -->
+    <div id="ib-ios" class="ib-ios" hidden>
+      <span class="ib-step">1. Toque em <svg class="ib-share" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M12 3L8 7M12 3l4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 12H5a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-5a2 2 0 0 0-2-2h-1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> <em>Compartilhar</em> na barra do Safari</span>
+      <span class="ib-step">2. Escolha <b>Adicionar à Tela de Início</b></span>
+    </div>
+  </div>
 </div><!-- /#device -->
 </div><!-- /#stage -->
 
@@ -2815,13 +2882,83 @@ function ativarModoApp(){
   document.querySelectorAll('#seg button').forEach(b=>b.classList.toggle('on', b.dataset.m==='mobile'));
   nav('home');
 }
+function estaInstalado(){
+  return window.matchMedia('(display-mode: standalone)').matches
+      || window.matchMedia('(display-mode: fullscreen)').matches
+      || window.navigator.standalone === true;
+}
 (function detectarApp(){
   const params = new URLSearchParams(location.search);
-  const standalone = window.matchMedia('(display-mode: standalone)').matches
-                  || window.matchMedia('(display-mode: fullscreen)').matches
-                  || window.navigator.standalone === true;
-  if(params.has('app') || standalone){ ativarModoApp(); }
+  if(params.has('app') || estaInstalado()){ ativarModoApp(); }
 })();
+
+/* ============================================================
+   GUIA DE INSTALAÇÃO (PWA) — "tenha o app na tela inicial"
+   Android: captura beforeinstallprompt → botão "Instalar app" (1 toque).
+   iPhone: mostra o passo-a-passo "Adicionar à Tela de Início" (Safari não
+   permite botão de instalação). Só aparece no modo app e quando NÃO está
+   instalado; pode ser dispensado (lembrado por 14 dias via localStorage).
+   ============================================================ */
+let promptInstalacao = null;
+const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent)
+           || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+const ehDispensado = ()=>{
+  try{
+    const t = +localStorage.getItem('eqi-install-dispensado') || 0;
+    return Date.now() - t < 14*24*60*60*1000;
+  }catch(e){ return false; }
+};
+
+function mostrarInstall(){
+  const banner = document.getElementById('install-banner');
+  if(!banner) return;
+  // só no modo app, fora do standalone instalado, e não dispensado
+  if(!document.body.classList.contains('app-mode') || estaInstalado() || ehDispensado()) return;
+
+  const btn = document.getElementById('ib-install-btn');
+  const ios = document.getElementById('ib-ios');
+  const msg = document.getElementById('ib-msg');
+
+  if(promptInstalacao){            // Android/Chrome: instalação de 1 toque
+    btn.hidden = false; ios.hidden = true;
+    msg.textContent = 'Instale o Eu Que Indico e abra em tela cheia, como um app.';
+    banner.hidden = false;
+  }else if(isIOS){                 // iPhone: passo-a-passo manual
+    btn.hidden = true; ios.hidden = false;
+    msg.textContent = 'Adicione à tela de início para abrir como um app:';
+    banner.hidden = false;
+  }
+  // outros casos (sem prompt e não-iOS): não mostra nada
+}
+
+function fecharInstall(){
+  const banner = document.getElementById('install-banner');
+  if(banner) banner.hidden = true;
+  try{ localStorage.setItem('eqi-install-dispensado', Date.now()); }catch(e){}
+}
+
+function instalarApp(){
+  if(!promptInstalacao) return;
+  promptInstalacao.prompt();
+  promptInstalacao.userChoice.finally(()=>{
+    promptInstalacao = null;
+    const banner = document.getElementById('install-banner');
+    if(banner) banner.hidden = true;
+  });
+}
+
+window.addEventListener('beforeinstallprompt', e=>{
+  e.preventDefault();
+  promptInstalacao = e;
+  mostrarInstall();
+});
+window.addEventListener('appinstalled', ()=>{
+  const banner = document.getElementById('install-banner');
+  if(banner) banner.hidden = true;
+  promptInstalacao = null;
+});
+// iOS não dispara beforeinstallprompt: tenta mostrar o guia após a carga.
+window.addEventListener('load', ()=>{ setTimeout(mostrarInstall, 1200); });
 
 /* Service Worker — habilita instalação na tela inicial e cache offline.
    Só funciona via http(s) (GitHub Pages); ignorado ao abrir como file://. */
