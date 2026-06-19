@@ -1,7 +1,7 @@
 /* Service Worker — Eu Que Indico (PWA do protótipo navegável)
    Cache-first do app shell para instalação na tela inicial e uso offline.
    Bump CACHE ao publicar uma nova versão para invalidar o cache antigo. */
-const CACHE = 'eqi-app-v1';
+const CACHE = 'eqi-app-v2';
 const ASSETS = [
   './',
   './index.html',

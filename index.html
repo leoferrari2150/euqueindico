@@ -259,7 +259,8 @@ body.app-mode #device{
   max-height:none !important;border-radius:0 !important;box-shadow:none !important;
   transition:none;
 }
-body.app-mode #appbar{padding-top:max(42px,env(safe-area-inset-top));}
+body.app-mode{overflow-x:hidden}
+body.app-mode[data-mode="mobile"] #appbar{padding:max(18px,env(safe-area-inset-top)) 18px 14px}
 
 /* ============================================================
    APP SHELL — Inside the device
@@ -289,8 +290,10 @@ body[data-mode="mobile"] #appbar-mobile{display:block}
 /* Brand inside app */
 /* Logo oficial (lockup vertical imutável) — sem efeitos/animação, conforme Manual da Marca */
 .eqi-logo-mark{display:flex;align-items:center;cursor:pointer;flex:none}
-.eqi-logo-mark svg{height:44px;width:auto;display:block}
-body[data-mode="mobile"] .eqi-logo-mark svg{height:40px}
+/* largura explícita (proporção 1074:604): width:auto quebra no Safari/iOS,
+   gerando largura-fantasma de 1074px que empurra/corta a barra. */
+.eqi-logo-mark svg{height:44px;width:78px;aspect-ratio:1074/604;display:block;flex:none}
+body[data-mode="mobile"] .eqi-logo-mark svg{height:40px;width:71px}
 
 /* Topnav (web) */
 .topnav{display:flex;gap:2px;margin-left:24px}
