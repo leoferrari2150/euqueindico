@@ -1,0 +1,2839 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<meta name="theme-color" content="#041b33" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Eu Que Indico" />
+<meta name="application-name" content="Eu Que Indico" />
+<link rel="manifest" href="manifest.webmanifest" />
+<link rel="apple-touch-icon" href="icons/icon-180.png" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20512%20512'%3E%3Crect%20width='512'%20height='512'%20rx='110'%20fill='%23041b33'/%3E%3Cpath%20d='M128%20180%20C128%20180%20104%20180%20104%20232%20C104%20272%20144%20296%20176%20328%20L240%20392%20C248%20400%20264%20400%20272%20392%20L336%20328%20C368%20296%20408%20272%20408%20232%20C408%20180%20384%20180%20384%20180%20C352%20180%20336%20204%20312%20232%20L256%20296%20L200%20232%20C176%20204%20160%20180%20128%20180%20Z'%20fill='%2385C606'/%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800;900&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>Protótipo Navegável v3.0 · Eu Que Indico (Mobile + Web)</title>
+<style>
+/* ============================================================
+   EQI v3.0 — DUAL-MODE PROTOTYPE (Mobile + Web)
+   Padrão Bioma · Visual UAU v2.0 · Manual da Marca EQI
+   ============================================================ */
+:root{
+  --green:#85C606;
+  --green-dim:#6ea805;
+  --green-bright:#9ee818;
+  --green-50:#f3fce0;
+  --green-100:#e1f7b0;
+  --green-200:#c9e87a;
+  --green-glow:rgba(133,198,6,.35);
+
+  --navy:#041B33;
+  --navy-700:#0a2d4f;
+  --navy-600:#13406b;
+  --navy-300:#5a7090;
+  --navy-100:#dde4ee;
+  --navy-50:#eef2f7;
+
+  --bg:#f6f7fb;
+  --bg-warm:#fafbfd;
+  --white:#fff;
+  --line:#e4e8ef;
+  --line-strong:#d2d8e2;
+  --text:#0c1626;
+  --text-soft:#566476;
+  --text-mute:#92a0b3;
+
+  --red:#e54a3a;
+  --amber:#f4b400;
+  --ok:#27c08f;
+
+  --r-sm:10px;
+  --r:14px;
+  --r-lg:20px;
+  --r-xl:28px;
+
+  --shadow-sm:0 1px 3px rgba(4,27,51,.06), 0 1px 2px rgba(4,27,51,.04);
+  --shadow:0 4px 12px rgba(4,27,51,.08), 0 2px 4px rgba(4,27,51,.05);
+  --shadow-md:0 12px 30px rgba(4,27,51,.10), 0 4px 10px rgba(4,27,51,.06);
+  --shadow-lg:0 24px 60px rgba(4,27,51,.14), 0 8px 20px rgba(4,27,51,.08);
+  --shadow-green:0 12px 30px rgba(133,198,6,.25), 0 4px 10px rgba(133,198,6,.15);
+
+  --grad-hero:radial-gradient(at 80% 0%, #0d3057 0%, transparent 50%),
+              radial-gradient(at 0% 80%, #052244 0%, transparent 50%),
+              linear-gradient(135deg, #041b33 0%, #0a2d4f 100%);
+  --grad-green:linear-gradient(135deg, #85C606 0%, #9ee818 100%);
+  --grad-green-deep:linear-gradient(135deg, #85C606 0%, #6ea805 100%);
+  --grad-navy:linear-gradient(135deg, #041B33 0%, #13406b 100%);
+
+  --font-display:'Raleway',ui-sans-serif,system-ui,sans-serif;
+  --font-body:'Montserrat',ui-sans-serif,system-ui,sans-serif;
+  --transition:cubic-bezier(.4,0,.2,1);
+  --transition-bounce:cubic-bezier(.34,1.56,.64,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+[hidden]{display:none !important}
+
+/* ============================================================
+   OUTER (Body) — Gradient stage where the device sits
+   ============================================================ */
+html,body{margin:0;min-height:100%}
+body{
+  font-family:var(--font-body);
+  color:var(--text);
+  background:radial-gradient(900px 600px at 15% -5%, #0d3057 0%, transparent 55%),
+             radial-gradient(800px 700px at 110% 10%, #1a5a8e 0%, transparent 50%),
+             radial-gradient(700px 500px at 90% 110%, rgba(133,198,6,.18) 0%, transparent 50%),
+             linear-gradient(135deg, #041B33 0%, #0a2d4f 50%, #041B33 100%);
+  background-attachment:fixed;
+  display:flex;flex-direction:column;align-items:center;
+  padding:18px 16px 50px;min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ============================================================
+   TOPBAR (Outer) — Mode segment + brand
+   ============================================================ */
+#topbar{
+  width:100%;max-width:1320px;
+  display:flex;align-items:center;gap:14px;
+  color:#fff;margin-bottom:18px;flex-wrap:wrap;
+}
+#topbar .ti{font-family:var(--font-display);font-weight:800;font-size:16px;letter-spacing:-.01em}
+#topbar .ts{font-size:12px;opacity:.65;margin-top:2px}
+#topbar .spacer{flex:1}
+
+#seg{
+  display:flex;background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:99px;padding:5px;gap:4px;
+  backdrop-filter:blur(10px);
+}
+#seg button{
+  border:0;background:none;color:#fff;
+  font-family:var(--font-body);font-size:13px;font-weight:700;
+  padding:8px 18px;border-radius:99px;cursor:pointer;
+  display:flex;align-items:center;gap:7px;opacity:.7;
+  transition:all .18s var(--transition);
+}
+#seg button svg{width:17px;height:17px;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;fill:none}
+#seg button.on{
+  background:var(--green);color:var(--navy);opacity:1;
+  box-shadow:0 6px 18px rgba(133,198,6,.4);
+}
+
+#topbar .about{
+  display:flex;align-items:center;gap:7px;
+  background:rgba(255,255,255,.10);
+  border:1px solid rgba(255,255,255,.16);
+  color:#fff;border-radius:99px;padding:8px 16px;
+  font-size:12.5px;cursor:pointer;
+  font-family:var(--font-body);font-weight:700;
+  backdrop-filter:blur(10px);
+  transition:background .15s;
+}
+#topbar .about:hover{background:rgba(255,255,255,.16)}
+#topbar .about svg{width:16px;height:16px;stroke:currentColor;stroke-width:2;fill:none}
+
+/* ============================================================
+   STAGE — Layout (aside + device)
+   ============================================================ */
+#stage{
+  display:flex;gap:30px;
+  justify-content:center;align-items:flex-start;
+  width:100%;
+}
+
+/* ============================================================
+   ASIDE (web only) — Personas, principles
+   ============================================================ */
+#aside{
+  width:300px;flex:none;color:#fff;
+  position:sticky;top:14px;
+}
+#aside .card{
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:18px;padding:18px 17px;margin-bottom:14px;
+  backdrop-filter:blur(14px);
+}
+#aside .card h2{
+  font-family:var(--font-display);
+  font-size:10.5px;text-transform:uppercase;
+  letter-spacing:.16em;margin:0 0 14px;
+  color:var(--green-bright);font-weight:800;
+}
+#aside .card p,#aside .card li{
+  font-size:12.5px;line-height:1.6;opacity:.92;margin:6px 0;
+}
+#aside ul{margin:4px 0;padding-left:18px}
+#aside .persona{
+  display:flex;gap:11px;align-items:center;margin:10px 0;
+}
+#aside .pav{
+  width:36px;height:36px;border-radius:11px;flex:none;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-display);font-weight:800;
+  color:#fff;font-size:13px;
+  box-shadow:0 6px 14px rgba(0,0,0,.2);
+}
+#aside .swatch{
+  display:inline-block;width:12px;height:12px;border-radius:4px;
+  margin-right:6px;vertical-align:middle;
+}
+#aside .foot{font-size:11px;opacity:.55;margin-top:8px}
+body[data-mode="mobile"] #aside{display:none}
+@media (max-width:1200px){#aside{display:none}}
+
+/* ============================================================
+   DEVICE FRAME (the visual switch happens here)
+   ============================================================ */
+#device{
+  position:relative;
+  background:var(--bg);
+  overflow:hidden;
+  display:flex;flex-direction:column;
+  transition:width .3s,height .3s,border-radius .3s,box-shadow .3s;
+}
+
+/* — Mobile mode (phone with notch) — */
+body[data-mode="mobile"] #device{
+  width:412px;height:862px;max-height:92vh;
+  border-radius:42px;
+  box-shadow:
+    0 0 0 12px #0b1622,
+    0 0 0 14px #1c2942,
+    var(--shadow-lg);
+}
+.notch{
+  position:absolute;top:9px;left:50%;
+  transform:translateX(-50%);
+  width:120px;height:26px;
+  background:#0b1622;border-radius:16px;z-index:60;
+}
+body[data-mode="web"] .notch{display:none}
+
+/* — Web mode (browser window) — */
+body[data-mode="web"] #device{
+  width:min(1180px,96vw);height:min(820px,90vh);
+  border-radius:14px;
+  box-shadow:0 0 0 1px #cbd3e0, var(--shadow-lg);
+}
+.browserbar{display:none}
+body[data-mode="web"] .browserbar{
+  display:flex;align-items:center;gap:8px;
+  background:#e9edf4;
+  padding:11px 16px;flex:none;
+  border-bottom:1px solid #d6dce7;
+}
+body[data-mode="web"] .browserbar .dot{
+  width:11px;height:11px;border-radius:50%;flex:none;
+}
+body[data-mode="web"] .browserbar .url{
+  flex:1;background:#fff;border-radius:99px;
+  padding:7px 16px;font-size:12px;color:#6c7689;
+  border:1px solid #d6dce7;
+  display:flex;align-items:center;gap:8px;
+  font-family:var(--font-body);font-weight:500;
+}
+body[data-mode="web"] .browserbar .url svg{
+  width:13px;height:13px;color:var(--ok);
+  stroke:currentColor;stroke-width:2;fill:none;
+}
+
+/* ============================================================
+   APP MODE — quando aberto pelo QR impresso (?app) ou instalado
+   na tela inicial (PWA standalone): vira um app de tela cheia,
+   sem nenhum chrome de demonstração (topbar, moldura, notch).
+   ============================================================ */
+body.app-mode{padding:0;display:block;background:var(--bg)}
+body.app-mode #topbar{display:none}
+body.app-mode #stage{gap:0}
+body.app-mode #aside{display:none}
+body.app-mode .notch{display:none}
+body.app-mode .browserbar{display:none}
+body.app-mode #device{
+  width:100vw !important;height:100vh !important;height:100dvh !important;
+  max-height:none !important;border-radius:0 !important;box-shadow:none !important;
+  transition:none;
+}
+body.app-mode #appbar{padding-top:max(42px,env(safe-area-inset-top));}
+
+/* ============================================================
+   APP SHELL — Inside the device
+   ============================================================ */
+#appwrap{
+  display:flex;flex-direction:column;
+  flex:1;min-height:0;width:100%;
+}
+#appbar{
+  position:relative;color:#fff;
+  flex:none;overflow:hidden;
+  background:var(--grad-hero);
+}
+body[data-mode="mobile"] #appbar{padding:42px 18px 14px}
+body[data-mode="web"] #appbar{padding:0}
+
+/* Web appbar — full topnav */
+body[data-mode="web"] #appbar-web{
+  display:flex;align-items:center;gap:18px;
+  padding:14px 22px;
+  border-bottom:1px solid rgba(255,255,255,.07);
+}
+body[data-mode="mobile"] #appbar-web{display:none}
+body[data-mode="web"] #appbar-mobile{display:none}
+body[data-mode="mobile"] #appbar-mobile{display:block}
+
+/* Brand inside app */
+/* Logo oficial (lockup vertical imutável) — sem efeitos/animação, conforme Manual da Marca */
+.eqi-logo-mark{display:flex;align-items:center;cursor:pointer;flex:none}
+.eqi-logo-mark svg{height:44px;width:auto;display:block}
+body[data-mode="mobile"] .eqi-logo-mark svg{height:40px}
+
+/* Topnav (web) */
+.topnav{display:flex;gap:2px;margin-left:24px}
+.topnav button{
+  background:transparent;color:rgba(255,255,255,.7);
+  padding:9px 16px;border-radius:9px;
+  font-size:13px;font-weight:600;font-family:var(--font-body);
+  border:0;cursor:pointer;
+  transition:all .18s var(--transition);
+  position:relative;
+}
+.topnav button:hover{background:rgba(255,255,255,.08);color:#fff}
+.topnav button.on{
+  background:rgba(133,198,6,.18);
+  color:#fff;font-weight:700;
+}
+.topnav button.on::after{
+  content:"";position:absolute;left:50%;bottom:-2px;width:24px;height:2px;
+  background:var(--green);border-radius:2px;transform:translateX(-50%);
+}
+
+.top-right{margin-left:auto;display:flex;align-items:center;gap:12px}
+.persona-sel{
+  display:flex;align-items:center;gap:9px;
+  background:rgba(255,255,255,.07);
+  padding:6px 12px;border-radius:11px;
+  border:1px solid rgba(255,255,255,.08);
+}
+.persona-sel label{
+  font-family:var(--font-display);
+  font-size:9px;letter-spacing:.12em;text-transform:uppercase;
+  color:rgba(255,255,255,.5);font-weight:800;
+}
+.persona-sel select{
+  background:transparent;color:#fff;
+  border:none;font-size:12.5px;font-weight:600;
+  font-family:var(--font-body);cursor:pointer;
+  padding-right:14px;
+}
+.persona-sel select option{background:var(--navy);color:#fff}
+
+.avatar{
+  width:34px;height:34px;border-radius:50%;
+  background:var(--grad-green);color:var(--navy);
+  display:grid;place-items:center;
+  font-family:var(--font-display);font-weight:800;font-size:12px;
+  border:2px solid rgba(255,255,255,.15);
+  cursor:pointer;
+  transition:transform .2s var(--transition-bounce);
+}
+.avatar:hover{transform:scale(1.08)}
+.avatar.publico{background:rgba(255,255,255,.1);color:#fff}
+
+.btn-acesso{
+  background:var(--grad-green);color:var(--navy);
+  font-weight:800;font-size:12.5px;
+  padding:9px 18px;border-radius:11px;
+  border:0;cursor:pointer;
+  font-family:var(--font-body);
+  box-shadow:0 6px 16px rgba(133,198,6,.4);
+}
+
+/* Mobile appbar — compact */
+#appbar-mobile{position:relative;z-index:2;display:flex;flex-direction:column;gap:14px}
+#appbar-mobile .row1{display:flex;align-items:center;gap:11px}
+#appbar-mobile .spacer{flex:1}
+#appbar-mobile .iconbtn{
+  width:38px;height:38px;border-radius:11px;
+  background:rgba(255,255,255,.10);border:0;color:#fff;
+  display:grid;place-items:center;cursor:pointer;
+}
+#appbar-mobile .iconbtn svg{width:20px;height:20px;stroke:currentColor;stroke-width:2;fill:none}
+
+/* Mobile sub-header (page title in app) */
+.mob-pagehead{
+  margin-top:2px;color:#fff;
+  position:relative;z-index:2;
+}
+.mob-pagehead h1{
+  font-family:var(--font-display);font-weight:800;
+  font-size:24px;letter-spacing:-.02em;line-height:1.1;
+  margin-bottom:4px;
+}
+.mob-pagehead p{
+  font-size:12.5px;color:rgba(255,255,255,.7);
+  line-height:1.4;
+}
+
+/* ============================================================
+   APP BODY — scrollable screens area
+   ============================================================ */
+#appbody{flex:1;display:flex;min-height:0}
+
+/* Side nav (web only) */
+#sidenav{
+  display:none;width:220px;flex:none;
+  background:#fff;border-right:1px solid var(--line);
+  overflow-y:auto;padding:14px 12px 24px;
+}
+body[data-mode="web"] #sidenav{display:block}
+#sidenav .grp{
+  font-family:var(--font-display);font-size:9.5px;
+  text-transform:uppercase;letter-spacing:.12em;
+  color:var(--text-mute);font-weight:800;
+  padding:14px 12px 6px;
+}
+#sidenav button{
+  display:flex;align-items:center;gap:12px;width:100%;
+  border:0;background:none;font-family:var(--font-body);
+  font-size:13.4px;font-weight:600;color:var(--text);
+  padding:10px 12px;border-radius:11px;cursor:pointer;
+  text-align:left;transition:.15s var(--transition);
+}
+#sidenav button svg{width:19px;height:19px;color:var(--text-mute);flex:none;stroke:currentColor;stroke-width:2;fill:none}
+#sidenav button:hover{background:var(--green-50)}
+#sidenav button.on{
+  background:var(--grad-navy);color:#fff;
+  box-shadow:var(--shadow);
+}
+#sidenav button.on svg{color:#fff}
+
+#maincol{flex:1;display:flex;flex-direction:column;min-width:0}
+
+/* Screens container */
+#screens{
+  flex:1;overflow-y:auto;background:var(--bg);
+  -webkit-overflow-scrolling:touch;
+}
+body[data-mode="mobile"] #screens{padding:0}
+body[data-mode="web"] #screens{padding:0}
+
+.screen{display:none;animation:rise .4s var(--transition) both}
+.screen.on{display:block}
+@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+
+body[data-mode="mobile"] .screen{padding:18px 16px 90px}
+body[data-mode="web"] .screen{padding:24px 30px 50px;max-width:none}
+
+/* ============================================================
+   BOTTOM NAV (mobile only)
+   ============================================================ */
+#bottomnav{
+  display:flex;
+  background:rgba(255,255,255,.94);
+  backdrop-filter:blur(14px);
+  border-top:1px solid var(--line);
+  padding:7px 6px calc(7px + env(safe-area-inset-bottom,0px));
+  flex:none;
+}
+body[data-mode="web"] #bottomnav{display:none}
+#bottomnav button{
+  flex:1;border:0;background:none;
+  padding:4px 2px;cursor:pointer;
+  font-family:var(--font-body);color:var(--text-mute);
+  font-size:10px;font-weight:700;
+  display:flex;flex-direction:column;align-items:center;gap:5px;
+  transition:.15s var(--transition);
+}
+#bottomnav button .nic{
+  width:42px;height:32px;border-radius:11px;
+  display:flex;align-items:center;justify-content:center;
+  transition:.2s var(--transition-bounce);
+}
+#bottomnav button .nic svg{
+  width:21px;height:21px;
+  stroke:currentColor;stroke-width:2;
+  stroke-linecap:round;stroke-linejoin:round;fill:none;
+}
+#bottomnav button.on{color:var(--green-dim)}
+#bottomnav button.on .nic{
+  background:var(--grad-navy);color:#fff;
+  box-shadow:0 8px 18px -6px var(--navy);
+  transform:translateY(-2px);
+}
+/* ============================================================
+   SCREEN HEADINGS
+   ============================================================ */
+.sc-title{
+  font-family:var(--font-display);font-weight:800;
+  color:var(--navy);letter-spacing:-.02em;line-height:1.1;
+}
+body[data-mode="mobile"] .sc-title{font-size:22px}
+body[data-mode="web"] .sc-title{font-size:30px}
+
+.sc-sub{color:var(--text-soft);margin-top:6px;margin-bottom:20px}
+body[data-mode="mobile"] .sc-sub{font-size:12.5px;margin-bottom:14px}
+body[data-mode="web"] .sc-sub{font-size:14px;margin-bottom:24px}
+
+/* ============================================================
+   HERO — Adaptive (compact mobile, grand web)
+   ============================================================ */
+.hero{
+  position:relative;color:#fff;
+  background:var(--grad-hero);
+  border-radius:var(--r-xl);
+  overflow:hidden;isolation:isolate;
+  margin-bottom:24px;
+}
+body[data-mode="mobile"] .hero{padding:24px 22px 22px;border-radius:22px}
+body[data-mode="web"] .hero{padding:48px 44px 40px}
+
+.hero::before{
+  content:"";position:absolute;top:-150px;right:-150px;
+  width:400px;height:400px;
+  background:radial-gradient(circle, rgba(133,198,6,.25) 0%, transparent 70%);
+  filter:blur(20px);z-index:-1;
+}
+.hero::after{
+  content:"";position:absolute;bottom:-100px;left:-100px;
+  width:340px;height:340px;
+  background:radial-gradient(circle, rgba(133,198,6,.13) 0%, transparent 70%);
+  filter:blur(25px);z-index:-1;
+}
+
+.hero-grid{display:grid;align-items:center}
+body[data-mode="mobile"] .hero-grid{grid-template-columns:1fr;gap:18px}
+body[data-mode="web"] .hero-grid{grid-template-columns:1.4fr 1fr;gap:30px}
+
+.hero-tag{
+  display:inline-flex;align-items:center;gap:7px;
+  background:rgba(133,198,6,.15);border:1px solid rgba(133,198,6,.35);
+  color:var(--green-bright);padding:6px 12px;border-radius:99px;
+  font-family:var(--font-body);font-weight:700;font-size:10.5px;
+  letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px;
+}
+.hero-tag .dot{
+  width:7px;height:7px;border-radius:50%;background:var(--green);
+  animation:dotPulse 1.6s ease-in-out infinite;
+}
+@keyframes dotPulse{
+  0%,100%{transform:scale(1);opacity:1}
+  50%{transform:scale(1.5);opacity:.6}
+}
+
+.hero h1{
+  font-family:var(--font-display);font-weight:900;
+  line-height:.98;letter-spacing:-.03em;margin-bottom:14px;
+}
+body[data-mode="mobile"] .hero h1{font-size:28px}
+body[data-mode="web"] .hero h1{font-size:46px}
+.hero h1 .accent{
+  background:var(--grad-green);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+
+.hero-lede{
+  color:rgba(255,255,255,.78);margin-bottom:22px;line-height:1.55;
+}
+body[data-mode="mobile"] .hero-lede{font-size:13px}
+body[data-mode="web"] .hero-lede{font-size:15.5px;max-width:480px}
+
+.hero-ctas{display:flex;gap:10px;flex-wrap:wrap}
+.hero-cta-primary{
+  background:var(--grad-green);color:var(--navy);
+  font-weight:800;padding:13px 22px;border-radius:11px;
+  display:inline-flex;align-items:center;gap:8px;
+  box-shadow:0 8px 22px rgba(133,198,6,.4);
+  transition:all .18s var(--transition-bounce);
+  border:0;cursor:pointer;font-family:var(--font-body);font-size:13.5px;
+}
+.hero-cta-primary:hover{transform:translateY(-2px) scale(1.02);box-shadow:0 12px 30px rgba(133,198,6,.55)}
+.hero-cta-ghost{
+  background:rgba(255,255,255,.08);color:#fff;
+  border:1px solid rgba(255,255,255,.18);
+  padding:13px 22px;border-radius:11px;font-weight:700;
+  font-family:var(--font-body);font-size:13.5px;cursor:pointer;
+}
+.hero-cta-ghost:hover{background:rgba(255,255,255,.14)}
+
+/* Hero orb (web only) */
+.hero-visual{
+  position:relative;display:flex;align-items:center;justify-content:center;
+}
+body[data-mode="mobile"] .hero-visual{height:180px}
+body[data-mode="web"] .hero-visual{height:330px}
+
+.hero-orb{
+  width:240px;height:240px;border-radius:50%;
+  background:radial-gradient(circle at 30% 30%, var(--green-bright) 0%, var(--green) 40%, var(--green-dim) 90%);
+  box-shadow:0 25px 60px rgba(133,198,6,.5),
+    inset -16px -24px 50px rgba(4,27,51,.25),
+    inset 16px 16px 35px rgba(255,255,255,.2);
+  animation:orbFloat 4s ease-in-out infinite;
+  position:relative;
+}
+body[data-mode="mobile"] .hero-orb{width:130px;height:130px}
+@keyframes orbFloat{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-10px)}
+}
+.hero-heart-big{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:2}
+.hero-heart-big svg{
+  filter:drop-shadow(0 8px 20px rgba(4,27,51,.4));
+  animation:heartBeatBig 1.4s ease-in-out infinite;
+}
+body[data-mode="mobile"] .hero-heart-big svg{width:64px;height:64px}
+body[data-mode="web"] .hero-heart-big svg{width:112px;height:112px}
+@keyframes heartBeatBig{
+  0%,100%{transform:scale(1)}
+  14%{transform:scale(1.18)}
+  28%{transform:scale(1)}
+  42%{transform:scale(1.12)}
+  70%{transform:scale(1)}
+}
+
+.hero-chip{
+  position:absolute;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);
+  color:var(--navy);padding:7px 12px;border-radius:99px;
+  font-size:11px;font-weight:700;display:flex;align-items:center;gap:6px;
+  box-shadow:0 8px 22px rgba(4,27,51,.3);
+  animation:chipFloat 5s ease-in-out infinite;
+}
+body[data-mode="mobile"] .hero-chip{font-size:10px;padding:5px 9px}
+.hero-chip.c1{top:6%;left:0%}
+.hero-chip.c2{top:18%;right:0%;animation-delay:.8s}
+.hero-chip.c3{bottom:18%;left:0%;animation-delay:1.6s}
+.hero-chip.c4{bottom:6%;right:8%;animation-delay:2.4s}
+@keyframes chipFloat{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-8px)}
+}
+
+/* Hero stats strip */
+.hero-stats{
+  display:grid;background:rgba(255,255,255,.06);
+  border-radius:14px;overflow:hidden;
+  border:1px solid rgba(255,255,255,.08);
+  margin-top:24px;
+}
+body[data-mode="mobile"] .hero-stats{grid-template-columns:repeat(2,1fr);gap:1px;background:rgba(255,255,255,.06)}
+body[data-mode="web"] .hero-stats{grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.08);margin-top:32px}
+
+.hero-stat{
+  background:rgba(4,27,51,.4);padding:14px 16px;text-align:left;
+  backdrop-filter:blur(8px);
+}
+body[data-mode="web"] .hero-stat{padding:18px 22px}
+
+.hero-stat .hs-lbl{
+  font-family:var(--font-display);font-weight:700;
+  font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--green-200);margin-bottom:5px;
+}
+.hero-stat .hs-num{
+  font-family:var(--font-display);font-weight:800;
+  color:#fff;letter-spacing:-.02em;line-height:1;
+}
+body[data-mode="mobile"] .hero-stat .hs-num{font-size:22px}
+body[data-mode="web"] .hero-stat .hs-num{font-size:28px}
+
+.hero-stat .hs-spark{
+  margin-top:7px;height:18px;display:flex;align-items:end;gap:2px;
+}
+.hero-stat .hs-spark div{
+  flex:1;background:var(--green);border-radius:1px;opacity:.65;
+}
+
+/* ============================================================
+   SECTION HEAD
+   ============================================================ */
+.sec-head{
+  display:flex;align-items:center;justify-content:space-between;
+  margin:24px 0 14px;
+}
+.sec-head h2{
+  font-family:var(--font-display);font-weight:800;
+  color:var(--navy);letter-spacing:-.02em;
+}
+body[data-mode="mobile"] .sec-head h2{font-size:18px}
+body[data-mode="web"] .sec-head h2{font-size:22px}
+.sec-head .sec-sub{font-size:12px;color:var(--text-soft);margin-top:2px;display:block}
+
+/* ============================================================
+   TICKER (em alta)
+   ============================================================ */
+.ticker-wrap{
+  background:var(--grad-navy);border-radius:var(--r-lg);
+  padding:16px 18px;margin-bottom:22px;color:#fff;
+  position:relative;overflow:hidden;
+}
+.ticker-wrap::before{
+  content:"";position:absolute;top:50%;left:-80px;
+  width:200px;height:200px;
+  background:radial-gradient(circle, rgba(133,198,6,.18) 0%, transparent 70%);
+  filter:blur(20px);transform:translateY(-50%);
+}
+.ticker-head{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.ticker-head .th-tag{
+  font-family:var(--font-display);font-weight:800;
+  font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--green-bright);
+  display:flex;align-items:center;gap:8px;
+}
+.ticker-head .th-tag::before{
+  content:"";width:7px;height:7px;border-radius:50%;background:var(--green);
+  box-shadow:0 0 0 4px rgba(133,198,6,.25);
+  animation:dotPulse 1.4s ease-in-out infinite;
+}
+.ticker-items{
+  display:flex;gap:10px;overflow-x:auto;
+  scrollbar-width:none;padding-bottom:4px;
+  position:relative;
+}
+.ticker-items::-webkit-scrollbar{display:none}
+.ticker-item{
+  flex:none;background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:99px;padding:7px 14px 7px 7px;
+  display:flex;align-items:center;gap:9px;
+  font-size:12px;font-weight:600;cursor:pointer;
+  transition:background .15s;
+}
+.ticker-item:hover{background:rgba(133,198,6,.15);border-color:rgba(133,198,6,.35)}
+.ticker-item .ti-logo{
+  width:26px;height:26px;border-radius:50%;
+  background:var(--grad-green);color:var(--navy);
+  display:grid;place-items:center;
+  font-family:var(--font-display);font-weight:800;font-size:10px;
+}
+.ticker-item .ti-delta{color:var(--green-bright);font-weight:800;font-size:11px}
+
+/* ============================================================
+   PODIUM TOP-3
+   ============================================================ */
+.podium{display:grid;margin-bottom:28px}
+body[data-mode="mobile"] .podium{grid-template-columns:1fr;gap:12px}
+body[data-mode="web"] .podium{grid-template-columns:1fr 1.15fr 1fr;gap:16px;align-items:end}
+
+.podium-card{
+  background:linear-gradient(180deg, #fff 0%, #f9faff 100%);
+  border:1px solid var(--line);border-radius:var(--r-lg);
+  padding:20px 18px 22px;text-align:center;cursor:pointer;
+  transition:all .22s var(--transition);
+  position:relative;overflow:hidden;
+}
+.podium-card:hover{
+  transform:translateY(-4px);box-shadow:var(--shadow-lg);
+  border-color:var(--green-200);
+}
+.podium-card .pod-rank{
+  position:absolute;top:12px;left:12px;
+  background:var(--bg);color:var(--text-soft);
+  width:28px;height:28px;border-radius:9px;
+  display:grid;place-items:center;
+  font-family:var(--font-display);font-weight:800;font-size:13px;
+}
+.podium-card .pod-medal-circle{
+  position:absolute;top:8px;right:14px;
+  width:38px;height:38px;border-radius:50%;
+  background:var(--medal);color:#fff;
+  display:grid;place-items:center;
+  font-family:var(--font-display);font-weight:900;font-size:14px;
+  border:3px solid #fff;box-shadow:0 4px 10px rgba(4,27,51,.2);
+}
+.podium-card.gold{--medal:var(--green)}
+.podium-card.silver{--medal:var(--green-dim)}
+.podium-card.bronze{--medal:var(--navy)}
+body[data-mode="web"] .podium-card.gold{
+  background:linear-gradient(180deg, #fff 0%, var(--green-50) 100%);
+  box-shadow:0 12px 32px rgba(133,198,6,.18);
+  transform:scale(1.04);border-color:var(--green-200);
+}
+body[data-mode="web"] .podium-card.gold:hover{transform:scale(1.04) translateY(-4px)}
+
+.pod-logo{
+  width:60px;height:60px;border-radius:18px;margin:6px auto 14px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-display);font-weight:800;font-size:20px;color:#fff;
+  background:var(--grad-green-deep);box-shadow:0 8px 20px rgba(133,198,6,.35);
+}
+.podium-card.silver .pod-logo{background:linear-gradient(135deg, var(--green-dim) 0%, var(--navy-600) 100%)}
+.podium-card.bronze .pod-logo{background:linear-gradient(135deg, var(--navy-600) 0%, var(--navy) 100%)}
+.pod-name{font-family:var(--font-display);font-weight:800;font-size:16px;color:var(--navy);margin-bottom:3px;line-height:1.2}
+.pod-cat{font-size:10.5px;color:var(--text-soft);letter-spacing:.05em;text-transform:uppercase;font-weight:600;margin-bottom:14px}
+
+.pod-score-ring{position:relative;width:100px;height:100px;margin:0 auto}
+.pod-score-ring svg{transform:rotate(-90deg)}
+.pod-score-ring circle{fill:none;stroke-width:7}
+.pod-score-ring .track{stroke:var(--line)}
+.pod-score-ring .fill{
+  stroke:var(--green);stroke-linecap:round;
+  stroke-dasharray:282.74;
+  stroke-dashoffset:calc(282.74 * (1 - var(--pct) / 100));
+  transition:stroke-dashoffset 1s var(--transition);
+  filter:drop-shadow(0 2px 6px rgba(133,198,6,.4));
+}
+.podium-card.silver .pod-score-ring .fill{stroke:var(--green-dim)}
+.podium-card.bronze .pod-score-ring .fill{stroke:var(--navy)}
+.pod-score-content{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.pod-score-num{font-family:var(--font-display);font-weight:900;font-size:30px;color:var(--navy);line-height:1;letter-spacing:-.03em}
+.pod-score-lbl{font-size:8.5px;color:var(--text-soft);letter-spacing:.12em;text-transform:uppercase;font-weight:700;margin-top:2px}
+.pod-ind{margin-top:14px;font-size:11.5px;color:var(--text-soft)}
+.pod-ind strong{color:var(--navy);font-weight:800}
+
+/* ============================================================
+   RANK GRID (positions 4+)
+   ============================================================ */
+.rank-grid{display:grid;margin-bottom:26px}
+body[data-mode="mobile"] .rank-grid{grid-template-columns:1fr;gap:11px}
+body[data-mode="web"] .rank-grid{grid-template-columns:repeat(3,1fr);gap:14px}
+
+.rank-card{
+  background:#fff;border:1px solid var(--line);
+  border-radius:var(--r);padding:14px 16px 16px;
+  cursor:pointer;transition:all .2s var(--transition);
+  position:relative;display:flex;flex-direction:column;
+}
+.rank-card:hover{
+  border-color:var(--green-200);
+  box-shadow:var(--shadow-md);transform:translateY(-2px);
+}
+.rank-card .rc-row{display:flex;align-items:flex-start;gap:12px;margin-bottom:12px}
+.rank-card .rc-logo{
+  width:44px;height:44px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-display);font-weight:800;font-size:14px;
+  background:var(--navy-50);color:var(--navy);flex:none;
+}
+.rank-card .rc-info{flex:1;min-width:0}
+.rank-card .rc-pos{font-family:var(--font-display);font-weight:800;font-size:12px;color:var(--text-mute);margin-bottom:2px}
+.rank-card .rc-name{font-family:var(--font-display);font-weight:700;font-size:14px;color:var(--navy);line-height:1.2;margin-bottom:2px}
+.rank-card .rc-cat{font-size:11px;color:var(--text-soft)}
+.rank-card .rc-fav{
+  position:absolute;top:12px;right:12px;
+  background:none;border:0;cursor:pointer;
+  width:28px;height:28px;border-radius:50%;
+  display:grid;place-items:center;color:var(--text-mute);font-size:15px;
+  transition:all .15s;
+}
+.rank-card .rc-fav:hover{background:var(--bg);color:var(--green-dim);transform:scale(1.1)}
+.rank-card .rc-fav.on{color:var(--red)}
+.rank-card .rc-score-row{
+  display:flex;align-items:center;gap:12px;
+  padding-top:12px;border-top:1px dashed var(--line);
+}
+.rank-card .rc-score-num{font-family:var(--font-display);font-weight:800;font-size:28px;color:var(--green-dim);line-height:1;letter-spacing:-.02em}
+.rank-card .rc-score-info{flex:1}
+.rank-card .rc-score-lbl{font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--text-mute)}
+.rank-card .rc-ind{font-size:11px;color:var(--text-soft);margin-top:2px}
+.rank-card .rc-bar{flex:none;width:54px;height:6px;border-radius:99px;background:var(--line);overflow:hidden}
+.rank-card .rc-bar-fill{height:100%;background:var(--grad-green);width:var(--pct,75%);border-radius:99px}
+.rank-card.curadoria{border-style:dashed;background:var(--bg-warm)}
+.rank-card.curadoria .rc-score-num{font-family:var(--font-display);font-weight:700;font-size:13px;color:var(--text-soft);letter-spacing:0}
+
+/* ============================================================
+   FILTERS
+   ============================================================ */
+.filters{
+  background:#fff;border:1px solid var(--line);border-radius:var(--r);
+  padding:11px 14px;margin-bottom:18px;
+  box-shadow:var(--shadow-sm);
+}
+body[data-mode="mobile"] .filters{display:flex;flex-direction:column;gap:10px}
+body[data-mode="web"] .filters{display:flex;align-items:center;gap:12px}
+
+.filters-search{flex:1;position:relative}
+.filters-search input{
+  width:100%;padding:11px 14px 11px 38px;
+  border:1.5px solid var(--line);border-radius:10px;
+  font-family:var(--font-body);font-size:13px;
+  background:var(--bg-warm);
+  transition:all .15s;
+}
+.filters-search input:focus{outline:none;border-color:var(--green);background:#fff;box-shadow:0 0 0 4px rgba(133,198,6,.12)}
+.filters-search-ico{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--text-mute);font-size:14px}
+
+.filter-sel{
+  padding:10px 12px;border:1.5px solid var(--line);border-radius:10px;
+  font-family:var(--font-body);font-size:12.5px;font-weight:600;
+  background:#fff;color:var(--navy);cursor:pointer;
+}
+.btn-indicar-fab{
+  background:var(--grad-green);color:var(--navy);
+  font-weight:800;font-size:12.5px;
+  padding:11px 18px;border-radius:10px;border:0;
+  display:inline-flex;align-items:center;gap:8px;cursor:pointer;
+  box-shadow:0 6px 14px rgba(133,198,6,.35);
+  font-family:var(--font-body);
+}
+.btn-indicar-fab .plus{
+  width:20px;height:20px;border-radius:50%;
+  background:rgba(4,27,51,.15);display:grid;place-items:center;font-weight:900;font-size:13px;
+}
+
+/* ============================================================
+   B2B CARD
+   ============================================================ */
+.b2b-card{
+  background:var(--grad-hero);border-radius:var(--r-xl);
+  padding:34px 26px;text-align:center;color:#fff;
+  position:relative;overflow:hidden;
+}
+body[data-mode="web"] .b2b-card{padding:48px 36px}
+.b2b-card::before{
+  content:"";position:absolute;top:-80px;right:-80px;
+  width:340px;height:340px;
+  background:radial-gradient(circle, rgba(133,198,6,.2) 0%, transparent 70%);
+  filter:blur(28px);
+}
+.b2b-card-inner{position:relative;z-index:1}
+.b2b-card .b2b-tag{
+  display:inline-block;background:rgba(133,198,6,.18);color:var(--green-bright);
+  padding:5px 12px;border-radius:99px;
+  font-family:var(--font-display);font-weight:800;
+  font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+  margin-bottom:14px;
+}
+.b2b-card h3{
+  font-family:var(--font-display);font-weight:900;
+  color:#fff;line-height:1.1;letter-spacing:-.02em;margin-bottom:12px;
+}
+body[data-mode="mobile"] .b2b-card h3{font-size:22px}
+body[data-mode="web"] .b2b-card h3{font-size:30px}
+.b2b-card h3 .accent{background:var(--grad-green);-webkit-background-clip:text;background-clip:text;color:transparent}
+.b2b-card p{
+  color:rgba(255,255,255,.75);margin:0 auto 20px;line-height:1.55;
+}
+body[data-mode="mobile"] .b2b-card p{font-size:13px}
+body[data-mode="web"] .b2b-card p{font-size:14.5px;max-width:520px}
+.b2b-card .btn-b2b{
+  background:var(--grad-green);color:var(--navy);
+  font-weight:800;font-size:13.5px;
+  padding:13px 26px;border-radius:11px;border:0;
+  display:inline-flex;align-items:center;gap:8px;cursor:pointer;
+  font-family:var(--font-body);
+  box-shadow:0 10px 24px rgba(133,198,6,.4);
+}
+
+/* ============================================================
+   BADGES
+   ============================================================ */
+.badge-mini{
+  display:inline-block;background:var(--green-100);color:var(--green-dim);
+  border:1px solid var(--green-200);
+  font-family:var(--font-body);font-weight:700;
+  font-size:10px;letter-spacing:.04em;padding:2px 8px;border-radius:99px;
+}
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+.toast{
+  position:fixed;bottom:30px;left:50%;
+  transform:translateX(-50%) translateY(140%);
+  background:var(--navy);color:#fff;
+  padding:13px 20px;border-radius:13px;
+  font-size:13px;font-weight:600;
+  box-shadow:0 18px 40px rgba(4,27,51,.4);
+  z-index:200;transition:transform .3s var(--transition-bounce);
+  max-width:90vw;display:flex;align-items:center;gap:10px;
+  font-family:var(--font-body);
+}
+.toast.on{transform:translateX(-50%) translateY(0)}
+.toast::before{
+  content:"";width:7px;height:7px;border-radius:50%;background:var(--green);
+}
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  background:var(--grad-green);color:var(--navy);
+  border-radius:11px;padding:11px 20px;
+  font-size:13px;font-weight:800;font-family:var(--font-body);
+  transition:all .18s var(--transition-bounce);
+  box-shadow:0 6px 16px rgba(133,198,6,.3);
+  cursor:pointer;border:0;
+}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 22px rgba(133,198,6,.45)}
+.btn.navy{background:var(--navy);color:#fff;box-shadow:0 6px 16px rgba(4,27,51,.25)}
+.btn.ghost{background:#fff;color:var(--navy);border:1.5px solid var(--line);box-shadow:none}
+.btn.ghost:hover{border-color:var(--navy);transform:translateY(-1px);box-shadow:var(--shadow-sm)}
+.btn.danger{background:var(--red);color:#fff;box-shadow:0 6px 16px rgba(229,74,58,.3)}
+.btn.sm{padding:8px 14px;font-size:12px}
+.btn.lg{padding:14px 26px;font-size:14px}
+/* ============================================================
+   MARCA — Página da marca (Love Score grande)
+   ============================================================ */
+.marca-hero{
+  background:var(--grad-hero);color:#fff;
+  border-radius:var(--r-xl);overflow:hidden;position:relative;
+  margin-bottom:22px;
+}
+body[data-mode="mobile"] .marca-hero{padding:24px 22px 22px;border-radius:22px}
+body[data-mode="web"] .marca-hero{padding:38px 36px 32px}
+.marca-hero::before{
+  content:"";position:absolute;bottom:-120px;left:-80px;
+  width:380px;height:380px;
+  background:radial-gradient(circle, rgba(133,198,6,.25) 0%, transparent 65%);
+  filter:blur(26px);
+}
+
+.marca-hero-inner{position:relative;z-index:1;display:grid;align-items:center}
+body[data-mode="mobile"] .marca-hero-inner{grid-template-columns:1fr;gap:22px}
+body[data-mode="web"] .marca-hero-inner{grid-template-columns:1fr auto;gap:28px}
+
+.marca-hero-top{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.marca-hero-logo{
+  width:64px;height:64px;border-radius:18px;background:#fff;
+  display:grid;place-items:center;
+  font-family:var(--font-display);font-weight:800;font-size:22px;color:var(--navy);
+  box-shadow:0 10px 24px rgba(4,27,51,.4);
+}
+body[data-mode="web"] .marca-hero-logo{width:78px;height:78px;font-size:26px}
+.marca-hero-info .mh-cat{
+  font-family:var(--font-display);font-weight:700;
+  font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--green-bright);margin-bottom:4px;
+}
+.marca-hero-info h1{
+  font-family:var(--font-display);font-weight:900;
+  color:#fff;line-height:1;letter-spacing:-.02em;margin-bottom:6px;
+}
+body[data-mode="mobile"] .marca-hero-info h1{font-size:26px}
+body[data-mode="web"] .marca-hero-info h1{font-size:38px}
+
+.marca-hero-tagline{
+  color:rgba(255,255,255,.74);line-height:1.55;
+}
+body[data-mode="mobile"] .marca-hero-tagline{font-size:12.5px}
+body[data-mode="web"] .marca-hero-tagline{font-size:14px;max-width:480px}
+.marca-hero-tagline .verb{color:var(--green-bright);font-weight:700;font-style:italic}
+
+.marca-hero-actions{display:flex;gap:9px;margin-top:18px;flex-wrap:wrap}
+.btn-fav{
+  background:rgba(255,255,255,.1);color:#fff;
+  border:1px solid rgba(255,255,255,.2);
+  padding:9px 14px;border-radius:10px;
+  font-weight:700;font-size:12px;
+  display:inline-flex;align-items:center;gap:7px;
+  cursor:pointer;font-family:var(--font-body);
+}
+.btn-fav.on{background:var(--red);border-color:var(--red)}
+
+/* THE BIG LOVE SCORE */
+.love-mega{position:relative;display:flex;align-items:center;justify-content:center}
+body[data-mode="mobile"] .love-mega{width:200px;height:200px;margin:0 auto}
+body[data-mode="web"] .love-mega{width:240px;height:240px}
+
+.love-mega svg{position:absolute;inset:0;transform:rotate(-90deg);filter:drop-shadow(0 0 25px rgba(133,198,6,.32))}
+.love-mega svg circle{fill:none;stroke-width:12}
+.love-mega .track{stroke:rgba(255,255,255,.1)}
+.love-mega .fill{
+  stroke:url(#loveGrad);stroke-linecap:round;
+  stroke-dasharray:691;
+  stroke-dashoffset:calc(691 * (1 - var(--pct) / 100));
+  transition:stroke-dashoffset 1.4s var(--transition);
+  animation:dashGlow 3s ease-in-out infinite;
+}
+@keyframes dashGlow{
+  0%,100%{filter:drop-shadow(0 0 6px rgba(133,198,6,.55))}
+  50%{filter:drop-shadow(0 0 15px rgba(133,198,6,.85))}
+}
+.love-mega-content{position:relative;z-index:1;text-align:center}
+.love-mega-num{
+  font-family:var(--font-display);font-weight:900;
+  color:#fff;line-height:1;letter-spacing:-.04em;
+}
+body[data-mode="mobile"] .love-mega-num{font-size:64px}
+body[data-mode="web"] .love-mega-num{font-size:78px}
+.love-mega-num .lm-of{font-size:.4em;color:rgba(255,255,255,.55);font-weight:700}
+.love-mega-lbl{
+  font-family:var(--font-display);font-weight:700;font-size:10px;
+  letter-spacing:.2em;text-transform:uppercase;
+  color:var(--green-bright);margin-top:4px;
+}
+
+/* KPIs da marca */
+.marca-kpis{display:grid;gap:11px;margin-bottom:22px}
+body[data-mode="mobile"] .marca-kpis{grid-template-columns:repeat(2,1fr)}
+body[data-mode="web"] .marca-kpis{grid-template-columns:repeat(4,1fr);gap:14px}
+
+.marca-kpi{
+  background:#fff;border:1px solid var(--line);border-radius:var(--r);
+  padding:15px 16px;position:relative;overflow:hidden;
+}
+.marca-kpi::before{
+  content:"";position:absolute;left:0;top:0;bottom:0;width:4px;
+  background:var(--grad-green);
+}
+.marca-kpi .mk-lbl{
+  font-family:var(--font-display);font-weight:700;
+  font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-mute);
+}
+.marca-kpi .mk-num{
+  font-family:var(--font-display);font-weight:800;
+  color:var(--navy);margin-top:6px;letter-spacing:-.02em;line-height:1;
+}
+body[data-mode="mobile"] .marca-kpi .mk-num{font-size:22px}
+body[data-mode="web"] .marca-kpi .mk-num{font-size:26px}
+.marca-kpi .mk-delta{font-size:11px;font-weight:700;margin-top:5px;display:inline-flex;align-items:center;gap:4px}
+.marca-kpi .mk-delta.up{color:var(--ok)}
+
+/* Formula card */
+.formula-card{
+  background:#fff;border:1px solid var(--line);
+  border-radius:var(--r-lg);padding:20px;margin-bottom:18px;
+  box-shadow:var(--shadow-sm);
+}
+.formula-card h3{
+  font-family:var(--font-display);font-weight:800;
+  font-size:15px;color:var(--navy);margin-bottom:16px;
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+}
+.formula-card h3 .badge-rf{
+  background:var(--green-100);color:var(--green-dim);
+  font-family:var(--font-body);font-weight:700;
+  font-size:10px;padding:3px 8px;border-radius:99px;
+  border:1px solid var(--green-200);letter-spacing:.04em;
+}
+.formula-bars{display:flex;flex-direction:column;gap:12px}
+.formula-bar{display:grid;gap:12px;align-items:center;font-size:12.5px}
+body[data-mode="mobile"] .formula-bar{grid-template-columns:1fr 50px;grid-template-rows:auto auto;gap:6px 10px}
+body[data-mode="mobile"] .formula-bar .fb-bar{grid-column:1/-1}
+body[data-mode="web"] .formula-bar{grid-template-columns:120px 1fr 50px;gap:14px}
+
+.formula-bar .fb-lbl{font-weight:700;color:var(--navy)}
+.formula-bar .fb-lbl .fb-sub{display:block;font-size:10.5px;font-weight:500;color:var(--text-soft);margin-top:1px}
+.formula-bar .fb-bar{
+  height:9px;border-radius:99px;background:var(--bg);overflow:hidden;position:relative;
+}
+.formula-bar .fb-fill{
+  height:100%;border-radius:99px;background:var(--grad-green);
+  width:var(--w,50%);transition:width 1.4s var(--transition);
+}
+.formula-bar .fb-pct{
+  text-align:right;font-family:var(--font-display);font-weight:800;
+  color:var(--green-dim);letter-spacing:-.02em;font-size:16px;
+}
+
+/* Atributos cloud */
+.attr-cloud{display:flex;flex-wrap:wrap;gap:8px}
+.attr-cloud-item{
+  background:var(--bg-warm);border:1px solid var(--line);
+  border-radius:99px;padding:6px 14px 6px 6px;
+  display:inline-flex;align-items:center;gap:9px;cursor:pointer;
+  transition:all .15s var(--transition);
+}
+.attr-cloud-item:hover{background:var(--green-50);border-color:var(--green-200)}
+.attr-cloud-item .ac-count{
+  background:var(--navy);color:#fff;
+  font-family:var(--font-display);font-weight:800;font-size:10.5px;
+  width:20px;height:20px;border-radius:50%;display:grid;place-items:center;
+}
+.attr-cloud-item .ac-label{font-size:12px;font-weight:600;color:var(--navy)}
+
+/* Timeline */
+.timeline{display:flex;flex-direction:column;gap:12px}
+.timeline-item{
+  background:#fff;border:1px solid var(--line);border-radius:var(--r);
+  padding:14px;display:flex;gap:12px;
+}
+.timeline-avatar{
+  width:38px;height:38px;border-radius:50%;
+  background:var(--grad-green);color:var(--navy);
+  display:grid;place-items:center;
+  font-family:var(--font-display);font-weight:800;font-size:12px;flex:none;
+}
+.timeline-body{flex:1;min-width:0}
+.timeline-head{display:flex;align-items:center;gap:8px;margin-bottom:5px;flex-wrap:wrap}
+.timeline-name{font-weight:700;color:var(--navy);font-size:12.5px}
+.timeline-badge{
+  background:#dbeafe;color:#1e3a8a;
+  font-size:9.5px;font-weight:700;
+  padding:2px 7px;border-radius:99px;
+}
+.timeline-stars{color:var(--green);font-size:12px;letter-spacing:1px}
+.timeline-date{font-size:10.5px;color:var(--text-mute);margin-left:auto}
+.timeline-text{font-size:12.5px;color:var(--text);line-height:1.55}
+.timeline-attrs{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px}
+.timeline-attr{
+  background:var(--green-50);color:var(--green-dim);
+  font-size:10px;font-weight:600;padding:2px 9px;border-radius:99px;
+  border:1px solid var(--green-200);
+}
+
+/* ============================================================
+   WIZARD — Indicar
+   ============================================================ */
+.wiz-progress{
+  display:flex;align-items:center;
+  background:#fff;border:1px solid var(--line);border-radius:var(--r);
+  margin-bottom:18px;overflow:hidden;box-shadow:var(--shadow-sm);
+}
+.wiz-step{
+  flex:1;padding:13px 14px;
+  display:flex;align-items:center;gap:11px;cursor:pointer;
+  position:relative;transition:all .2s var(--transition);
+  border-right:1px solid var(--line);
+}
+.wiz-step:last-child{border-right:0}
+.wiz-step.done{background:linear-gradient(90deg, var(--green-50) 0%, transparent 100%)}
+.wiz-step.active{background:var(--navy);color:#fff}
+.wiz-step.active::after{
+  content:"";position:absolute;bottom:-1px;left:0;right:0;height:3px;background:var(--green);
+}
+.wiz-num{
+  width:28px;height:28px;border-radius:50%;
+  background:var(--bg);color:var(--text-soft);
+  display:grid;place-items:center;
+  font-family:var(--font-display);font-weight:800;font-size:12px;
+  flex:none;border:2px solid var(--line);
+}
+.wiz-step.done .wiz-num,.wiz-step.active .wiz-num{background:var(--green);color:var(--navy);border-color:var(--green)}
+.wiz-info{flex:1;min-width:0}
+body[data-mode="mobile"] .wiz-info .wi-lbl{display:none}
+.wi-lbl{font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;opacity:.55}
+.wi-title{font-family:var(--font-display);font-weight:700;font-size:12.5px}
+.wiz-step.active .wi-lbl{opacity:.85;color:var(--green-bright)}
+.wiz-step.active .wi-title{color:#fff}
+
+.wiz-form{
+  background:#fff;border:1px solid var(--line);
+  border-radius:var(--r-lg);box-shadow:var(--shadow);
+}
+body[data-mode="mobile"] .wiz-form{padding:22px}
+body[data-mode="web"] .wiz-form{padding:30px}
+.wiz-form h3{
+  font-family:var(--font-display);font-weight:800;color:var(--navy);
+  letter-spacing:-.02em;line-height:1.15;margin-bottom:6px;
+}
+body[data-mode="mobile"] .wiz-form h3{font-size:18px}
+body[data-mode="web"] .wiz-form h3{font-size:22px}
+.wf-hint{font-size:12.5px;color:var(--text-soft);margin-bottom:22px}
+
+.field{margin-bottom:18px}
+.field label{
+  display:block;font-size:11px;font-weight:700;color:var(--navy);
+  letter-spacing:.08em;text-transform:uppercase;margin-bottom:7px;
+}
+.field input,.field textarea,.field select{
+  width:100%;padding:12px 14px;
+  border:1.5px solid var(--line);border-radius:11px;
+  font-family:var(--font-body);font-size:13.5px;
+  background:var(--bg-warm);color:var(--text);
+  transition:all .15s;
+}
+.field input:focus,.field textarea:focus,.field select:focus{
+  outline:none;border-color:var(--green);background:#fff;
+  box-shadow:0 0 0 4px rgba(133,198,6,.12);
+}
+.field textarea{min-height:90px;resize:vertical;line-height:1.55}
+
+.stars-row{display:flex;gap:6px;align-items:center;justify-content:center;padding:10px 0}
+.star-btn{
+  font-size:30px;cursor:pointer;color:var(--line-strong);
+  transition:all .15s var(--transition-bounce);
+  background:none;border:0;
+}
+.star-btn.on{color:var(--green);text-shadow:0 4px 8px rgba(133,198,6,.4)}
+.star-btn:hover{transform:scale(1.15) rotate(-5deg)}
+.star-label{text-align:center;font-size:12px;color:var(--text-soft);margin-top:6px;font-weight:600}
+
+.attr-chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:6px}
+.attr-chip{
+  padding:8px 14px;border-radius:99px;border:2px solid var(--line);
+  background:#fff;color:var(--text-soft);
+  font-size:12px;font-weight:600;cursor:pointer;
+  transition:all .15s var(--transition-bounce);
+  font-family:var(--font-body);
+}
+.attr-chip:hover{border-color:var(--green-200);color:var(--green-dim);transform:translateY(-1px)}
+.attr-chip.sel{
+  background:var(--grad-green);border-color:var(--green);
+  color:var(--navy);font-weight:800;
+  box-shadow:0 4px 10px rgba(133,198,6,.3);
+}
+
+.neg-alert{
+  background:linear-gradient(135deg, #fff5e6 0%, #fff8ee 100%);
+  border:1.5px solid var(--amber);border-radius:12px;
+  padding:14px 16px;margin:14px 0;display:flex;gap:12px;
+  animation:rise .35s var(--transition);
+}
+.neg-alert .na-ico{
+  width:32px;height:32px;border-radius:9px;
+  background:var(--amber);color:#fff;
+  display:grid;place-items:center;font-size:16px;flex:none;font-weight:800;
+}
+.neg-alert .na-title{font-weight:800;color:#7a5800;margin-bottom:3px;font-size:13px}
+.neg-alert .na-body{font-size:12px;color:#6b4d00;line-height:1.5}
+
+.wiz-actions{
+  display:flex;gap:10px;margin-top:22px;
+  padding-top:18px;border-top:1px solid var(--line);
+  flex-wrap:wrap;
+}
+.wiz-actions .spacer{flex:1}
+
+/* Preview card (passo 3) */
+.preview-card{
+  background:linear-gradient(135deg, #fff 0%, var(--green-50) 100%);
+  border:2px solid var(--green);border-radius:var(--r-lg);
+  padding:20px;position:relative;overflow:hidden;
+}
+.preview-card::before{
+  content:"";position:absolute;top:-50px;right:-50px;
+  width:200px;height:200px;
+  background:radial-gradient(circle, rgba(133,198,6,.15) 0%, transparent 70%);
+  filter:blur(18px);
+}
+.prev-tag{
+  display:inline-block;background:var(--green);color:var(--navy);
+  padding:4px 11px;border-radius:99px;
+  font-family:var(--font-display);font-weight:800;font-size:9.5px;
+  letter-spacing:.12em;text-transform:uppercase;margin-bottom:14px;
+}
+.prev-head{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.prev-logo{
+  width:50px;height:50px;border-radius:13px;
+  background:var(--grad-green-deep);color:#fff;
+  display:grid;place-items:center;
+  font-family:var(--font-display);font-weight:800;font-size:16px;
+}
+.prev-meta .pm-name{font-family:var(--font-display);font-weight:800;font-size:16px;color:var(--navy)}
+.prev-meta .pm-cat{font-size:11px;color:var(--text-soft)}
+.prev-stars{margin-bottom:11px;font-size:22px;color:var(--green);letter-spacing:2px}
+.prev-text{
+  font-size:13px;line-height:1.55;color:var(--text);font-style:italic;
+  padding:12px 15px;background:rgba(255,255,255,.75);
+  border-radius:10px;border-left:3px solid var(--green);margin-bottom:14px;
+}
+.prev-attrs{display:flex;flex-wrap:wrap;gap:5px}
+.prev-attr{
+  background:var(--green);color:var(--navy);
+  padding:4px 11px;border-radius:99px;
+  font-size:11px;font-weight:700;
+}
+
+/* ============================================================
+   PERFIL
+   ============================================================ */
+.perfil-hero{
+  background:var(--grad-navy);
+  border-radius:var(--r-xl);color:#fff;
+  margin-bottom:18px;position:relative;overflow:hidden;
+}
+body[data-mode="mobile"] .perfil-hero{padding:24px 22px;border-radius:22px}
+body[data-mode="web"] .perfil-hero{padding:32px 32px}
+.perfil-hero::before{
+  content:"";position:absolute;top:-80px;right:-80px;
+  width:260px;height:260px;
+  background:radial-gradient(circle, rgba(133,198,6,.2) 0%, transparent 70%);
+  filter:blur(20px);
+}
+.perfil-hero-inner{position:relative;z-index:1;display:grid;align-items:center}
+body[data-mode="mobile"] .perfil-hero-inner{grid-template-columns:1fr;gap:18px;text-align:center}
+body[data-mode="web"] .perfil-hero-inner{grid-template-columns:auto 1fr auto;gap:24px}
+
+.perfil-avatar-mega{
+  width:80px;height:80px;border-radius:50%;
+  background:var(--grad-green);color:var(--navy);
+  display:grid;place-items:center;
+  font-family:var(--font-display);font-weight:900;font-size:28px;
+  border:4px solid rgba(255,255,255,.15);
+  box-shadow:0 10px 26px rgba(133,198,6,.45);
+  position:relative;justify-self:center;
+}
+.perfil-info-block .pi-name{
+  font-family:var(--font-display);font-weight:800;
+  color:#fff;letter-spacing:-.02em;
+}
+body[data-mode="mobile"] .perfil-info-block .pi-name{font-size:22px}
+body[data-mode="web"] .perfil-info-block .pi-name{font-size:26px}
+.perfil-info-block .pi-email{font-size:12.5px;color:rgba(255,255,255,.6);margin-top:2px}
+.perfil-info-block .pi-meta{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;justify-content:inherit}
+body[data-mode="mobile"] .perfil-info-block .pi-meta{justify-content:center}
+.perfil-pill{
+  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);
+  color:#fff;padding:5px 11px;border-radius:99px;
+  font-size:10.5px;font-weight:600;
+  display:inline-flex;align-items:center;gap:5px;
+}
+.perfil-pill.ok{background:rgba(39,192,143,.2);border-color:rgba(39,192,143,.4);color:#52e0a8}
+.perfil-actions{display:flex;gap:8px;flex-wrap:wrap}
+body[data-mode="mobile"] .perfil-actions{justify-content:center}
+
+.perfil-stats{display:grid;gap:11px;margin-bottom:18px}
+body[data-mode="mobile"] .perfil-stats{grid-template-columns:repeat(2,1fr)}
+body[data-mode="web"] .perfil-stats{grid-template-columns:repeat(4,1fr);gap:14px}
+
+.perfil-stat{
+  background:#fff;border:1px solid var(--line);border-radius:var(--r);
+  padding:14px 16px;text-align:center;
+}
+.perfil-stat .ps-num{
+  font-family:var(--font-display);font-weight:800;font-size:24px;
+  color:var(--green-dim);letter-spacing:-.02em;line-height:1;
+}
+.perfil-stat .ps-lbl{
+  font-size:10px;color:var(--text-soft);letter-spacing:.06em;
+  text-transform:uppercase;font-weight:600;margin-top:5px;
+}
+
+.verif-progress{
+  background:linear-gradient(135deg, #fff 0%, var(--green-50) 100%);
+  border:1.5px solid var(--green-200);border-radius:var(--r);
+  padding:16px 18px;margin-bottom:18px;
+}
+.verif-progress-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:10px;flex-wrap:wrap}
+.verif-progress-head .vp-title{
+  font-family:var(--font-display);font-weight:800;font-size:13px;color:var(--navy);
+  display:flex;align-items:center;gap:8px;
+}
+.verif-progress-head .vp-pill{
+  background:var(--green);color:var(--navy);
+  font-family:var(--font-body);font-weight:800;
+  font-size:10.5px;padding:3px 10px;border-radius:99px;
+}
+.verif-bar{
+  height:12px;border-radius:99px;background:rgba(255,255,255,.7);
+  overflow:hidden;border:1px solid var(--green-200);
+}
+.verif-bar-fill{
+  height:100%;border-radius:99px;background:var(--grad-green);
+  width:var(--w,80%);position:relative;
+  transition:width 1s var(--transition);
+}
+.verif-bar-fill::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(90deg, transparent 0%, rgba(255,255,255,.3) 50%, transparent 100%);
+  animation:shimmer 2s linear infinite;
+}
+@keyframes shimmer{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+.verif-hint{font-size:11.5px;color:var(--text-soft);margin-top:9px;line-height:1.5}
+.verif-hint strong{color:var(--navy)}
+
+.tabs{display:flex;gap:4px;border-bottom:2px solid var(--line);margin-bottom:16px;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{
+  background:none;border:0;border-bottom:2px solid transparent;margin-bottom:-2px;
+  padding:10px 16px;
+  font-family:var(--font-body);font-size:13px;font-weight:600;color:var(--text-soft);
+  cursor:pointer;transition:all .15s;white-space:nowrap;
+}
+.tab.on{color:var(--navy);font-weight:800;border-bottom-color:var(--green)}
+
+.ind-list{display:flex;flex-direction:column;gap:11px}
+.ind-card{
+  background:#fff;border:1px solid var(--line);border-radius:var(--r);
+  padding:14px;display:grid;gap:12px;align-items:center;
+}
+body[data-mode="mobile"] .ind-card{grid-template-columns:auto 1fr}
+body[data-mode="web"] .ind-card{grid-template-columns:auto 1fr auto}
+
+.ind-logo{
+  width:42px;height:42px;border-radius:12px;
+  background:var(--navy-50);color:var(--navy);
+  display:grid;place-items:center;
+  font-family:var(--font-display);font-weight:800;font-size:14px;flex:none;
+}
+.ind-info .ii-marca{font-family:var(--font-display);font-weight:700;font-size:13.5px;color:var(--navy)}
+.ind-info .ii-stars{color:var(--green);font-size:12px;letter-spacing:1px;margin:3px 0}
+.ind-info .ii-text{font-size:12px;color:var(--text-soft);font-style:italic;line-height:1.5}
+.ind-info .ii-meta{font-size:10.5px;color:var(--text-mute);margin-top:5px}
+.ind-status-pill{
+  padding:4px 10px;border-radius:99px;
+  font-size:10px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;
+  white-space:nowrap;justify-self:start;
+}
+body[data-mode="mobile"] .ind-status-pill{grid-column:2}
+.ind-status-pill.aprov{background:var(--green-100);color:var(--green-dim);border:1px solid var(--green-200)}
+.ind-status-pill.mod{background:#fff7e0;color:#8a5a00;border:1px solid #f0d080}
+
+/* ============================================================
+   MODERATION
+   ============================================================ */
+.moder-stats{display:grid;gap:11px;margin-bottom:18px}
+body[data-mode="mobile"] .moder-stats{grid-template-columns:repeat(2,1fr)}
+body[data-mode="web"] .moder-stats{grid-template-columns:repeat(4,1fr);gap:14px}
+.moder-stat{
+  background:#fff;border:1px solid var(--line);border-radius:var(--r);
+  padding:14px 16px;
+}
+.moder-stat .ms-lbl{font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-mute);font-weight:700}
+.moder-stat .ms-num{
+  font-family:var(--font-display);font-weight:800;
+  color:var(--navy);margin-top:5px;letter-spacing:-.02em;line-height:1;
+}
+body[data-mode="mobile"] .moder-stat .ms-num{font-size:22px}
+body[data-mode="web"] .moder-stat .ms-num{font-size:26px}
+.moder-stat.warn .ms-num{color:var(--amber)}
+
+.moder-list{display:flex;flex-direction:column;gap:12px}
+.moder-card{
+  background:#fff;border:1px solid var(--line);border-radius:var(--r);
+  padding:16px;display:grid;gap:14px;
+}
+body[data-mode="mobile"] .moder-card{grid-template-columns:1fr}
+body[data-mode="web"] .moder-card{grid-template-columns:1fr auto}
+
+.moder-card-head{
+  display:flex;align-items:center;gap:8px;margin-bottom:7px;
+  font-size:11px;color:var(--text-soft);flex-wrap:wrap;
+}
+.moder-conf{
+  background:var(--bg);border:1px solid var(--line);
+  padding:2px 8px;border-radius:99px;font-size:10px;font-weight:800;
+  letter-spacing:.04em;font-family:var(--font-body);
+}
+.moder-conf.low{background:#fff0e0;color:#a04a00;border-color:#f0c080}
+.moder-conf.med{background:#fff7d6;color:#7a5a00;border-color:#e8d080}
+.moder-marca{font-family:var(--font-display);font-weight:800;font-size:14px;color:var(--navy);margin-bottom:6px}
+.moder-text{
+  background:var(--bg-warm);border-left:3px solid var(--green-200);
+  padding:11px 13px;border-radius:9px;
+  font-size:12.5px;color:var(--text);font-style:italic;line-height:1.55;
+  margin-bottom:9px;
+}
+.moder-meta{display:flex;gap:12px;font-size:11px;color:var(--text-soft);flex-wrap:wrap}
+.moder-actions{display:flex;gap:7px;align-self:flex-start;flex-wrap:wrap}
+body[data-mode="mobile"] .moder-actions{justify-self:start}
+body[data-mode="web"] .moder-actions{flex-direction:column;align-self:center}
+.moder-actions .btn{padding:8px 14px;font-size:11.5px;width:100%}
+body[data-mode="mobile"] .moder-actions .btn{width:auto;flex:1}
+
+/* ============================================================
+   REQUISITOS — Matriz
+   ============================================================ */
+.req-progress{
+  background:#fff;border:1px solid var(--line);border-radius:var(--r);
+  padding:18px;margin-bottom:18px;box-shadow:var(--shadow-sm);
+}
+.req-progress-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px}
+.req-progress-head h3{font-family:var(--font-display);font-weight:800;font-size:14px;color:var(--navy)}
+.req-progress-pct{font-family:var(--font-display);font-weight:900;font-size:26px;color:var(--green-dim);letter-spacing:-.02em;line-height:1}
+.req-bar{height:14px;border-radius:99px;background:var(--bg);overflow:hidden;border:1px solid var(--line)}
+.req-bar-fill{height:100%;border-radius:99px;background:var(--grad-green);width:0%;transition:width 1s var(--transition)}
+.req-legend{display:flex;align-items:center;gap:14px;margin-top:11px;flex-wrap:wrap;font-size:11px;color:var(--text-soft)}
+.req-legend-dot{width:9px;height:9px;border-radius:50%;display:inline-block;margin-right:5px;vertical-align:middle}
+
+.req-group{margin-bottom:16px}
+.req-group-title{
+  font-family:var(--font-display);font-weight:800;font-size:11px;
+  color:var(--green-dim);letter-spacing:.12em;text-transform:uppercase;
+  margin-bottom:9px;display:flex;align-items:center;gap:8px;
+}
+.req-group-title::before{content:"";width:24px;height:2px;background:var(--green);border-radius:2px}
+.req-item{
+  background:#fff;border:1px solid var(--line);border-radius:10px;
+  padding:12px 14px;display:grid;gap:11px;align-items:center;margin-bottom:7px;
+}
+body[data-mode="mobile"] .req-item{grid-template-columns:auto 1fr;grid-template-rows:auto auto}
+body[data-mode="web"] .req-item{grid-template-columns:auto 1fr auto auto}
+
+.req-id{
+  background:var(--navy-50);color:var(--navy);
+  font-family:var(--font-display);font-weight:800;font-size:10.5px;
+  padding:4px 9px;border-radius:7px;letter-spacing:.04em;flex:none;
+}
+.req-title{font-size:13px;color:var(--navy);font-weight:600}
+body[data-mode="mobile"] .req-title{grid-column:1/-1;grid-row:2}
+body[data-mode="mobile"] .req-actions{grid-column:1/-1;grid-row:3;justify-self:start}
+body[data-mode="web"] .req-prio{display:none}
+.req-prio{font-size:10px;font-weight:700;color:var(--text-soft);letter-spacing:.04em;text-transform:uppercase;padding:3px 9px;border-radius:99px;background:var(--bg)}
+.req-actions{display:flex;gap:6px;align-items:center}
+.req-demo-btn{
+  background:var(--green-50);color:var(--green-dim);
+  border:1px solid var(--green-200);font-weight:700;font-size:11px;
+  padding:6px 11px;border-radius:8px;font-family:var(--font-body);
+  cursor:pointer;
+}
+.req-val-sel{
+  padding:6px 9px;border-radius:8px;border:1px solid var(--line);
+  font-size:11px;font-weight:600;background:#fff;color:var(--navy);
+  cursor:pointer;font-family:var(--font-body);
+}
+
+/* ============================================================
+   CONFETTI
+   ============================================================ */
+.confetti{position:fixed;width:7px;height:12px;pointer-events:none;z-index:1000;animation:confettiFall 2.2s linear forwards}
+@keyframes confettiFall{
+  0%{transform:translateY(-100vh) rotate(0);opacity:1}
+  100%{transform:translateY(100vh) rotate(540deg);opacity:0}
+}
+
+</style>
+</head>
+<body data-mode="web">
+
+<!-- ============================================================
+     ICON SPRITE
+     ============================================================ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<defs>
+  <linearGradient id="loveGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+    <stop offset="0%" stop-color="#9ee818"/>
+    <stop offset="100%" stop-color="#85C606"/>
+  </linearGradient>
+  <symbol id="i-mobile" viewBox="0 0 24 24"><rect x="7" y="3" width="10" height="18" rx="2.5"/><path d="M11 17.5h2"/></symbol>
+  <symbol id="i-desktop" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M9 20h6M12 16v4"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2.5"/><path d="M8 10V7a4 4 0 018 0v3"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M4 11l8-7 8 7"/><path d="M6 10v9h12v-9"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15 15l5 5"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20s-7-4.5-9.5-9C0 6 4 3 7 5c1.5 1 3 3 5 6 2-3 3.5-5 5-6 3-2 7 1 4.5 6C19 15.5 12 20 12 20z"/></symbol>
+  <symbol id="i-plus-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="4"/><path d="M5 20c0-3.6 3-6 7-6s7 2.4 7 6"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 9a6 6 0 1112 0c0 5 2 6 2 6H4s2-1 2-6z"/><path d="M10 20a2 2 0 004 0"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+  <!-- Logo oficial Eu Que Indico (lockup vertical imutável — Manual da Marca). Coração verde + wordmark branca, ideal sobre fundo escuro. -->
+  <symbol id="eqi-logo" viewBox="0 0 1074 604">
+    <path d="M0 0 C1.029 -0.008 2.057 -0.015 3.117 -0.023 C17.204 0.012 27.894 4.475 39.688 11.938 C40.312 12.33 40.937 12.723 41.581 13.127 C43.093 14.111 44.552 15.174 46 16.25 C46 16.91 46 17.57 46 18.25 C46.619 18.498 47.237 18.745 47.875 19 C50.351 20.456 50.951 21.628 52 24.25 C52.66 24.25 53.32 24.25 54 24.25 C64.898 37.21 70.663 54.984 70.312 71.816 C68.107 96.05 55.997 112.738 39.19 129.432 C37.911 130.714 36.632 131.997 35.354 133.28 C31.911 136.732 28.458 140.175 25.004 143.616 C21.383 147.225 17.77 150.842 14.156 154.458 C8.098 160.518 2.033 166.572 -4.036 172.622 C-11.057 179.622 -18.07 186.632 -25.078 193.646 C-31.827 200.4 -38.581 207.149 -45.338 213.895 C-48.213 216.765 -51.086 219.637 -53.958 222.511 C-57.33 225.885 -60.707 229.254 -64.088 232.619 C-65.331 233.857 -66.571 235.097 -67.81 236.339 C-69.495 238.027 -71.186 239.709 -72.878 241.389 C-73.373 241.887 -73.867 242.385 -74.377 242.899 C-77.772 246.25 -77.772 246.25 -80 246.25 C-80.119 246.531 -80.119 246.531 -80.719 247.952 C-82.293 250.776 -84.217 252.726 -86.5 255.016 C-86.943 255.46 -86.943 255.46 -89.188 257.711 C-90.116 258.631 -91.044 259.552 -92 260.5 C-92.928 261.436 -93.856 262.372 -94.812 263.336 C-95.699 264.22 -96.586 265.105 -97.5 266.016 C-98.315 266.828 -99.129 267.64 -99.969 268.478 C-102 270.25 -102 270.25 -104 270.25 C-104 270.91 -104 271.57 -104 272.25 C-105.458 273.063 -106.916 273.875 -108.375 274.688 C-109.187 275.14 -109.999 275.592 -110.836 276.059 C-117.261 279.596 -126.378 279.326 -133.484 277.672 C-144.351 272.732 -153.284 261.124 -161.667 252.76 C-162.906 251.527 -164.146 250.294 -165.386 249.061 C-169.419 245.048 -173.448 241.03 -177.477 237.012 C-178.872 235.62 -180.268 234.228 -181.664 232.836 C-188.22 226.299 -194.774 219.76 -201.325 213.217 C-208.855 205.697 -216.394 198.185 -223.939 190.679 C-229.796 184.853 -235.644 179.02 -241.487 173.18 C-244.966 169.703 -248.449 166.229 -251.94 162.764 C-255.224 159.503 -258.498 156.233 -261.765 152.956 C-262.958 151.762 -264.154 150.572 -265.354 149.386 C-274.686 140.156 -283.129 130.603 -287.438 117.938 C-287.558 117.612 -287.558 117.612 -288.17 115.967 C-292.58 103.67 -292.909 86.784 -289 74.25 C-288.705 73.263 -288.41 72.275 -288.105 71.258 C-282.039 53.381 -269.413 40.131 -253 31.25 C-236.66 23.252 -218.392 21.358 -201 27.25 C-199.933 27.59 -198.865 27.931 -197.766 28.281 C-183.031 33.4 -173.181 43.635 -162.456 54.513 C-160.248 56.752 -158.029 58.981 -155.809 61.207 C-154.377 62.648 -152.946 64.089 -151.516 65.531 C-150.864 66.187 -150.213 66.842 -149.542 67.517 C-143.682 73.468 -138.144 79.666 -133 86.25 C-133.99 86.25 -134.98 86.25 -136 86.25 C-135.67 91.86 -135.34 97.47 -135 103.25 C-135.66 103.25 -136.32 103.25 -137 103.25 C-137 103.91 -137 104.57 -137 105.25 C-137.66 105.25 -138.32 105.25 -139 105.25 C-139.33 106.57 -139.66 107.89 -140 109.25 C-134.125 104.262 -128.628 98.992 -123.22 93.504 C-122.381 92.658 -121.543 91.811 -120.679 90.939 C-118.87 89.113 -117.061 87.285 -115.254 85.457 C-112.386 82.556 -109.511 79.66 -106.635 76.766 C-105.644 75.77 -104.654 74.773 -103.664 73.777 C-103.169 73.278 -102.673 72.78 -102.163 72.266 C-95.48 65.541 -88.802 58.811 -82.139 52.067 C-77.626 47.499 -73.105 42.941 -68.573 38.393 C-66.184 35.995 -63.8 33.593 -61.427 31.179 C-43.291 12.76 -26.832 -0.202 0 0 Z " fill="#84C506" transform="translate(640,75.75)"/>
+    <path d="M0 0 C0.534 0.17 0.534 0.17 3.234 1.031 C17.969 6.15 27.819 16.385 38.544 27.263 C40.752 29.502 42.971 31.731 45.191 33.957 C46.623 35.398 48.054 36.839 49.484 38.281 C49.81 38.609 49.81 38.609 51.458 40.267 C57.318 46.218 62.856 52.416 68 59 C67.01 59 66.02 59 65 59 C65.165 61.805 65.165 61.805 66 76 C65.34 76 64.68 76 64 76 C64 76.66 64 77.32 64 78 C63.34 78 62.68 78 62 78 C61.835 78.66 61.835 78.66 61 82 C61.66 82.33 62.32 82.66 63 83 C62.12 83.808 61.239 84.616 60.332 85.449 C59.159 86.529 57.986 87.608 56.812 88.688 C56.234 89.218 55.656 89.748 55.061 90.295 C45.76 98.86 45.76 98.86 43 103 C42.34 103 41.68 103 41 103 C41 103.66 41 104.32 41 105 C39.35 106.354 37.683 107.687 36 109 C35.67 109.66 35.34 110.32 35 111 C34.34 111 33.68 111 33 111 C33 111.66 33 112.32 33 113 C32.34 113 31.68 113 31 113 C31 113.66 31 114.32 31 115 C29.125 117.125 29.125 117.125 27 119 C26.34 119 25.68 119 25 119 C25 119.66 25 120.32 25 121 C23.02 121.66 21.04 122.32 19 123 C19 123.66 19 124.32 19 125 C17.02 125.66 15.04 126.32 13 127 C13 127.66 13 128.32 13 129 C12.001 129.349 11.002 129.699 9.973 130.059 C8.669 130.518 7.366 130.978 6.062 131.438 C5.733 131.553 5.733 131.553 4.064 132.135 C-0.887 133.887 -0.887 133.887 -2 135 C-3.686 135.072 -5.375 135.084 -7.062 135.062 C-7.982 135.053 -8.901 135.044 -9.848 135.035 C-10.558 135.024 -11.268 135.012 -12 135 C-12 135.66 -12 136.32 -12 137 C-14.813 137.027 -17.625 137.047 -20.438 137.062 C-21.24 137.071 -22.042 137.079 -22.869 137.088 C-24.913 137.097 -26.957 137.052 -29 137 C-29.33 136.67 -29.66 136.34 -30 136 C-31.391 135.815 -32.789 135.677 -34.188 135.562 C-38.028 135.182 -41.38 134.392 -45 133 C-45 132.34 -45 131.68 -45 131 C-46.32 131 -47.64 131 -49 131 C-49 130.01 -49 129.02 -49 128 C-48.34 127.67 -47.68 127.34 -47 127 C-47.66 126.67 -48.32 126.34 -49 126 C-49.33 86.4 -49.66 46.8 -50 6 C-50.99 6 -51.98 6 -53 6 C-53 6.66 -53 7.32 -53 8 C-52.34 8.33 -51.68 8.66 -51 9 C-51.99 8.835 -51.99 8.835 -57 8 C-51.896 1.871 -40.587 -1.521 -32.883 -2.754 C-21.596 -3.717 -10.826 -3.668 0 0 Z " fill="#3D8523" transform="translate(439,103)"/>
+    <path d="M0 0 C0.165 0.495 0.165 0.495 1 3 C3.64 3 6.28 3 9 3 C9 3.66 9 4.32 9 5 C8.01 5.33 7.02 5.66 6 6 C6.084 22.524 6.179 39.048 6.288 55.573 C6.338 63.245 6.384 70.917 6.422 78.589 C6.455 85.274 6.495 91.959 6.543 98.645 C6.568 102.186 6.59 105.727 6.603 109.269 C6.619 113.217 6.649 117.166 6.681 121.115 C6.683 122.295 6.685 123.475 6.688 124.692 C6.699 125.763 6.71 126.834 6.722 127.938 C6.727 128.873 6.733 129.807 6.738 130.77 C7 133 7 133 9 135 C6.69 135 4.38 135 2 135 C2 135.66 2 136.32 2 137 C4.64 137 7.28 137 10 137 C10 137.33 10 137.66 10 138 C6.7 138 3.4 138 0 138 C0 138.66 0 139.32 0 140 C-2.813 140.027 -5.625 140.047 -8.438 140.062 C-9.24 140.071 -10.042 140.079 -10.869 140.088 C-12.913 140.097 -14.957 140.052 -17 140 C-17.33 139.67 -17.66 139.34 -18 139 C-19.391 138.815 -20.789 138.677 -22.188 138.562 C-26.028 138.182 -29.38 137.392 -33 136 C-33 135.34 -33 134.68 -33 134 C-34.32 134 -35.64 134 -37 134 C-37 133.01 -37 132.02 -37 131 C-36.34 130.67 -35.68 130.34 -35 130 C-35.66 129.67 -36.32 129.34 -37 129 C-37.33 89.4 -37.66 49.8 -38 9 C-38.99 9 -39.98 9 -41 9 C-41 9.66 -41 10.32 -41 11 C-40.34 11.33 -39.68 11.66 -39 12 C-39.99 11.835 -39.99 11.835 -45 11 C-39.887 4.861 -28.631 1.531 -20.93 0.234 C-13.97 -0.322 -6.974 -0.137 0 0 Z " fill="#5CA116" transform="translate(427,100)"/>
+    <path d="M0 0 C0.99 0 1.98 0 3 0 C4.22 2.439 4.123 3.994 4.12 6.72 C4.122 7.716 4.123 8.711 4.124 9.737 C4.123 10.285 4.123 10.285 4.114 13.059 C4.114 14.21 4.114 15.362 4.114 16.548 C4.113 20.368 4.105 24.188 4.098 28.008 C4.096 30.651 4.094 33.293 4.093 35.936 C4.09 42.19 4.082 48.445 4.072 54.699 C4.061 61.819 4.055 68.938 4.05 76.058 C4.04 90.705 4.022 105.353 4 120 C4.99 120.33 5.98 120.66 7 121 C6.01 121.33 5.02 121.66 4 122 C4 122.99 4 123.98 4 125 C5.32 125 6.64 125 8 125 C7.67 125.66 7.34 126.32 7 127 C5.68 126.67 4.36 126.34 3 126 C2.835 126.495 2.835 126.495 2 129 C-1.285 125.815 -4.556 122.617 -7.814 119.405 C-8.92 118.319 -10.029 117.237 -11.143 116.159 C-20.653 106.941 -29.088 97.476 -33.438 84.688 C-33.558 84.362 -33.558 84.362 -34.17 82.717 C-38.58 70.42 -38.909 53.534 -35 41 C-34.705 40.013 -34.41 39.025 -34.105 38.008 C-29.454 24.3 -19.146 8.859 -6 2 C-2.625 1.75 -2.625 1.75 0 2 C0 1.34 0 0.68 0 0 Z " fill="#76B70B" transform="translate(386,109)"/>
+    <path d="M0 0 C0.401 0.003 0.401 0.003 2.432 0.02 C3.265 0.036 4.098 0.053 4.957 0.07 C5.38 0.075 5.38 0.075 7.518 0.098 C9.602 0.121 11.686 0.157 13.77 0.195 C14.1 1.185 14.43 2.175 14.77 3.195 C17.41 3.195 20.05 3.195 22.77 3.195 C22.77 3.855 22.77 4.515 22.77 5.195 C21.78 5.525 20.79 5.855 19.77 6.195 C19.853 22.72 19.948 39.244 20.057 55.768 C20.107 63.44 20.154 71.112 20.191 78.784 C20.224 85.469 20.264 92.155 20.312 98.84 C20.338 102.381 20.359 105.923 20.373 109.464 C20.388 113.413 20.419 117.361 20.451 121.31 C20.453 122.49 20.455 123.671 20.457 124.887 C20.468 125.958 20.48 127.03 20.491 128.133 C20.497 129.068 20.502 130.003 20.508 130.966 C20.77 133.195 20.77 133.195 22.77 135.195 C20.46 135.195 18.15 135.195 15.77 135.195 C15.77 135.855 15.77 136.515 15.77 137.195 C18.41 137.195 21.05 137.195 23.77 137.195 C23.77 137.525 23.77 137.855 23.77 138.195 C15.1 139.362 6.496 139.293 -2.23 139.195 C-1.9 138.205 -1.57 137.215 -1.23 136.195 C-1.14 134.394 -1.109 132.589 -1.11 130.785 C-1.109 129.662 -1.107 128.539 -1.106 127.382 C-1.11 126.149 -1.113 124.916 -1.117 123.646 C-1.117 122.348 -1.117 121.05 -1.117 119.713 C-1.116 116.154 -1.122 112.594 -1.129 109.035 C-1.135 105.315 -1.136 101.595 -1.137 97.876 C-1.14 90.832 -1.148 83.788 -1.158 76.743 C-1.17 68.724 -1.175 60.705 -1.18 52.686 C-1.191 36.189 -1.208 19.692 -1.23 3.195 C2.07 3.195 5.37 3.195 8.77 3.195 C8.77 2.535 8.77 1.875 8.77 1.195 C6.13 1.36 6.13 1.36 -7.23 2.195 C-4.13 0.128 -3.501 -0.05 0 0 Z " fill="#4C931D" transform="translate(413.23046875,99.8046875)"/>
+    <path d="M0 0 C6.163 5.06 11.777 10.624 17.397 16.267 C18.993 17.868 20.594 19.464 22.195 21.059 C29.196 28.055 35.901 35.193 42 43 C41.01 43 40.02 43 39 43 C39.165 45.805 39.165 45.805 40 60 C39.34 60 38.68 60 38 60 C38 60.66 38 61.32 38 62 C37.34 62 36.68 62 36 62 C35.67 63.32 35.34 64.64 35 66 C35.33 66.165 35.33 66.165 37 67 C36.12 67.808 35.239 68.616 34.332 69.449 C33.159 70.529 31.986 71.608 30.812 72.688 C30.234 73.218 29.656 73.748 29.061 74.295 C19.76 82.86 19.76 82.86 17 87 C16.34 87 15.68 87 15 87 C15 87.66 15 88.32 15 89 C13.35 90.354 11.683 91.687 10 93 C9.835 93.33 9.835 93.33 9 95 C8.34 95 7.68 95 7 95 C7 95.66 7 96.32 7 97 C6.34 97 5.68 97 5 97 C5 97.66 5 98.32 5 99 C4.175 99.165 4.175 99.165 0 100 C-1.699 96.603 -1.138 92.73 -1.129 88.992 C-1.131 88.059 -1.133 87.125 -1.135 86.164 C-1.139 83.067 -1.136 79.971 -1.133 76.875 C-1.133 74.73 -1.134 72.586 -1.136 70.441 C-1.137 65.942 -1.135 61.443 -1.13 56.943 C-1.125 51.166 -1.128 45.389 -1.134 39.611 C-1.138 35.181 -1.136 30.751 -1.134 26.321 C-1.133 24.191 -1.134 22.06 -1.136 19.929 C-1.139 16.955 -1.135 13.982 -1.129 11.008 C-1.131 10.12 -1.133 9.233 -1.136 8.319 C-1.114 2.229 -1.114 2.229 0 0 Z " fill="#246F2E" transform="translate(465,119)"/>
+    <path d="M0 0 C6.092 2.203 11.387 5.397 16 10 C16.908 12.772 17.124 15.297 17.12 18.201 C17.122 19.032 17.123 19.862 17.124 20.717 C17.121 21.619 17.117 22.521 17.114 23.45 C17.114 24.407 17.114 25.363 17.114 26.348 C17.113 29.508 17.105 32.668 17.098 35.828 C17.096 38.02 17.094 40.211 17.093 42.403 C17.09 48.17 17.08 53.937 17.069 59.704 C17.058 65.589 17.054 71.474 17.049 77.359 C17.038 88.906 17.021 100.453 17 112 C17.66 112.33 18.32 112.66 19 113 C18.67 113.66 18.34 114.32 18 115 C17.34 115 16.68 115 16 115 C16 115.66 16 116.32 16 117 C15.01 117.33 15.01 117.33 10 119 C10 119.66 10 120.32 10 121 C6.27 123.034 4.331 124 0 124 C0 123.34 0 122.68 0 122 C0.99 122 1.98 122 3 122 C2.67 121.34 2.34 120.68 2 120 C1.896 118.455 1.853 116.905 1.842 115.356 C1.832 114.377 1.822 113.398 1.812 112.39 C1.806 111.312 1.801 110.235 1.795 109.125 C1.785 107.993 1.775 106.861 1.765 105.695 C1.733 101.94 1.708 98.185 1.684 94.43 C1.663 91.832 1.642 89.234 1.621 86.636 C1.571 80.488 1.526 74.34 1.483 68.192 C1.433 61.193 1.378 54.194 1.323 47.195 C1.209 32.797 1.102 18.399 1 4 C1.66 4 2.32 4 3 4 C3 3.34 3 2.68 3 2 C2.01 2 1.02 2 0 2 C0 1.34 0 0.68 0 0 Z " fill="#317B28" transform="translate(448,107)"/>
+    <path d="M0 0 C0.99 0 1.98 0 3 0 C4.22 2.439 4.123 3.994 4.12 6.72 C4.122 7.716 4.123 8.711 4.124 9.737 C4.121 10.833 4.117 11.93 4.114 13.059 C4.114 14.21 4.114 15.362 4.114 16.548 C4.113 20.368 4.105 24.188 4.098 28.008 C4.096 30.651 4.094 33.293 4.093 35.936 C4.09 42.19 4.082 48.445 4.072 54.699 C4.061 61.819 4.055 68.938 4.05 76.058 C4.04 90.705 4.022 105.353 4 120 C4.495 120.165 4.495 120.165 7 121 C6.505 121.165 6.505 121.165 4 122 C4 122.99 4 123.98 4 125 C5.32 125 6.64 125 8 125 C7.67 125.66 7.34 126.32 7 127 C5.68 126.67 4.36 126.34 3 126 C2.67 126.99 2.34 127.98 2 129 C-3.28 123.72 -8.56 118.44 -14 113 C-11 111 -11 111 -8 111 C-8.33 77.01 -8.66 43.02 -9 8 C-8.34 8 -7.68 8 -7 8 C-7 7.34 -7 6.68 -7 6 C-7.99 5.67 -8.98 5.34 -10 5 C-7.449 2.646 -6.29 2.017 -2.75 1.812 C-2.296 1.843 -2.296 1.843 0 2 C0 1.34 0 0.68 0 0 Z " fill="#6AAD11" transform="translate(386,109)"/>
+    <path d="M0 0 C4.672 3.738 8.779 7.784 12.812 12.188 C13.292 12.711 13.772 13.234 14.267 13.772 C16.379 16.104 18.251 18.377 20 21 C19.01 21 18.02 21 17 21 C17.165 23.805 17.165 23.805 18 38 C17.34 38 16.68 38 16 38 C16 38.66 16 39.32 16 40 C15.34 40 14.68 40 14 40 C13.67 41.32 13.34 42.64 13 44 C13.66 44.33 14.32 44.66 15 45 C12.925 46.988 10.841 48.966 8.75 50.938 C8.457 51.219 8.457 51.219 6.973 52.646 C6.686 52.916 6.686 52.916 5.234 54.277 C4.711 54.775 4.187 55.272 3.647 55.785 C1.787 57.157 0.257 57.586 -2 58 C-2 57.34 -2 56.68 -2 56 C-1.34 56 -0.68 56 0 56 C-0.33 55.34 -0.66 54.68 -1 54 C-1.095 52.346 -1.128 50.688 -1.129 49.031 C-1.133 47.997 -1.136 46.962 -1.139 45.896 C-1.137 44.776 -1.135 43.655 -1.133 42.5 C-1.134 41.353 -1.135 40.207 -1.136 39.025 C-1.136 36.598 -1.135 34.17 -1.13 31.742 C-1.125 28.016 -1.13 24.289 -1.137 20.562 C-1.136 18.208 -1.135 15.854 -1.133 13.5 C-1.135 12.379 -1.137 11.258 -1.139 10.104 C-1.136 9.069 -1.133 8.035 -1.129 6.969 C-1.129 6.055 -1.128 5.142 -1.127 4.201 C-1 2 -1 2 0 0 Z " fill="#156034" transform="translate(487,141)"/>
+    <path d="M0 0 C1.65 0 3.3 0 5 0 C-0.639 6.877 -6.933 13.081 -13.216 19.361 C-14.455 20.603 -15.694 21.846 -16.933 23.088 C-20.281 26.446 -23.633 29.8 -26.986 33.153 C-29.08 35.248 -31.173 37.343 -33.266 39.439 C-40.567 46.749 -47.87 54.056 -55.176 61.361 C-61.991 68.176 -68.801 74.996 -75.608 81.819 C-81.455 87.679 -87.305 93.534 -93.158 99.387 C-96.653 102.882 -100.147 106.379 -103.637 109.879 C-106.913 113.164 -110.193 116.445 -113.477 119.721 C-114.684 120.928 -115.889 122.135 -117.093 123.345 C-118.73 124.989 -120.372 126.627 -122.016 128.264 C-122.476 128.724 -122.476 128.724 -124.803 131.052 C-127 133 -127 133 -129 133 C-129.119 133.281 -129.119 133.281 -129.719 134.702 C-131.293 137.526 -133.217 139.476 -135.5 141.766 C-136.387 142.655 -137.274 143.545 -138.188 144.461 C-139.116 145.381 -140.044 146.302 -141 147.25 C-141.928 148.186 -142.856 149.122 -143.812 150.086 C-144.699 150.97 -145.586 151.855 -146.5 152.766 C-146.907 153.172 -146.907 153.172 -148.969 155.228 C-151 157 -151 157 -153 157 C-153.165 157.33 -153.165 157.33 -154 159 C-154 158.34 -154 157.68 -154 157 C-154.66 156.67 -155.32 156.34 -156 156 C-155.092 155.278 -154.185 154.556 -153.25 153.812 C-151.203 152.115 -149.679 150.599 -148 148.5 C-146.341 146.427 -144.911 145.017 -142.875 143.375 C-140 141 -140 141 -138 138 C-136.68 138 -135.36 138 -134 138 C-133.897 137.237 -133.794 136.474 -133.688 135.688 C-132.945 132.783 -132.43 131.71 -130 130 C-128.68 130 -127.36 130 -126 130 C-126 128.68 -126 127.36 -126 126 C-125.34 126 -124.68 126 -124 126 C-123.732 125.381 -123.464 124.762 -123.188 124.125 C-122 122 -122 122 -119 120 C-118.67 119.34 -118.34 118.68 -118 118 C-116.68 118 -115.36 118 -114 118 C-114 116.68 -114 115.36 -114 114 C-112.68 114 -111.36 114 -110 114 C-110 112.68 -110 111.36 -110 110 C-108.68 110 -107.36 110 -106 110 C-106 108.68 -106 107.36 -106 106 C-104.68 106 -103.36 106 -102 106 C-102 104.68 -102 103.36 -102 102 C-100.68 102 -99.36 102 -98 102 C-98 100.68 -98 99.36 -98 98 C-96.68 98 -95.36 98 -94 98 C-93.67 96.35 -93.34 94.7 -93 93 C-91.35 92.67 -89.7 92.34 -88 92 C-87.67 90.35 -87.34 88.7 -87 87 C-85.35 86.67 -83.7 86.34 -82 86 C-81.67 84.35 -81.34 82.7 -81 81 C-79.35 80.67 -77.7 80.34 -76 80 C-76 78.68 -76 77.36 -76 76 C-75.34 76 -74.68 76 -74 76 C-74 75.34 -74 74.68 -74 74 C-73.34 74 -72.68 74 -72 74 C-72 73.34 -72 72.68 -72 72 C-71.34 72 -70.68 72 -70 72 C-70 71.34 -70 70.68 -70 70 C-69.34 70 -68.68 70 -68 70 C-68 69.34 -68 68.68 -68 68 C-67.34 68 -66.68 68 -66 68 C-65.732 67.381 -65.464 66.762 -65.188 66.125 C-64 64 -64 64 -61 62 C-60.835 61.67 -60.835 61.67 -60 60 C-58.68 60 -57.36 60 -56 60 C-56 58.68 -56 57.36 -56 56 C-54.68 56 -53.36 56 -52 56 C-52 54.68 -52 53.36 -52 52 C-51.01 51.34 -50.02 50.68 -49 50 C-48.835 49.67 -48.835 49.67 -48 48 C-47.34 48 -46.68 48 -46 48 C-46 47.34 -46 46.68 -46 46 C-45.34 46 -44.68 46 -44 46 C-44 45.34 -44 44.68 -44 44 C-42.68 44 -41.36 44 -40 44 C-40 42.68 -40 41.36 -40 40 C-38.68 40 -37.36 40 -36 40 C-36 38.68 -36 37.36 -36 36 C-34.68 36 -33.36 36 -32 36 C-32 34.68 -32 33.36 -32 32 C-30.68 32 -29.36 32 -28 32 C-28 30.68 -28 29.36 -28 28 C-26.68 28 -25.36 28 -24 28 C-24 26.68 -24 25.36 -24 24 C-23.01 23.34 -22.02 22.68 -21 22 C-20.67 21.34 -20.34 20.68 -20 20 C-19.34 20 -18.68 20 -18 20 C-18 19.34 -18 18.68 -18 18 C-17.34 18 -16.68 18 -16 18 C-16 17.34 -16 16.68 -16 16 C-15.34 16 -14.68 16 -14 16 C-14 15.34 -14 14.68 -14 14 C-13.34 14 -12.68 14 -12 14 C-12 13.34 -12 12.68 -12 12 C-11.34 12 -10.68 12 -10 12 C-10 11.34 -10 10.68 -10 10 C-9.34 10 -8.68 10 -8 10 C-8 9.34 -8 8.68 -8 8 C-7.34 8 -6.68 8 -6 8 C-6 7.34 -6 6.68 -6 6 C-5.34 6 -4.68 6 -4 6 C-4 5.34 -4 4.68 -4 4 C-3.34 4 -2.68 4 -2 4 C-2 3.34 -2 2.68 -2 2 C-1.34 2 -0.68 2 0 2 C0 1.34 0 0.68 0 0 Z " fill="#73AE0B" transform="translate(689,189)"/>
+    <path d="M0 0 C0.749 0.005 1.498 0.01 2.269 0.016 C3.078 0.019 3.887 0.022 4.72 0.026 C5.571 0.034 6.421 0.042 7.297 0.051 C8.151 0.056 9.005 0.06 9.885 0.065 C12.001 0.077 14.118 0.093 16.234 0.114 C16.263 3.259 16.281 6.405 16.297 9.551 C16.305 10.449 16.313 11.347 16.322 12.272 C16.324 12.699 16.324 12.699 16.332 14.86 C16.334 15.255 16.334 15.255 16.348 17.256 C16.234 19.114 16.234 19.114 15.234 20.114 C13.576 20.243 13.576 20.243 11.453 20.246 C10.694 20.248 9.934 20.249 9.152 20.25 C8.354 20.246 7.556 20.243 6.734 20.239 C5.936 20.242 5.138 20.246 4.316 20.25 C3.937 20.25 3.937 20.25 2.015 20.246 C1.315 20.245 0.614 20.244 -0.108 20.243 C-1.766 20.114 -1.766 20.114 -2.766 19.114 C-2.864 17.783 -2.897 16.448 -2.899 15.114 C-2.9 14.309 -2.901 13.505 -2.903 12.676 C-2.899 11.83 -2.895 10.985 -2.891 10.114 C-2.895 9.268 -2.899 8.422 -2.903 7.551 C-2.901 6.747 -2.9 5.942 -2.899 5.114 C-2.898 4.371 -2.896 3.629 -2.895 2.864 C-2.718 0.467 -2.399 0.154 0 0 Z " fill="#FFFFFF" transform="translate(534.765869140625,407.886474609375)"/>
+    <path d="M0 0 C3.612 -0.092 7.221 -0.172 10.834 -0.22 C12.061 -0.24 13.288 -0.267 14.514 -0.302 C16.285 -0.351 18.053 -0.373 19.824 -0.391 C20.887 -0.412 21.95 -0.433 23.046 -0.454 C26.721 0.111 28.353 1.445 31 4 C32.11 6.22 32.131 7.377 32.145 9.834 C32.152 10.633 32.159 11.432 32.166 12.255 C32.168 13.133 32.171 14.011 32.174 14.916 C32.18 15.84 32.187 16.763 32.194 17.715 C32.208 19.725 32.22 21.734 32.23 23.744 C32.246 26.92 32.269 30.097 32.295 33.273 C32.366 42.306 32.426 51.338 32.477 60.371 C32.509 65.891 32.55 71.411 32.597 76.931 C32.613 79.039 32.625 81.148 32.634 83.256 C32.646 86.199 32.67 89.141 32.697 92.084 C32.698 92.962 32.698 93.84 32.699 94.745 C32.709 95.544 32.718 96.343 32.728 97.166 C32.732 97.863 32.737 98.559 32.741 99.276 C33 101 33 101 35 103 C36.945 103.414 36.945 103.414 39.125 103.625 C39.849 103.7 40.574 103.775 41.32 103.852 C41.597 103.876 41.597 103.876 43 104 C43.029 106.812 43.047 109.625 43.062 112.438 C43.071 113.24 43.079 114.042 43.088 114.869 C43.091 115.633 43.094 116.397 43.098 117.184 C43.103 117.891 43.108 118.598 43.114 119.326 C43 121 43 121 42 122 C38.279 122.309 34.544 122.279 30.812 122.312 C30.291 122.327 30.291 122.327 27.654 122.4 C21.516 122.451 17.542 122.343 13 118 C11.966 115.531 12.105 113.729 12 111 C11.746 111.229 11.746 111.229 10.461 112.391 C0.92 120.895 -6.029 124.487 -19.035 124.258 C-23.357 123.882 -27.036 122.712 -31 121 C-32.031 120.567 -33.062 120.134 -34.125 119.688 C-42.019 115.054 -47.62 109.015 -50.688 100.375 C-50.794 100.089 -50.794 100.089 -51.33 98.641 C-56.246 85.303 -56.535 69.914 -51.234 56.605 C-46.907 47.471 -40.419 38.863 -30.723 35.121 C-28.492 34.373 -26.254 33.674 -24 33 C-23.505 32.835 -23.505 32.835 -21 32 C-10.754 31.189 -1.614 32.313 6.527 38.914 C8 40 8 40 11 41 C10.861 37.708 10.713 34.416 10.562 31.125 C10.523 30.188 10.484 29.251 10.443 28.285 C10.401 27.389 10.36 26.493 10.316 25.57 C10.28 24.743 10.243 23.915 10.205 23.063 C10 21 10 21 9 19 C6.934 18.586 6.934 18.586 4.438 18.375 C2.973 18.251 1.509 18.127 0 18 C0 12.06 0 6.12 0 0 Z M-28.816 60.273 C-33.695 67.391 -33.806 76.792 -32.727 85.105 C-31.56 90.618 -28.901 95.217 -26 100 C-25.34 100 -24.68 100 -24 100 C-24 100.66 -24 101.32 -24 102 C-17.347 105.45 -12.088 107.467 -4.711 105.34 C1.738 102.849 6.02 99.177 8.996 92.898 C12.953 82.181 12.565 72.229 8.012 61.719 C6.305 58.504 5.535 57.178 2 56 C2 55.34 2 54.68 2 54 C-9.742 48.49 -20.631 49.847 -28.816 60.273 Z " fill="#FFFFFF" transform="translate(724,408)"/>
+    <path d="M0 0 C0.749 0.005 1.498 0.01 2.269 0.016 C3.078 0.019 3.887 0.022 4.72 0.026 C5.571 0.034 6.421 0.042 7.297 0.051 C8.151 0.056 9.005 0.06 9.885 0.065 C12.001 0.077 14.118 0.093 16.234 0.114 C16.263 3.259 16.281 6.405 16.297 9.551 C16.305 10.449 16.313 11.347 16.322 12.272 C16.324 12.699 16.324 12.699 16.332 14.86 C16.334 15.255 16.334 15.255 16.348 17.256 C16.234 19.114 16.234 19.114 15.234 20.114 C13.576 20.243 13.576 20.243 11.453 20.246 C10.694 20.248 9.934 20.249 9.152 20.25 C8.354 20.246 7.556 20.243 6.734 20.239 C5.936 20.242 5.138 20.246 4.316 20.25 C3.937 20.25 3.937 20.25 2.015 20.246 C1.315 20.245 0.614 20.244 -0.108 20.243 C-1.766 20.114 -1.766 20.114 -2.766 19.114 C-2.864 17.783 -2.897 16.448 -2.899 15.114 C-2.9 14.309 -2.901 13.505 -2.903 12.676 C-2.899 11.83 -2.895 10.985 -2.891 10.114 C-2.895 9.268 -2.899 8.422 -2.903 7.551 C-2.901 6.747 -2.9 5.942 -2.899 5.114 C-2.898 4.371 -2.896 3.629 -2.895 2.864 C-2.718 0.467 -2.399 0.154 0 0 Z " fill="#FFFFFF" transform="translate(781.765869140625,407.886474609375)"/>
+    <path d="M0 0 C0 0.66 0 1.32 0 2 C0.598 2.266 1.196 2.531 1.812 2.805 C8.881 6.667 12.905 15.091 15.25 22.5 C16.749 29.094 16.34 36.286 16 43 C15 44 15 44 12.602 44.12 C11.538 44.118 10.475 44.116 9.379 44.114 C8.793 44.114 8.208 44.114 7.605 44.114 C5.662 44.113 3.72 44.105 1.777 44.098 C0.434 44.096 -0.91 44.094 -2.254 44.093 C-5.797 44.09 -9.34 44.08 -12.882 44.069 C-16.495 44.058 -20.108 44.054 -23.721 44.049 C-30.814 44.038 -37.907 44.021 -45 44 C-44.553 45.588 -44.099 47.173 -43.641 48.758 C-43.388 49.641 -43.136 50.524 -42.876 51.434 C-40.836 57.41 -37.445 61.394 -31.812 64.223 C-22.331 68.289 -14.478 67.605 -4.809 64.156 C-1.319 62.72 1.763 60.928 5 59 C5.99 59 6.98 59 8 59 C9.013 60.722 10.01 62.453 11 64.188 C11.557 65.15 12.114 66.113 12.688 67.105 C14.022 70.049 14.279 71.819 14 75 C-1.457 83.637 -16.98 89.641 -34.898 84.742 C-47.701 80.221 -57.699 71.641 -63.779 59.437 C-68.831 48.48 -69.464 34.522 -65.354 23.226 C-60.426 11.011 -53.055 2.69 -40.906 -2.848 C-27.202 -8.282 -12.782 -7.174 0 0 Z M-40.809 19.219 C-44.138 24.196 -44.138 24.196 -43.549 27.631 C-43.368 28.413 -43.187 29.194 -43 30 C-37.891 30.025 -32.783 30.043 -27.674 30.055 C-25.935 30.06 -24.196 30.067 -22.456 30.075 C-19.962 30.088 -17.467 30.093 -14.973 30.098 C-14.582 30.1 -14.582 30.1 -12.602 30.113 C-10.734 30.113 -8.867 30.062 -7 30 C-6 29 -6 29 -5.75 26.312 C-6.142 21.114 -7.995 17.66 -11.875 14.25 C-15.978 11.115 -19.76 9.496 -25.043 9.691 C-31.796 10.756 -36.605 13.95 -40.809 19.219 Z " fill="#FFFFFF" transform="translate(130,446)"/>
+    <path d="M0 0 C1.052 0.392 2.104 0.784 3.188 1.188 C8.376 4.531 12.319 10.039 14 16 C15.022 21.849 15.212 27.598 15.316 33.527 C15.337 34.516 15.358 35.505 15.379 36.524 C15.444 39.662 15.504 42.8 15.562 45.938 C15.606 48.074 15.649 50.21 15.693 52.346 C15.8 57.564 15.901 62.782 16 68 C19.3 68.33 22.6 68.66 26 69 C26 74.94 26 80.88 26 87 C22.549 87.092 19.1 87.172 15.648 87.22 C13.903 87.25 12.159 87.3 10.414 87.352 C-0.21 87.475 -0.21 87.475 -5 83 C-6.222 80.556 -6.137 78.95 -6.158 76.218 C-6.168 75.223 -6.178 74.228 -6.189 73.203 C-6.196 72.123 -6.203 71.043 -6.211 69.93 C-6.239 67.648 -6.268 65.367 -6.297 63.086 C-6.339 59.485 -6.376 55.884 -6.401 52.283 C-6.427 48.811 -6.475 45.339 -6.523 41.867 C-6.527 40.799 -6.53 39.731 -6.533 38.631 C-6.64 32.071 -6.905 25.46 -11.479 20.347 C-14.971 17.255 -18.576 17.668 -23.047 17.727 C-29.316 18.307 -34.124 20.675 -38.375 25.312 C-42.862 31.105 -45.068 37.462 -45.205 44.769 C-45.225 45.709 -45.245 46.65 -45.266 47.619 C-45.274 48.123 -45.274 48.123 -45.316 50.672 C-45.337 51.709 -45.358 52.747 -45.379 53.816 C-45.445 57.127 -45.504 60.439 -45.562 63.75 C-45.606 65.996 -45.649 68.242 -45.693 70.488 C-45.8 75.992 -45.902 81.496 -46 87 C-49.479 87.029 -52.958 87.047 -56.438 87.062 C-56.934 87.067 -56.934 87.067 -59.447 87.088 C-60.392 87.091 -61.336 87.094 -62.309 87.098 C-63.183 87.103 -64.058 87.108 -64.959 87.114 C-67 87 -67 87 -68 86 C-68.125 83.902 -68.186 81.836 -68.205 79.736 C-68.215 79.082 -68.225 78.429 -68.235 77.755 C-68.267 75.586 -68.292 73.416 -68.316 71.246 C-68.337 69.745 -68.358 68.245 -68.379 66.744 C-68.435 62.787 -68.484 58.83 -68.532 54.873 C-68.582 50.838 -68.638 46.803 -68.693 42.768 C-68.801 34.845 -68.902 26.923 -69 19 C-70.485 18.67 -70.485 18.67 -78 17 C-78 11.06 -78 5.12 -78 -1 C-74.124 -1.108 -70.252 -1.187 -66.375 -1.25 C-65.828 -1.267 -65.828 -1.267 -63.059 -1.352 C-56.741 -1.428 -52.744 -1.371 -48 3 C-46.856 5.287 -46.897 6.593 -46.938 9.125 C-46.947 9.849 -46.956 10.574 -46.965 11.32 C-46.976 11.875 -46.988 12.429 -47 13 C-46.01 13 -45.02 13 -44 13 C-43.773 12.443 -43.546 11.886 -43.312 11.312 C-39.556 4.693 -32.494 -0.174 -25.25 -2.312 C-16.476 -4.105 -8.209 -3.506 0 0 Z " fill="#FFFFFF" transform="translate(642,443)"/>
+    <path d="M0 0 C3.644 3.391 5.028 6.7 5.289 11.625 C5.387 15.112 5.169 18.49 5 22 C-1.27 22 -7.54 22 -14 22 C-14.66 19.36 -15.32 16.72 -16 14 C-20.788 10.936 -25.385 10.206 -31 11 C-37.539 12.699 -43.468 15.925 -48 21 C-52.785 29.145 -53.52 38.561 -51.375 47.648 C-48.849 54.257 -44.107 58.92 -37.832 62.098 C-28.915 65.491 -19.682 64.768 -11 61 C-8.573 59.503 -6.28 57.93 -4.008 56.207 C-2 55 -2 55 0.02 54.496 C3.135 55.289 4.245 57.645 5.812 60.25 C6.137 60.741 6.461 61.232 6.795 61.738 C8.144 63.906 9.004 65.529 8.98 68.109 C4.964 75.854 -5.17 80.053 -13.035 82.68 C-26.741 86.42 -41.184 84.098 -53.586 77.504 C-64.599 70.643 -71 61.496 -74 49 C-74.186 48.381 -74.371 47.762 -74.562 47.125 C-77.262 34.014 -73.834 21.588 -66.875 10.5 C-66.566 10.087 -66.566 10.087 -65 8 C-64.34 8 -63.68 8 -63 8 C-62.743 7.402 -62.487 6.804 -62.223 6.188 C-58.307 -0.817 -49.024 -4.521 -41.664 -6.688 C-27.273 -10.041 -12.178 -8.732 0 0 Z " fill="#FFFFFF" transform="translate(887,448)"/>
+    <path d="M0 0 C9.875 7.871 16.326 16.799 18.149 29.505 C19.679 43.201 17.221 54.918 8.575 65.954 C1.477 74.605 -7.678 79.333 -18.425 81.954 C-19.044 82.14 -19.663 82.325 -20.3 82.517 C-33.545 85.244 -47.114 81.923 -58.425 74.954 C-67.538 68.241 -74.594 59.376 -77.039 48.134 C-78.789 33.739 -77.453 20.838 -68.859 8.751 C-52.318 -11.359 -21.056 -15.451 0 0 Z M-49.425 17.954 C-54.312 24.056 -56.993 30.865 -56.734 38.72 C-55.543 47.34 -51.78 54.104 -45.425 59.954 C-40.583 63.586 -34.532 65.467 -28.449 65.274 C-21.889 64.236 -15.093 61.783 -10.425 56.954 C-10.425 56.294 -10.425 55.634 -10.425 54.954 C-9.765 54.954 -9.105 54.954 -8.425 54.954 C-3.996 46.652 -1.896 38.97 -3.957 29.517 C-5.428 24.781 -7.336 20.84 -10.425 16.954 C-11.085 16.954 -11.745 16.954 -12.425 16.954 C-12.425 16.294 -12.425 15.634 -12.425 14.954 C-25.198 6.956 -38.132 7.006 -49.425 17.954 Z " fill="#FFFFFF" transform="translate(974.42529296875,449.0458984375)"/>
+    <path d="M0 0 C3.876 -0.108 7.748 -0.187 11.625 -0.25 C12.172 -0.267 12.172 -0.267 14.941 -0.352 C21.246 -0.428 25.322 -0.445 30 4 C31.959 7.141 32.254 9.567 32.271 13.24 C32.281 14.285 32.292 15.329 32.302 16.406 C32.304 17.529 32.306 18.652 32.309 19.809 C32.32 20.979 32.332 22.15 32.346 23.32 C32.401 28.28 32.432 33.239 32.456 38.198 C32.472 41.238 32.502 44.277 32.541 47.316 C32.558 49.029 32.559 50.742 32.559 52.455 C32.566 52.979 32.566 52.979 32.599 55.631 C32.604 56.549 32.61 57.467 32.615 58.414 C33.075 61.505 34.321 63.395 36 66 C36 66.66 36 67.32 36 68 C42.449 69.889 50.145 70.23 56.375 67.5 C63.211 63.464 66.964 56.466 69 49 C69.432 45.25 69.464 41.526 69.477 37.754 C69.492 36.702 69.508 35.65 69.524 34.567 C69.571 31.232 69.599 27.898 69.625 24.562 C69.661 21.203 69.702 17.843 69.748 14.483 C69.775 12.398 69.796 10.312 69.811 8.226 C69.816 7.759 69.816 7.759 69.842 5.393 C69.846 4.98 69.846 4.98 69.862 2.889 C70 1 70 1 71 0 C72.562 -0.087 74.127 -0.107 75.691 -0.098 C76.636 -0.094 77.58 -0.091 78.553 -0.088 C79.546 -0.08 80.539 -0.071 81.562 -0.062 C82.56 -0.058 83.557 -0.053 84.584 -0.049 C87.056 -0.037 89.528 -0.021 92 0 C92.005 0.425 92.005 0.425 92.031 2.575 C92.129 10.565 92.232 18.556 92.339 26.546 C92.395 30.655 92.448 34.763 92.497 38.872 C92.545 42.834 92.597 46.795 92.653 50.757 C92.673 52.271 92.692 53.786 92.709 55.301 C92.733 57.415 92.763 59.53 92.795 61.644 C92.8 62.277 92.806 62.909 92.812 63.56 C92.886 67.886 92.886 67.886 94 69 C95.347 69.231 96.704 69.412 98.062 69.562 C98.429 69.604 98.429 69.604 100.285 69.816 C100.851 69.877 101.417 69.938 102 70 C102.196 72.812 102.38 75.625 102.562 78.438 C102.591 78.839 102.591 78.839 102.732 80.869 C102.781 81.633 102.829 82.397 102.879 83.184 C102.902 83.537 102.902 83.537 103.022 85.326 C103 87 103 87 102 88 C98.069 88.253 94.126 88.185 90.188 88.188 C89.081 88.2 87.974 88.212 86.834 88.225 C85.769 88.227 84.703 88.228 83.605 88.23 C82.627 88.235 81.649 88.239 80.641 88.243 C77.942 87.995 76.308 87.379 74 86 C74 85.34 74 84.68 74 84 C73.34 84 72.68 84 72 84 C71.67 82.515 71.67 82.515 70 75 C69.34 75 68.68 75 68 75 C67.745 75.587 67.49 76.173 67.227 76.777 C63.974 82.672 58.133 86.444 51.859 88.492 C51.246 88.66 50.632 88.827 50 89 C49.379 89.183 48.757 89.366 48.117 89.555 C40.159 91.228 31.351 90.502 24 87 C16.158 81.75 12.338 75.599 10.415 66.527 C9.703 62.193 9.641 57.88 9.586 53.496 C9.567 52.532 9.547 51.568 9.527 50.575 C9.468 47.529 9.421 44.484 9.375 41.438 C9.337 39.359 9.298 37.28 9.258 35.201 C9.162 30.134 9.078 25.067 9 20 C7.515 19.67 7.515 19.67 0 18 C0 12.06 0 6.12 0 0 Z " fill="#FFFFFF" transform="translate(148,442)"/>
+    <path d="M0 0 C3.547 2.811 6.792 5.804 10 9 C10.589 9.587 11.178 10.173 11.785 10.777 C12.186 11.181 12.587 11.584 13 12 C12.983 11.74 12.983 11.74 12.895 10.426 C12.713 5.738 12.981 2.832 16 -1 C19.979 -2.989 25.007 -2.267 29.412 -2.295 C31.296 -2.312 33.177 -2.356 35.061 -2.4 C36.266 -2.411 37.471 -2.419 38.676 -2.426 C39.222 -2.433 39.222 -2.433 41.986 -2.47 C46.042 -1.838 47.44 -1.273 50 2 C50.742 6.083 50.673 10.154 50.637 14.289 C50.645 15.515 50.655 16.741 50.668 17.967 C50.697 21.195 50.697 24.423 50.69 27.651 C50.683 32.796 50.715 37.94 50.753 43.085 C50.761 44.867 50.756 46.649 50.749 48.432 C50.78 57.587 50.821 66.762 57 74 C63.685 78.847 71.248 78.71 79.215 77.727 C83.828 76.758 87.363 74.77 91.238 72.121 C93 71 93 71 96 70 C97.031 68.184 97.031 68.184 98 66 C98.82 64.679 99.653 63.366 100.5 62.062 C105.861 53.533 106.15 45.792 106.281 35.949 C106.29 35.422 106.29 35.422 106.337 32.754 C106.416 28.254 106.484 23.754 106.552 19.254 C106.604 15.965 106.661 12.676 106.719 9.387 C106.732 8.361 106.746 7.335 106.76 6.278 C106.777 5.336 106.793 4.395 106.811 3.425 C106.823 2.592 106.836 1.76 106.849 0.902 C107 -1 107 -1 108 -2 C110 -2.041 112 -2.043 114 -2 C114.008 -1.04 114.016 -0.08 114.025 0.91 C114.102 9.945 114.19 18.98 114.288 28.015 C114.338 32.66 114.384 37.306 114.422 41.951 C114.459 46.432 114.505 50.912 114.558 55.392 C114.577 57.104 114.592 58.816 114.603 60.528 C114.62 62.921 114.649 65.313 114.681 67.705 C114.683 68.417 114.685 69.13 114.688 69.865 C114.772 74.772 114.772 74.772 117 77 C118.945 77.414 118.945 77.414 121.125 77.625 C121.849 77.7 122.574 77.775 123.32 77.852 C123.597 77.876 123.597 77.876 125 78 C125.382 79.656 125.714 81.325 126 83 C124.211 84.789 121.67 84.256 119.25 84.312 C112.464 84.256 112.464 84.256 109.812 82.25 C106.765 78.467 106.881 75.002 106.938 70.25 C106.947 69.265 106.956 68.28 106.965 67.266 C106.971 66.892 106.971 66.892 107 65 C106.527 65.641 106.054 66.281 105.566 66.941 C99.173 75.303 92.434 82.096 82 85 C81.389 85.182 80.778 85.364 80.148 85.551 C71.287 87.404 61.897 86.491 54 82 C47.969 77.007 44.466 70.832 43.712 63.018 C43.591 59.47 43.559 55.932 43.559 52.383 C43.547 51.076 43.533 49.77 43.519 48.463 C43.483 45.048 43.462 41.633 43.447 38.217 C43.422 32.73 43.383 27.244 43.325 21.757 C43.309 19.844 43.305 17.93 43.302 16.017 C43.292 14.85 43.282 13.683 43.271 12.516 C43.269 12.006 43.269 12.006 43.258 9.427 C43 7 43 7 41 5 C34.619 3.765 28.366 3.821 22 5 C20.42 6.58 20.859 8.179 20.842 10.372 C20.832 11.316 20.822 12.26 20.812 13.232 C20.806 14.276 20.801 15.319 20.795 16.395 C20.785 17.487 20.775 18.58 20.765 19.706 C20.738 22.709 20.717 25.713 20.697 28.717 C20.675 31.854 20.647 34.99 20.621 38.127 C20.571 44.069 20.526 50.012 20.483 55.955 C20.433 62.719 20.378 69.483 20.323 76.247 C20.209 90.165 20.102 104.082 20 118 C17.69 118 15.38 118 13 118 C12.67 102.16 12.34 86.32 12 70 C9.03 73.3 6.06 76.6 3 80 C-5.272 85.805 -14.016 86.856 -24 86 C-34.95 83.678 -42.398 77.832 -49 69 C-50.449 66.133 -50.449 66.133 -51.688 63.125 C-52.104 62.138 -52.52 61.15 -52.949 60.133 C-56.715 48.905 -56.276 34.278 -53 23 C-52.908 22.66 -52.908 22.66 -52.445 20.938 C-49.621 12.012 -43.02 4.662 -35 0 C-24.129 -5.539 -10.668 -6.6 0 0 Z M-39.188 12.25 C-48.009 23.306 -49.246 36.3 -48 50 C-46.456 60.146 -41.744 67.256 -34.625 74.375 C-26.812 79.211 -18.606 80.105 -9.617 78.602 C-1.971 76.55 4.384 71.131 8.438 64.375 C14.781 51.63 14.663 36.009 10.223 22.664 C7.056 14.699 1.606 8.036 -6 4 C-17.812 -0.135 -30.679 2.891 -39.188 12.25 Z " fill="#FFFFFF" transform="translate(310,446)"/>
+    <path d="M0 0 C9.162 6.713 14.465 14.016 16.625 25.25 C17.195 29.793 17.298 34.432 17 39 C15.421 40.579 13.676 40.119 11.56 40.124 C10.928 40.121 10.296 40.117 9.644 40.114 C8.981 40.114 8.318 40.114 7.634 40.114 C5.432 40.113 3.23 40.105 1.027 40.098 C-0.496 40.096 -2.019 40.094 -3.542 40.093 C-7.558 40.09 -11.575 40.08 -15.591 40.069 C-19.686 40.058 -23.782 40.054 -27.877 40.049 C-35.918 40.038 -43.959 40.021 -52 40 C-51.695 42.079 -51.386 44.157 -51.074 46.234 C-50.989 46.819 -50.903 47.403 -50.815 48.005 C-49.377 57.538 -45.733 65.518 -37.941 71.609 C-28.255 77.835 -17.681 79.491 -6.316 77.539 C-0.731 76.058 3.505 73.604 8.09 70.109 C8.72 69.743 9.351 69.377 10 69 C10.495 69.165 10.495 69.165 13 70 C13.33 71.98 13.66 73.96 14 76 C1.387 84.542 -11.677 88.106 -26.812 85.25 C-39.386 81.929 -48.309 73.921 -55 63 C-55.17 62.733 -55.17 62.733 -56.027 61.379 C-61.419 51.91 -61.363 38.572 -58.812 28.312 C-55.359 17.297 -49.832 7.166 -39.625 1.125 C-27.142 -5.021 -12.601 -7.066 0 0 Z M-46 16 C-49.653 21.218 -52 26.556 -52 33 C-31.87 33 -11.74 33 9 33 C10.65 24.748 7.591 18.346 3.184 11.398 C2.988 11.168 2.988 11.168 2 10 C1.34 10 0.68 10 0 10 C0 9.34 0 8.68 0 8 C-1.581 7.182 -3.165 6.371 -4.75 5.562 C-5.632 5.11 -6.513 4.658 -7.422 4.191 C-21.433 -2.284 -36.707 4.997 -46 16 Z " fill="#FFFFFF" transform="translate(500,446)"/>
+    <path d="M0 0 C1.09 -0.029 2.18 -0.058 3.303 -0.088 C9.557 -0.137 13.717 -0.161 18.312 4.312 C20.171 8.052 20.574 11.129 20.615 15.28 C20.624 15.855 20.632 16.429 20.641 17.021 C20.667 18.905 20.679 20.788 20.691 22.672 C20.708 23.985 20.725 25.298 20.743 26.612 C20.788 30.057 20.823 33.502 20.855 36.948 C20.907 42.476 20.972 48.005 21.043 53.534 C21.066 55.466 21.082 57.399 21.098 59.332 C21.111 60.509 21.125 61.686 21.139 62.862 C21.148 63.893 21.158 64.924 21.168 65.986 C21.312 68.312 21.312 68.312 22.312 69.312 C23.64 69.519 24.975 69.679 26.312 69.812 C30.201 70.201 30.201 70.201 31.312 71.312 C31.442 72.879 31.442 72.879 31.445 74.875 C31.446 75.232 31.446 75.232 31.449 77.039 C31.445 77.789 31.441 78.54 31.438 79.312 C31.439 79.688 31.439 79.688 31.449 81.586 C31.448 82.3 31.447 83.014 31.445 83.75 C31.444 84.409 31.443 85.067 31.442 85.746 C31.312 87.312 31.312 87.312 30.312 88.312 C26.425 88.622 22.523 88.591 18.625 88.625 C17.535 88.654 16.445 88.683 15.322 88.713 C8.995 88.763 5.113 88.59 0.312 84.312 C-1.45 82.55 -0.831 80.037 -0.845 77.647 C-0.848 77.352 -0.848 77.352 -0.861 75.858 C-0.871 74.573 -0.88 73.287 -0.887 72.002 C-0.898 69.967 -0.918 67.934 -0.94 65.9 C-1.002 60.115 -1.056 54.331 -1.089 48.546 C-1.11 45.011 -1.145 41.476 -1.19 37.941 C-1.204 36.593 -1.213 35.245 -1.216 33.896 C-1.221 32.009 -1.244 30.123 -1.271 28.237 C-1.279 27.163 -1.287 26.089 -1.296 24.982 C-1.688 22.312 -1.688 22.312 -3.102 20.47 C-4.942 19.127 -6.058 18.899 -8.312 18.75 C-8.869 18.678 -8.869 18.678 -11.688 18.312 C-13.212 15.263 -12.831 12.091 -12.812 8.75 C-12.816 8.052 -12.82 7.354 -12.824 6.635 C-12.807 -2.209 -7.595 0.066 0 0 Z " fill="#FFFFFF" transform="translate(532.6875,441.6875)"/>
+    <path d="M0 0 C1.09 -0.029 2.18 -0.058 3.303 -0.088 C12.35 -0.159 12.35 -0.159 15.957 1.957 C20.046 6.046 20.558 10.693 20.615 16.302 C20.624 16.867 20.632 17.432 20.641 18.014 C20.667 19.86 20.679 21.705 20.691 23.551 C20.708 24.84 20.725 26.13 20.743 27.419 C20.788 30.797 20.823 34.175 20.855 37.553 C20.907 42.977 20.972 48.401 21.043 53.825 C21.066 55.72 21.082 57.615 21.098 59.51 C21.112 60.652 21.125 61.794 21.139 62.97 C21.148 63.98 21.158 64.99 21.168 66.031 C21.312 68.312 21.312 68.312 22.312 69.312 C24.952 69.642 27.592 69.972 30.312 70.312 C30.312 76.253 30.312 82.192 30.312 88.312 C26.843 88.382 23.376 88.441 19.906 88.477 C18.15 88.5 16.394 88.538 14.639 88.576 C13.527 88.586 12.415 88.596 11.27 88.605 C10.248 88.621 9.227 88.637 8.175 88.653 C4.8 88.251 2.999 87.378 0.312 85.312 C-1.866 81.968 -1.931 79.198 -1.915 75.259 C-1.915 74.663 -1.915 74.068 -1.915 73.454 C-1.914 71.495 -1.899 69.537 -1.883 67.578 C-1.879 66.216 -1.876 64.854 -1.874 63.492 C-1.867 59.915 -1.847 56.338 -1.825 52.761 C-1.804 49.107 -1.795 45.454 -1.785 41.801 C-1.764 34.638 -1.73 27.475 -1.688 20.312 C-4.987 19.652 -8.288 18.993 -11.688 18.312 C-12.837 14.863 -12.834 11.773 -12.812 8.188 C-12.816 7.542 -12.82 6.896 -12.824 6.23 C-12.806 -2.237 -7.173 0.063 0 0 Z " fill="#FFFFFF" transform="translate(779.6875,441.6875)"/>
+  </symbol>
+</defs>
+</svg>
+
+<!-- ============================================================
+     TOPBAR (Outer) — Mode segment + brand
+     ============================================================ -->
+<div id="topbar">
+  <div>
+    <div class="ti">Eu Que Indico — MVP Fase 1</div>
+    <div class="ts">Protótipo navegável · escolha a visualização</div>
+  </div>
+  <div class="spacer"></div>
+  <div id="seg">
+    <button class="on" data-m="web" onclick="setMode('web')">
+      <svg><use href="#i-desktop"/></svg> Web
+    </button>
+    <button data-m="mobile" onclick="setMode('mobile')">
+      <svg><use href="#i-mobile"/></svg> Mobile (PWA)
+    </button>
+  </div>
+  <button class="about" onclick="abrirSobre()">
+    <svg><use href="#i-info"/></svg> Sobre
+  </button>
+</div>
+
+<!-- ============================================================
+     STAGE — aside (web) + device
+     ============================================================ -->
+<div id="stage">
+
+  <!-- ASIDE (web only) -->
+  <aside id="aside">
+    <div class="card">
+      <h2>Personas do MVP</h2>
+      <div class="persona">
+        <div class="pav" style="background:linear-gradient(135deg,#041B33,#13406b)">V</div>
+        <div><b>Visitante</b> — público anônimo: navega Home/Ranking/Marca</div>
+      </div>
+      <div class="persona">
+        <div class="pav" style="background:linear-gradient(135deg,#6ea805,#85C606)">M</div>
+        <div><b>Marina</b> — consumidora (4/5 para verificada)</div>
+      </div>
+      <div class="persona">
+        <div class="pav" style="background:linear-gradient(135deg,#85C606,#9ee818);color:#041B33">J</div>
+        <div><b>João</b> — consumidor verificado ✓ (selo)</div>
+      </div>
+      <div class="persona">
+        <div class="pav" style="background:linear-gradient(135deg,#e54a3a,#a02d20)">A</div>
+        <div><b>Admin EQI</b> — moderador da fila</div>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Princípios de design</h2>
+      <ul>
+        <li>Web-first responsivo + PWA instalável (RNF-05)</li>
+        <li>Love Score como protagonista visual</li>
+        <li>Indicação positiva em 1º plano</li>
+        <li>Crítica como sinal, não disputa (RF-07)</li>
+        <li>Manual da Marca (verde + navy · Raleway/Montserrat)</li>
+        <li>LGPD desde o início (RNF-04)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h2>Como navegar</h2>
+      <p>Alterne <b>Web ↔ Mobile</b> no seletor acima. Troque a <b>persona</b> dentro do app para ver o produto pela ótica de cada usuário.</p>
+      <p>
+        <span class="swatch" style="background:#85C606"></span>Verde primário
+        <span class="swatch" style="background:#041B33;margin-left:10px"></span>Navy secundário
+      </p>
+      <p class="foot">Manual da Marca EQI · 12 RFs + 9 RNFs cobertos · dados fictícios.</p>
+    </div>
+  </aside>
+
+  <!-- DEVICE FRAME -->
+  <div id="device">
+    <div class="notch"></div>
+    <div class="browserbar">
+      <span class="dot" style="background:#ff5f57"></span>
+      <span class="dot" style="background:#febc2e"></span>
+      <span class="dot" style="background:#28c840"></span>
+      <span class="url"><svg><use href="#i-lock"/></svg> euqueindico.com.br</span>
+    </div>
+
+    <!-- APP SHELL -->
+    <div id="appwrap">
+
+      <!-- APP BAR -->
+      <header id="appbar">
+        <!-- Web Appbar -->
+        <div id="appbar-web">
+          <span class="eqi-logo-mark" onclick="nav('home')" title="Eu Que Indico">
+            <svg role="img" aria-label="Eu Que Indico"><use href="#eqi-logo"/></svg>
+          </span>
+          <nav class="topnav">
+            <button id="nav-home" class="on" onclick="nav('home')">Home</button>
+            <button id="nav-marca" onclick="nav('marca')">Página da marca</button>
+            <button id="nav-indicar" onclick="nav('indicar')">Indicar</button>
+            <button id="nav-perfil" onclick="nav('perfil')">Meu Perfil</button>
+            <button id="nav-moderacao" onclick="nav('moderacao')" hidden>Moderação</button>
+            <button id="nav-requisitos" onclick="nav('requisitos')">Requisitos</button>
+          </nav>
+          <div class="top-right">
+            <div class="persona-sel">
+              <label>Persona</label>
+              <select id="persona-sel" onchange="trocarPersona(this.value)">
+                <option value="publico">Visitante (público)</option>
+                <option value="consumidor" selected>Consumidor</option>
+                <option value="verificado">Consumidor verificado</option>
+                <option value="moderador">Moderador EQI</option>
+              </select>
+            </div>
+            <button class="btn-acesso" id="btn-acesso-top" onclick="toast('Login & Cadastro (RF-01/RF-02)')" hidden>Entrar</button>
+            <div class="avatar" id="avatar-top" onclick="nav('perfil')">MS</div>
+          </div>
+        </div>
+
+        <!-- Mobile Appbar -->
+        <div id="appbar-mobile">
+          <div class="row1">
+            <span class="eqi-logo-mark" onclick="nav('home')" title="Eu Que Indico">
+              <svg role="img" aria-label="Eu Que Indico"><use href="#eqi-logo"/></svg>
+            </span>
+            <div class="spacer"></div>
+            <button class="iconbtn" onclick="toast('Notificações (mock)')"><svg><use href="#i-bell"/></svg></button>
+            <div class="avatar" id="avatar-mob" onclick="nav('perfil')" style="width:36px;height:36px">MS</div>
+          </div>
+        </div>
+      </header>
+
+      <!-- APP BODY -->
+      <div id="appbody">
+        <!-- Side nav (web) -->
+        <nav id="sidenav">
+          <div class="grp">Navegação</div>
+          <button id="snav-home" class="on" onclick="nav('home')"><svg><use href="#i-home"/></svg> Home / Ranking</button>
+          <button id="snav-marca" onclick="nav('marca')"><svg><use href="#i-heart"/></svg> Página da marca</button>
+          <button id="snav-indicar" onclick="nav('indicar')"><svg><use href="#i-plus-circle"/></svg> Indicar</button>
+          <button id="snav-perfil" onclick="nav('perfil')"><svg><use href="#i-user"/></svg> Meu Perfil</button>
+          <button id="snav-moderacao" onclick="nav('moderacao')" hidden><svg><use href="#i-shield"/></svg> Moderação</button>
+          <div class="grp">Documentação</div>
+          <button id="snav-requisitos" onclick="nav('requisitos')"><svg><use href="#i-list"/></svg> Cobertura RFs</button>
+        </nav>
+
+        <main id="maincol">
+          <div id="screens">
+<!-- ============================================================
+     SCREEN HOME — Hero + Pódio + Ranking
+     ============================================================ -->
+<section class="screen on" id="screen-home">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-grid">
+      <div class="hero-text">
+        <span class="hero-tag"><span class="dot"></span> Nova economia da indicação</span>
+        <h1>Marcas que merecem <br><span class="accent">o amor</span> dos seus clientes.</h1>
+        <p class="hero-lede">O <strong>Love Score</strong> é o primeiro índice brasileiro que mede o amor real do consumidor por uma marca — calculado por IA, com base em indicações espontâneas e verificadas.</p>
+        <div class="hero-ctas">
+          <button class="hero-cta-primary" onclick="nav('indicar')">Indicar uma marca →</button>
+          <button class="hero-cta-ghost" onclick="document.getElementById('podio-sec').scrollIntoView({behavior:'smooth'})">Ver o pódio</button>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-orb"></div>
+        <div class="hero-heart-big">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6 3.5 C6 3.5, 4 3.5, 4 6 C4 8, 6 9.5, 7.5 11 L11 14.5 C11.5 15, 12.5 15, 13 14.5 L16.5 11 C18 9.5, 20 8, 20 6 C20 3.5, 18 3.5, 18 3.5 C16.5 3.5, 15.5 4.5, 14.5 6 L12 9 L9.5 6 C8.5 4.5, 7.5 3.5, 6 3.5 Z"
+                  fill="#041B33"/>
+          </svg>
+        </div>
+        <span class="hero-chip c1">☕ Grão Fino · <strong>84</strong></span>
+        <span class="hero-chip c2">💄 Bela Forma · <strong>79</strong></span>
+        <span class="hero-chip c3">🛒 Moda Now · <strong>73</strong></span>
+        <span class="hero-chip c4">📱 TechShop · <strong>76</strong></span>
+      </div>
+    </div>
+
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hs-lbl">Marcas amadas</div>
+        <div class="hs-num">128</div>
+        <div class="hs-spark"><div style="height:30%"></div><div style="height:45%"></div><div style="height:62%"></div><div style="height:80%"></div><div style="height:95%"></div></div>
+      </div>
+      <div class="hero-stat">
+        <div class="hs-lbl">Indicações aprovadas</div>
+        <div class="hs-num">4.832</div>
+        <div class="hs-spark"><div style="height:25%"></div><div style="height:48%"></div><div style="height:68%"></div><div style="height:88%"></div><div style="height:100%"></div></div>
+      </div>
+      <div class="hero-stat">
+        <div class="hs-lbl">Consumidores</div>
+        <div class="hs-num">1.947</div>
+        <div class="hs-spark"><div style="height:20%"></div><div style="height:42%"></div><div style="height:58%"></div><div style="height:82%"></div><div style="height:96%"></div></div>
+      </div>
+      <div class="hero-stat">
+        <div class="hs-lbl">Love Score médio</div>
+        <div class="hs-num">71,4</div>
+        <div class="hs-spark"><div style="height:55%"></div><div style="height:60%"></div><div style="height:67%"></div><div style="height:72%"></div><div style="height:74%"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TICKER em alta -->
+  <div class="ticker-wrap">
+    <div class="ticker-head">
+      <span class="th-tag">🔥 Em alta nesta semana</span>
+    </div>
+    <div class="ticker-items">
+      <div class="ticker-item" onclick="abrirMarca('moda-now')"><div class="ti-logo">MN</div><span>Moda Now</span><span class="ti-delta">+18 ▲</span></div>
+      <div class="ticker-item" onclick="abrirMarca('techshop')"><div class="ti-logo">TB</div><span>TechShop</span><span class="ti-delta">+14 ▲</span></div>
+      <div class="ticker-item" onclick="abrirMarca('horta-viva')"><div class="ti-logo" style="background:linear-gradient(135deg,#85C606,#3D8523)">HV</div><span>Horta Viva</span><span class="badge-mini" style="background:var(--green);color:var(--navy);border-color:var(--green)">Estreante</span></div>
+      <div class="ticker-item" onclick="abrirMarca('grao-fino')"><div class="ti-logo">GF</div><span>Grão Fino</span><span class="ti-delta">+9 ▲</span></div>
+    </div>
+  </div>
+
+  <!-- PÓDIO -->
+  <div class="sec-head" id="podio-sec">
+    <div>
+      <h2>Pódio das mais amadas</h2>
+      <span class="sec-sub">Top 3 por Love Score</span>
+    </div>
+    <span class="badge-mini">RF-17</span>
+  </div>
+
+  <div class="podium">
+    <div class="podium-card silver" onclick="abrirMarca('studio-bela')">
+      <div class="pod-rank">#2</div>
+      <div class="pod-medal-circle">2</div>
+      <div class="pod-logo">SB</div>
+      <div class="pod-name">Studio Bela Forma</div>
+      <div class="pod-cat">Beleza</div>
+      <div class="pod-score-ring" style="--pct:79">
+        <svg width="100" height="100"><circle cx="50" cy="50" r="45" class="track"/><circle cx="50" cy="50" r="45" class="fill"/></svg>
+        <div class="pod-score-content"><div class="pod-score-num">79</div><div class="pod-score-lbl">Love Score</div></div>
+      </div>
+      <div class="pod-ind"><strong>218</strong> indicações</div>
+    </div>
+    <div class="podium-card gold" onclick="abrirMarca('grao-fino')">
+      <div class="pod-rank">#1</div>
+      <div class="pod-medal-circle">★</div>
+      <div class="pod-logo">GF</div>
+      <div class="pod-name">Cafeteria Grão Fino</div>
+      <div class="pod-cat">Gastronomia</div>
+      <div class="pod-score-ring" style="--pct:84">
+        <svg width="100" height="100"><circle cx="50" cy="50" r="45" class="track"/><circle cx="50" cy="50" r="45" class="fill"/></svg>
+        <div class="pod-score-content"><div class="pod-score-num">84</div><div class="pod-score-lbl">Love Score</div></div>
+      </div>
+      <div class="pod-ind"><strong>342</strong> indicações</div>
+    </div>
+    <div class="podium-card bronze" onclick="abrirMarca('techshop')">
+      <div class="pod-rank">#3</div>
+      <div class="pod-medal-circle">3</div>
+      <div class="pod-logo">TB</div>
+      <div class="pod-name">TechShop Brasil</div>
+      <div class="pod-cat">Tecnologia</div>
+      <div class="pod-score-ring" style="--pct:76">
+        <svg width="100" height="100"><circle cx="50" cy="50" r="45" class="track"/><circle cx="50" cy="50" r="45" class="fill"/></svg>
+        <div class="pod-score-content"><div class="pod-score-num">76</div><div class="pod-score-lbl">Love Score</div></div>
+      </div>
+      <div class="pod-ind"><strong>195</strong> indicações</div>
+    </div>
+  </div>
+
+  <!-- FILTERS -->
+  <div class="filters">
+    <div class="filters-search">
+      <span class="filters-search-ico">🔍</span>
+      <input type="search" placeholder="Buscar marca, categoria ou cidade...">
+    </div>
+    <select class="filter-sel"><option>Todas categorias</option><option>Gastronomia</option><option>Beleza</option><option>Tecnologia</option></select>
+    <select class="filter-sel"><option>Todas regiões</option><option>Sudeste</option><option>Sul</option><option>Nordeste</option></select>
+    <button class="btn-indicar-fab" onclick="nav('indicar')"><span class="plus">+</span> Indicar</button>
+  </div>
+
+  <!-- RANKING continuação -->
+  <div class="sec-head">
+    <div>
+      <h2>Continuação do ranking</h2>
+      <span class="sec-sub">Posições 4 em diante</span>
+    </div>
+  </div>
+
+  <div class="rank-grid">
+    <div class="rank-card" onclick="abrirMarca('moda-now')">
+      <button class="rc-fav">♡</button>
+      <div class="rc-row">
+        <div class="rc-logo">MN</div>
+        <div class="rc-info"><div class="rc-pos">#4</div><div class="rc-name">Moda Now</div><div class="rc-cat">Varejo</div></div>
+      </div>
+      <div class="rc-score-row">
+        <div class="rc-score-num">73</div>
+        <div class="rc-score-info"><div class="rc-score-lbl">Love Score</div><div class="rc-ind">167 indicações</div></div>
+        <div class="rc-bar"><div class="rc-bar-fill" style="--pct:73%"></div></div>
+      </div>
+    </div>
+    <div class="rank-card" onclick="abrirMarca('farmacia-saude')">
+      <button class="rc-fav">♡</button>
+      <div class="rc-row">
+        <div class="rc-logo">FS</div>
+        <div class="rc-info"><div class="rc-pos">#5</div><div class="rc-name">Farmácia Saúde</div><div class="rc-cat">Saúde</div></div>
+      </div>
+      <div class="rc-score-row">
+        <div class="rc-score-num">71</div>
+        <div class="rc-score-info"><div class="rc-score-lbl">Love Score</div><div class="rc-ind">143 indicações</div></div>
+        <div class="rc-bar"><div class="rc-bar-fill" style="--pct:71%"></div></div>
+      </div>
+    </div>
+    <div class="rank-card" onclick="abrirMarca('edutech')">
+      <button class="rc-fav on">♥</button>
+      <div class="rc-row">
+        <div class="rc-logo">EP</div>
+        <div class="rc-info"><div class="rc-pos">#6</div><div class="rc-name">EduTech Pro</div><div class="rc-cat">Educação</div></div>
+      </div>
+      <div class="rc-score-row">
+        <div class="rc-score-num">68</div>
+        <div class="rc-score-info"><div class="rc-score-lbl">Love Score</div><div class="rc-ind">98 indicações</div></div>
+        <div class="rc-bar"><div class="rc-bar-fill" style="--pct:68%"></div></div>
+      </div>
+    </div>
+    <div class="rank-card curadoria" onclick="abrirMarca('horta-viva')">
+      <div class="rc-row">
+        <div class="rc-logo" style="background:linear-gradient(135deg,#85C606,#3D8523);color:#fff">HV</div>
+        <div class="rc-info"><div class="rc-pos">— em curadoria</div><div class="rc-name">Horta Viva</div><div class="rc-cat">Varejo</div></div>
+      </div>
+      <div class="rc-score-row">
+        <div class="rc-score-num">Em curadoria</div>
+        <div class="rc-score-info"><div class="rc-score-lbl">Aguardando 10</div><div class="rc-ind">6/10 indicações</div></div>
+        <div class="rc-bar"><div class="rc-bar-fill" style="--pct:60%"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- B2B Conversion -->
+  <div class="b2b-card">
+    <div class="b2b-card-inner">
+      <span class="b2b-tag">Para sua marca</span>
+      <h3>Sua marca já é amada.<br><span class="accent">Descubra por quê.</span></h3>
+      <p>Em breve, conheça a inteligência de marca da EQI: Love Score em tempo real, análise de atributos por IA, benchmarking e insights. Onboarding B2B na Fase 3.</p>
+      <button class="btn-b2b" onclick="toast('Onboarding B2B — Fase 3 do roadmap')">Quero conhecer os planos →</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SCREEN INDICAR (Wizard 3 passos)
+     ============================================================ -->
+<section class="screen" id="screen-indicar">
+  <div class="sc-title">Indicar uma marca</div>
+  <div class="sc-sub">Fluxo em 3 passos · <span class="badge-mini">RF-05</span> <span class="badge-mini">RF-06</span> <span class="badge-mini">RF-07</span></div>
+
+  <div class="wiz-progress">
+    <div class="wiz-step active" id="wstep-1" onclick="goWiz(1)">
+      <div class="wiz-num">1</div>
+      <div class="wiz-info"><div class="wi-lbl">Passo 1</div><div class="wi-title">Escolher marca</div></div>
+    </div>
+    <div class="wiz-step" id="wstep-2" onclick="goWiz(2)">
+      <div class="wiz-num">2</div>
+      <div class="wiz-info"><div class="wi-lbl">Passo 2</div><div class="wi-title">Detalhar</div></div>
+    </div>
+    <div class="wiz-step" id="wstep-3" onclick="goWiz(3)">
+      <div class="wiz-num">3</div>
+      <div class="wiz-info"><div class="wi-lbl">Passo 3</div><div class="wi-title">Confirmar</div></div>
+    </div>
+  </div>
+
+  <div id="wiz-p1">
+    <div class="wiz-form">
+      <h3>Qual marca você quer indicar?</h3>
+      <p class="wf-hint">Busque pelo nome. Se não estiver na base, é só cadastrar.</p>
+      <div class="field"><label>Buscar marca</label><input type="search" placeholder="Ex.: Cafeteria Grão Fino" id="ind-search" oninput="buscarMarcaWiz(this.value)"></div>
+      <div id="ind-suggestions"></div>
+      <div style="margin-top:14px;padding:14px;background:var(--bg-warm);border-radius:10px;border:1.5px dashed var(--line)">
+        <div style="font-size:12.5px;color:var(--text-soft);margin-bottom:8px"><strong>Não encontrou?</strong></div>
+        <button class="btn ghost sm" onclick="mostrarNovaMarca()">+ Cadastrar nova marca <span class="badge-mini">RF-06</span></button>
+      </div>
+      <div id="nova-marca" hidden style="margin-top:14px;padding:16px;border:2px solid var(--green);border-radius:12px;background:var(--green-50)">
+        <div style="font-family:var(--font-display);font-weight:800;font-size:13px;color:var(--navy);margin-bottom:12px;letter-spacing:.05em;text-transform:uppercase">Cadastrar Nova Marca</div>
+        <div class="field"><label>Nome *</label><input type="text" placeholder="Ex.: Padaria Pão Quente"></div>
+        <div class="field"><label>Categoria *</label><select><option>Gastronomia</option><option>Beleza</option><option>Saúde</option><option>Tecnologia</option></select></div>
+        <button class="btn sm" onclick="confirmarNovaMarca()">Salvar e usar</button>
+      </div>
+    </div>
+    <div id="ms-bar" hidden style="background:linear-gradient(90deg,var(--green-50),#fff);border:2px solid var(--green);border-radius:var(--r);padding:14px;margin-top:12px;display:flex;align-items:center;gap:12px">
+      <div style="width:42px;height:42px;border-radius:12px;background:var(--grad-green-deep);color:#fff;display:grid;place-items:center;font-family:var(--font-display);font-weight:800" id="ms-logo">GF</div>
+      <div style="flex:1">
+        <div style="font-family:var(--font-display);font-weight:800;color:var(--navy);font-size:14px" id="ms-name">Cafeteria Grão Fino</div>
+        <div style="font-size:11px;color:var(--text-soft)" id="ms-cat">Gastronomia</div>
+      </div>
+      <button class="btn sm" onclick="goWiz(2)">Avançar →</button>
+    </div>
+  </div>
+
+  <div id="wiz-p2" hidden>
+    <div class="wiz-form">
+      <h3>Por que você ama essa marca?</h3>
+      <p class="wf-hint">Dê uma nota, marque atributos e escreva um depoimento curto.</p>
+      <div class="field">
+        <label style="text-align:center">Nota geral (1–5 estrelas)</label>
+        <div class="stars-row" id="stars-row">
+          <button class="star-btn on" onclick="setStars(1)">★</button>
+          <button class="star-btn on" onclick="setStars(2)">★</button>
+          <button class="star-btn on" onclick="setStars(3)">★</button>
+          <button class="star-btn on" onclick="setStars(4)">★</button>
+          <button class="star-btn" onclick="setStars(5)">★</button>
+        </div>
+        <div class="star-label" id="star-label">4 estrelas · Gostei muito</div>
+      </div>
+      <div id="neg-alert" hidden>
+        <div class="neg-alert">
+          <div class="na-ico">!</div>
+          <div>
+            <div class="na-title">Sentimento negativo registrado (RF-07)</div>
+            <div class="na-body">Sua avaliação não é bloqueada — o EQI publica críticas honestas. Não fazemos disputa, focamos no atributo.</div>
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <label>Atributos</label>
+        <div class="attr-chips" id="attr-chips">
+          <button class="attr-chip sel">Qualidade</button>
+          <button class="attr-chip sel">Atendimento</button>
+          <button class="attr-chip">Preço justo</button>
+          <button class="attr-chip">Ambiente</button>
+          <button class="attr-chip">Sustentabilidade</button>
+          <button class="attr-chip">Variedade</button>
+        </div>
+      </div>
+      <div class="field">
+        <label>Depoimento</label>
+        <textarea id="ind-text">O melhor café especial da cidade! Atendimento impecável e a torra é sempre fresca.</textarea>
+      </div>
+    </div>
+    <div class="wiz-actions">
+      <button class="btn ghost" onclick="goWiz(1)">← Voltar</button>
+      <div class="spacer"></div>
+      <button class="btn" onclick="goWiz(3)">Preview →</button>
+    </div>
+  </div>
+
+  <div id="wiz-p3" hidden>
+    <div class="wiz-form">
+      <h3>Pronto para publicar?</h3>
+      <p class="wf-hint">Sua indicação vai para a moderação (RF-11) e alimenta o Love Score após aprovada.</p>
+      <div class="preview-card">
+        <span class="prev-tag">Preview</span>
+        <div class="prev-head">
+          <div class="prev-logo" id="prev-logo">GF</div>
+          <div class="prev-meta">
+            <div class="pm-name" id="prev-name">Cafeteria Grão Fino</div>
+            <div class="pm-cat" id="prev-cat">Gastronomia</div>
+          </div>
+        </div>
+        <div class="prev-stars" id="prev-stars">★★★★☆</div>
+        <div class="prev-text" id="prev-text">O melhor café especial da cidade!</div>
+        <div class="prev-attrs" id="prev-attrs"><span class="prev-attr">Qualidade</span><span class="prev-attr">Atendimento</span></div>
+      </div>
+    </div>
+    <div class="wiz-actions">
+      <button class="btn ghost" onclick="goWiz(2)">← Editar</button>
+      <div class="spacer"></div>
+      <button class="btn lg" onclick="confirmarIndicacao()">Publicar ♥</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SCREEN MARCA — Página pública (RF-20, RF-15)
+     ============================================================ -->
+<section class="screen" id="screen-marca">
+  <div class="marca-hero">
+    <div class="marca-hero-inner">
+      <div>
+        <div class="marca-hero-top">
+          <div class="marca-hero-logo" id="mh-logo">GF</div>
+          <div class="marca-hero-info">
+            <div class="mh-cat" id="mh-cat">Gastronomia · Campinas, SP</div>
+            <h1 id="mh-name">Cafeteria Grão Fino</h1>
+          </div>
+        </div>
+        <p class="marca-hero-tagline">O que torna a Grão Fino especial não é só o café — é o jeito como ela <span class="verb">conhece cada cliente pelo nome</span>. Uma marca <span class="verb">profundamente amada</span> pela comunidade.</p>
+        <div class="marca-hero-actions">
+          <button class="btn-fav" onclick="this.classList.toggle('on')">♥ Favoritar</button>
+          <button class="btn-fav" onclick="nav('indicar')">+ Indicar</button>
+          <button class="btn-fav" onclick="toast('Link copiado!')">↗ Compartilhar</button>
+        </div>
+      </div>
+      <div class="love-mega" style="--pct:84">
+        <svg width="240" height="240"><circle cx="120" cy="120" r="110" class="track"/><circle cx="120" cy="120" r="110" class="fill"/></svg>
+        <div class="love-mega-content">
+          <div class="love-mega-num">84<span class="lm-of">/100</span></div>
+          <div class="love-mega-lbl">Love Score</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="marca-kpis">
+    <div class="marca-kpi"><div class="mk-lbl">Indicações</div><div class="mk-num">342</div><div class="mk-delta up">▲ +23 semana</div></div>
+    <div class="marca-kpi"><div class="mk-lbl">Sentimento +</div><div class="mk-num">92<span style="font-size:.6em;color:var(--text-soft)">%</span></div><div class="mk-delta up">▲ +3 pts</div></div>
+    <div class="marca-kpi"><div class="mk-lbl">Verificados</div><div class="mk-num">63<span style="font-size:.6em;color:var(--text-soft)">%</span></div><div class="mk-delta up">▲ 215</div></div>
+    <div class="marca-kpi"><div class="mk-lbl">Posição</div><div class="mk-num">#1</div><div class="mk-delta up">▲ Subiu 2</div></div>
+  </div>
+
+  <div class="formula-card">
+    <h3>Como o Love Score 84 foi calculado <span class="badge-rf">RF-15</span></h3>
+    <div class="formula-bars">
+      <div class="formula-bar"><div class="fb-lbl">Volume <span class="fb-sub">Quantidade</span></div><div class="fb-bar"><div class="fb-fill" style="--w:88%"></div></div><div class="fb-pct">30%</div></div>
+      <div class="formula-bar"><div class="fb-lbl">Sentimento <span class="fb-sub">Positividade</span></div><div class="fb-bar"><div class="fb-fill" style="--w:92%"></div></div><div class="fb-pct">25%</div></div>
+      <div class="formula-bar"><div class="fb-lbl">Atributos <span class="fb-sub">Diversidade</span></div><div class="fb-bar"><div class="fb-fill" style="--w:85%"></div></div><div class="fb-pct">20%</div></div>
+      <div class="formula-bar"><div class="fb-lbl">Recência <span class="fb-sub">Recentes pesam +</span></div><div class="fb-bar"><div class="fb-fill" style="--w:80%"></div></div><div class="fb-pct">15%</div></div>
+      <div class="formula-bar"><div class="fb-lbl">Verificação <span class="fb-sub">Autores verif.</span></div><div class="fb-bar"><div class="fb-fill" style="--w:63%"></div></div><div class="fb-pct">10%</div></div>
+    </div>
+  </div>
+
+  <div class="formula-card">
+    <h3>Atributos mais citados</h3>
+    <div class="attr-cloud">
+      <div class="attr-cloud-item"><div class="ac-count">198</div><span class="ac-label">Qualidade</span></div>
+      <div class="attr-cloud-item"><div class="ac-count">175</div><span class="ac-label">Atendimento</span></div>
+      <div class="attr-cloud-item"><div class="ac-count">142</div><span class="ac-label">Ambiente</span></div>
+      <div class="attr-cloud-item"><div class="ac-count">108</div><span class="ac-label">Preço justo</span></div>
+      <div class="attr-cloud-item"><div class="ac-count">87</div><span class="ac-label">Sustentabilidade</span></div>
+    </div>
+  </div>
+
+  <div class="sec-head">
+    <div><h2>Indicações recentes</h2><span class="sec-sub">Aprovadas · alimentam o Love Score</span></div>
+    <span class="badge-mini">RF-15</span>
+  </div>
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-avatar">JP</div>
+      <div class="timeline-body">
+        <div class="timeline-head"><span class="timeline-name">João Pereira</span><span class="timeline-badge">✓ Verificado</span><span class="timeline-stars">★★★★★</span><span class="timeline-date">2h</span></div>
+        <p class="timeline-text">"O cappuccino aqui tem uma qualidade que não encontrei em lugar nenhum."</p>
+        <div class="timeline-attrs"><span class="timeline-attr">Qualidade</span><span class="timeline-attr">Atendimento</span></div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-avatar" style="background:linear-gradient(135deg,#fde68a,#f59e0b);color:#fff">AC</div>
+      <div class="timeline-body">
+        <div class="timeline-head"><span class="timeline-name">Ana Carolina</span><span class="timeline-stars">★★★★★</span><span class="timeline-date">5h</span></div>
+        <p class="timeline-text">"Ambiente perfeito para trabalhar. Wi-fi rápido e o melhor café da região."</p>
+        <div class="timeline-attrs"><span class="timeline-attr">Ambiente</span><span class="timeline-attr">Qualidade</span></div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-avatar" style="background:linear-gradient(135deg,#a5b4fc,#6366f1);color:#fff">RS</div>
+      <div class="timeline-body">
+        <div class="timeline-head"><span class="timeline-name">Rafael Santos</span><span class="timeline-badge">✓ Verificado</span><span class="timeline-stars">★★★★★</span><span class="timeline-date">ontem</span></div>
+        <p class="timeline-text">"Já estou no quinto pacote e nunca decepcionou. Embalagem sustentável."</p>
+        <div class="timeline-attrs"><span class="timeline-attr">Qualidade</span><span class="timeline-attr">Sustentabilidade</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="b2b-card" style="margin-top:24px">
+    <div class="b2b-card-inner">
+      <span class="b2b-tag">Esta é sua marca?</span>
+      <h3>Acompanhe seu <span class="accent">Love Score</span> em tempo real.</h3>
+      <p>Inscreva sua marca e acesse o dashboard B2B (Fase 3): histórico, atributos por região, benchmarking e insights por IA.</p>
+      <button class="btn-b2b" onclick="toast('Onboarding B2B — Fase 3')">Conhecer planos →</button>
+    </div>
+  </div>
+</section>
+<!-- ============================================================
+     SCREEN PERFIL (RF-21, RF-04, RF-03)
+     ============================================================ -->
+<section class="screen" id="screen-perfil">
+  <div class="perfil-hero">
+    <div class="perfil-hero-inner">
+      <div class="perfil-avatar-mega" id="perfil-avatar">MS</div>
+      <div class="perfil-info-block">
+        <div class="pi-name" id="pi-name">Marina Souza</div>
+        <div class="pi-email" id="pi-email">marina.souza@email.com</div>
+        <div class="pi-meta">
+          <span class="perfil-pill ok">✓ E-mail confirmado</span>
+          <span class="perfil-pill">📅 Membro desde Jun/2026</span>
+          <span class="perfil-pill" id="pi-verif">⏳ 4/5 para verificado</span>
+        </div>
+      </div>
+      <div class="perfil-actions">
+        <button class="btn ghost sm">Editar perfil</button>
+        <button class="btn ghost sm">Privacidade</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="verif-progress" id="verif-progress-card">
+    <div class="verif-progress-head">
+      <div class="vp-title"><span style="font-size:16px">✨</span> Faltam <strong id="vp-faltam">1</strong> indicação para Consumidor Verificado</div>
+      <div class="vp-pill">RF-03</div>
+    </div>
+    <div class="verif-bar"><div class="verif-bar-fill" style="--w:80%"></div></div>
+    <div class="verif-hint">Após <strong>5 indicações aprovadas</strong>, você ganha o selo <strong>✓ Consumidor Verificado</strong> — suas indicações passam a pesar mais no Love Score.</div>
+  </div>
+
+  <div class="perfil-stats">
+    <div class="perfil-stat"><div class="ps-num" id="ps-total">5</div><div class="ps-lbl">Enviadas</div></div>
+    <div class="perfil-stat"><div class="ps-num" id="ps-aprov">4</div><div class="ps-lbl">Aprovadas</div></div>
+    <div class="perfil-stat"><div class="ps-num" id="ps-mod">1</div><div class="ps-lbl">Em moderação</div></div>
+    <div class="perfil-stat"><div class="ps-num">2</div><div class="ps-lbl">Favoritas</div></div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab on" onclick="trocarTab('indicacoes',this)">Indicações</button>
+    <button class="tab" onclick="trocarTab('favoritas',this)">Favoritas</button>
+    <button class="tab" onclick="trocarTab('atividade',this)">Atividade</button>
+    <button class="tab" onclick="trocarTab('privacidade',this)">Privacidade</button>
+  </div>
+
+  <div id="tab-indicacoes" class="tab-content">
+    <div class="ind-list">
+      <div class="ind-card">
+        <div class="ind-logo">GF</div>
+        <div class="ind-info">
+          <div class="ii-marca">Cafeteria Grão Fino</div>
+          <div class="ii-stars">★★★★★</div>
+          <div class="ii-text">"O melhor café especial da cidade!"</div>
+          <div class="ii-meta">Gastronomia · 12/06/2026</div>
+        </div>
+        <span class="ind-status-pill aprov">Aprovada</span>
+      </div>
+      <div class="ind-card">
+        <div class="ind-logo">SB</div>
+        <div class="ind-info">
+          <div class="ii-marca">Studio Bela Forma</div>
+          <div class="ii-stars">★★★★★</div>
+          <div class="ii-text">"Resultado incrível na depilação."</div>
+          <div class="ii-meta">Beleza · 08/06/2026</div>
+        </div>
+        <span class="ind-status-pill aprov">Aprovada</span>
+      </div>
+      <div class="ind-card">
+        <div class="ind-logo">TB</div>
+        <div class="ind-info">
+          <div class="ii-marca">TechShop Brasil</div>
+          <div class="ii-stars">★★★★☆</div>
+          <div class="ii-text">"Ótimo custo-benefício."</div>
+          <div class="ii-meta">Tecnologia · 18/06/2026</div>
+        </div>
+        <span class="ind-status-pill mod">Em moderação</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="tab-favoritas" class="tab-content" hidden>
+    <div class="rank-grid">
+      <div class="rank-card" onclick="abrirMarca('grao-fino')">
+        <button class="rc-fav on">♥</button>
+        <div class="rc-row"><div class="rc-logo">GF</div><div class="rc-info"><div class="rc-pos">#1</div><div class="rc-name">Grão Fino</div><div class="rc-cat">Gastronomia</div></div></div>
+        <div class="rc-score-row"><div class="rc-score-num">84</div><div class="rc-score-info"><div class="rc-score-lbl">Love Score</div><div class="rc-ind">342 indicações</div></div><div class="rc-bar"><div class="rc-bar-fill" style="--pct:84%"></div></div></div>
+      </div>
+      <div class="rank-card" onclick="abrirMarca('farmacia-saude')">
+        <button class="rc-fav on">♥</button>
+        <div class="rc-row"><div class="rc-logo">FS</div><div class="rc-info"><div class="rc-pos">#5</div><div class="rc-name">Farmácia Saúde</div><div class="rc-cat">Saúde</div></div></div>
+        <div class="rc-score-row"><div class="rc-score-num">71</div><div class="rc-score-info"><div class="rc-score-lbl">Love Score</div><div class="rc-ind">143 indicações</div></div><div class="rc-bar"><div class="rc-bar-fill" style="--pct:71%"></div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="tab-atividade" class="tab-content" hidden>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-avatar" style="background:linear-gradient(135deg,#dbeafe,#3b82f6);color:#fff">!</div>
+        <div class="timeline-body">
+          <div class="timeline-head"><span class="timeline-name">Indicação aprovada</span><span class="timeline-date">2 dias</span></div>
+          <p class="timeline-text"><strong>Studio Bela Forma</strong> — sua indicação foi aprovada e entrou no cálculo do Love Score.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-avatar" style="background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#fff">★</div>
+        <div class="timeline-body">
+          <div class="timeline-head"><span class="timeline-name">Marca subiu</span><span class="timeline-date">4 dias</span></div>
+          <p class="timeline-text"><strong>Grão Fino</strong> subiu para <strong>#1</strong> em Gastronomia!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="tab-privacidade" class="tab-content" hidden>
+    <div class="formula-card" style="margin-bottom:14px">
+      <h3>🔒 Consentimento LGPD</h3>
+      <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px dashed var(--line);font-size:12.5px"><span style="color:var(--text-soft)">Consentimento</span><span style="font-weight:700;color:var(--navy)">Aceito em 01/06/2026</span></div>
+      <div style="display:flex;justify-content:space-between;padding:8px 0;font-size:12.5px"><span style="color:var(--text-soft)">Dados visíveis</span><span style="font-weight:700;color:var(--navy);text-align:right">Nome · indicações</span></div>
+    </div>
+    <div class="formula-card">
+      <h3>📤 Exportar / 🗑 Excluir</h3>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px dashed var(--line);font-size:12.5px;gap:10px;flex-wrap:wrap"><span style="color:var(--text-soft)">Exportar meus dados</span><button class="btn ghost sm">Solicitar</button></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;font-size:12.5px;gap:10px;flex-wrap:wrap"><span style="color:var(--text-soft)">Excluir conta</span><button class="btn danger sm" onclick="confirmarExclusao()">Solicitar exclusão</button></div>
+      <div style="font-size:11px;color:var(--text-mute);margin-top:9px;line-height:1.55">Suas indicações serão anonimizadas (RF-04 · RNF-04).</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SCREEN MODERAÇÃO (RF-11)
+     ============================================================ -->
+<section class="screen" id="screen-moderacao">
+  <div class="sc-title">Fila de Moderação</div>
+  <div class="sc-sub">Revisão de indicações sinalizadas pela IA · <span class="badge-mini">RF-11</span> <span class="badge-mini">RNF-08</span></div>
+
+  <div class="moder-stats">
+    <div class="moder-stat"><div class="ms-lbl">IA aprovou hoje</div><div class="ms-num">920</div></div>
+    <div class="moder-stat warn"><div class="ms-lbl">Na fila</div><div class="ms-num">7</div></div>
+    <div class="moder-stat"><div class="ms-lbl">Tempo médio</div><div class="ms-num">4<span style="font-size:.55em;color:var(--text-soft)">min</span></div></div>
+    <div class="moder-stat"><div class="ms-lbl">Limiar IA</div><div class="ms-num">85<span style="font-size:.55em;color:var(--text-soft)">%</span></div></div>
+  </div>
+
+  <div class="moder-list">
+    <div class="moder-card">
+      <div>
+        <div class="moder-card-head">
+          <span class="moder-conf med">Confiança IA: 72%</span>
+          <span style="font-size:11px">de <strong style="color:var(--navy)">consumidor_novo_42</strong></span>
+          <span style="font-size:11px">· há 12 min</span>
+        </div>
+        <div class="moder-marca">Cafeteria Grão Fino · ★★★★★</div>
+        <div class="moder-text">"Muito bom!"</div>
+        <div class="moder-meta"><span>📍 Campinas/SP</span><span>📎 Qualidade</span></div>
+      </div>
+      <div class="moder-actions">
+        <button class="btn sm">✓ Aprovar</button>
+        <button class="btn navy sm">⚠ Avisar</button>
+        <button class="btn danger sm">✕ Remover</button>
+      </div>
+    </div>
+
+    <div class="moder-card">
+      <div>
+        <div class="moder-card-head">
+          <span class="moder-conf low">Confiança IA: 48%</span>
+          <span style="font-size:11px">de <strong style="color:var(--navy)">user_promo_xx</strong></span>
+          <span style="margin-left:auto;font-size:10.5px;color:var(--red);font-weight:700">🚨 spam</span>
+        </div>
+        <div class="moder-marca">Studio Bela Forma · ★★★★★</div>
+        <div class="moder-text">"Compre agora com 50% OFF no link bit.ly/promo!!"</div>
+        <div class="moder-meta"><span>📍 Origem suspeita</span><span>📎 URL externa</span></div>
+      </div>
+      <div class="moder-actions">
+        <button class="btn sm">✓ Aprovar</button>
+        <button class="btn navy sm">⚠ Avisar</button>
+        <button class="btn danger sm">✕ Remover</button>
+      </div>
+    </div>
+
+    <div class="moder-card">
+      <div>
+        <div class="moder-card-head">
+          <span class="moder-conf med">Confiança IA: 78%</span>
+          <span style="font-size:11px">de <strong style="color:var(--navy)">marina.souza</strong></span>
+          <span style="font-size:11px">· 1h</span>
+        </div>
+        <div class="moder-marca">TechShop Brasil · ★★★★☆</div>
+        <div class="moder-text">"Ótimo custo-benefício nos eletrônicos. Entrega no prazo."</div>
+        <div class="moder-meta"><span>📍 São Paulo/SP</span><span>📎 Preço, Atendimento</span></div>
+      </div>
+      <div class="moder-actions">
+        <button class="btn sm">✓ Aprovar</button>
+        <button class="btn navy sm">⚠ Avisar</button>
+        <button class="btn danger sm">✕ Remover</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SCREEN REQUISITOS
+     ============================================================ -->
+<section class="screen" id="screen-requisitos">
+  <div class="sc-title">Cobertura de Requisitos</div>
+  <div class="sc-sub">MVP Fase 1 · 12 RFs + 9 RNFs · marque conforme valida</div>
+
+  <div class="req-progress">
+    <div class="req-progress-head">
+      <h3>Progresso geral</h3>
+      <div class="req-progress-pct" id="req-pct">0%</div>
+    </div>
+    <div class="req-bar"><div class="req-bar-fill" id="req-bar-fill"></div></div>
+    <div class="req-legend">
+      <span><span class="req-legend-dot" style="background:var(--ok)"></span>Validado</span>
+      <span><span class="req-legend-dot" style="background:var(--amber)"></span>Ajustar</span>
+      <span><span class="req-legend-dot" style="background:var(--navy)"></span>Dúvida</span>
+    </div>
+  </div>
+
+  <div id="req-list-container"></div>
+</section>
+
+</div><!-- /#screens -->
+</main><!-- /#maincol -->
+</div><!-- /#appbody -->
+
+<!-- ============================================================
+     BOTTOM NAV (mobile only)
+     ============================================================ -->
+<nav id="bottomnav">
+  <button id="bnav-home" class="on" onclick="nav('home')">
+    <span class="nic"><svg><use href="#i-home"/></svg></span>
+    <span>Home</span>
+  </button>
+  <button id="bnav-marca" onclick="nav('marca')">
+    <span class="nic"><svg><use href="#i-heart"/></svg></span>
+    <span>Marca</span>
+  </button>
+  <button id="bnav-indicar" onclick="nav('indicar')">
+    <span class="nic"><svg><use href="#i-plus-circle"/></svg></span>
+    <span>Indicar</span>
+  </button>
+  <button id="bnav-perfil" onclick="nav('perfil')">
+    <span class="nic"><svg><use href="#i-user"/></svg></span>
+    <span>Perfil</span>
+  </button>
+  <button id="bnav-requisitos" onclick="nav('requisitos')">
+    <span class="nic"><svg><use href="#i-list"/></svg></span>
+    <span>RFs</span>
+  </button>
+  <button id="bnav-moderacao" onclick="nav('moderacao')" hidden>
+    <span class="nic"><svg><use href="#i-shield"/></svg></span>
+    <span>Moderar</span>
+  </button>
+</nav>
+
+</div><!-- /#appwrap -->
+</div><!-- /#device -->
+</div><!-- /#stage -->
+
+<!-- ============================================================
+     TOAST + SOBRE MODAL
+     ============================================================ -->
+<div class="toast" id="toast"></div>
+
+<div id="sobre-modal" hidden style="position:fixed;inset:0;z-index:200;background:rgba(4,27,51,.7);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:24px" onclick="this.hidden=true">
+  <div style="background:#fff;border-radius:24px;max-width:520px;width:100%;padding:32px;max-height:80vh;overflow-y:auto" onclick="event.stopPropagation()">
+    <h2 style="font-family:var(--font-display);font-weight:900;font-size:24px;color:var(--navy);letter-spacing:-.02em;margin-bottom:14px">Sobre este protótipo</h2>
+    <p style="font-size:14px;color:var(--text);line-height:1.6;margin-bottom:14px">
+      Protótipo navegável do <strong>Portal Eu Que Indico</strong> (MVP Fase 1) com cobertura dos <strong>12 requisitos funcionais</strong> e <strong>9 não-funcionais</strong>.
+    </p>
+    <p style="font-size:14px;color:var(--text);line-height:1.6;margin-bottom:14px">
+      Use o seletor no topo para alternar entre <strong>Mobile (PWA)</strong> e <strong>Web (Desktop)</strong>. Troque a <strong>persona</strong> dentro do app para ver o produto pela ótica de cada usuário (Visitante, Consumidor, Verificado, Moderador).
+    </p>
+    <p style="font-size:13px;color:var(--text-soft);line-height:1.6;background:var(--bg-warm);padding:14px;border-radius:11px">
+      <strong style="color:var(--navy)">Manual da Marca EQI:</strong> verde primário <span style="background:#85C606;color:#041B33;padding:1px 6px;border-radius:4px;font-weight:700">#85C606</span> · navy secundário <span style="background:#041B33;color:#fff;padding:1px 6px;border-radius:4px;font-weight:700">#041B33</span> · Raleway (títulos) + Montserrat (corpo).
+    </p>
+    <button class="btn" style="width:100%;margin-top:18px" onclick="document.getElementById('sobre-modal').hidden=true">Fechar</button>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   DATA
+   ============================================================ */
+const MARCAS = [
+  {id:'grao-fino', nome:'Cafeteria Grão Fino', cat:'Gastronomia', score:84, ind:342, pos:1, logo:'GF'},
+  {id:'studio-bela', nome:'Studio Bela Forma', cat:'Beleza', score:79, ind:218, pos:2, logo:'SB'},
+  {id:'techshop', nome:'TechShop Brasil', cat:'Tecnologia', score:76, ind:195, pos:3, logo:'TB'},
+  {id:'moda-now', nome:'Moda Now', cat:'Varejo', score:73, ind:167, pos:4, logo:'MN'},
+  {id:'farmacia-saude', nome:'Farmácia Saúde Total', cat:'Saúde', score:71, ind:143, pos:5, logo:'FS'},
+  {id:'edutech', nome:'EduTech Pro', cat:'Educação', score:68, ind:98, pos:6, logo:'EP'},
+  {id:'horta-viva', nome:'Horta Viva Orgânicos', cat:'Varejo', score:null, ind:6, pos:null, logo:'HV', curadoria:true},
+];
+
+const PERSONAS = {
+  publico:{nome:'Visitante', email:'Não autenticado', initials:'?', verificado:false, emailConfirm:false, stats:{total:0,aprov:0,mod:0}},
+  consumidor:{nome:'Marina Souza', email:'marina.souza@email.com', initials:'MS', verificado:false, emailConfirm:true, stats:{total:5,aprov:4,mod:1}},
+  verificado:{nome:'João Pereira', email:'joao.pereira@email.com', initials:'JP', verificado:true, emailConfirm:true, stats:{total:12,aprov:11,mod:1}},
+  moderador:{nome:'Admin EQI', email:'admin@euqueindico.com.br', initials:'AE', verificado:true, emailConfirm:true, stats:{total:0,aprov:0,mod:0}},
+};
+
+const REQS = [
+  {grupo:'E1 — Acesso e Identidade', items:[
+    {id:'RF-01', t:'Cadastro e onboarding'},
+    {id:'RF-02', t:'Login e autenticação'},
+    {id:'RF-03', t:'Verificação e selo'},
+    {id:'RF-04', t:'Gestão de conta e LGPD'},
+  ]},
+  {grupo:'E2 — Indicação', items:[
+    {id:'RF-05', t:'Registro em 3 passos', tela:'indicar'},
+    {id:'RF-06', t:'Cadastro de nova marca', tela:'indicar'},
+    {id:'RF-07', t:'Avaliação negativa como alerta', tela:'indicar', acao:()=>{nav('indicar');goWiz(2);setTimeout(()=>setStars(2),300)}},
+  ]},
+  {grupo:'E3 — Moderação', items:[
+    {id:'RF-11', t:'Moderação automática + fila', tela:'moderacao'},
+  ]},
+  {grupo:'E4 — Love Score', items:[
+    {id:'RF-15', t:'Cálculo do Love Score', tela:'marca', acao:()=>abrirMarca('grao-fino')},
+  ]},
+  {grupo:'E5 — Ranking & Perfil', items:[
+    {id:'RF-17', t:'Ranking e vitrine', tela:'home'},
+    {id:'RF-20', t:'Página pública + CTA B2B', tela:'marca', acao:()=>abrirMarca('grao-fino')},
+    {id:'RF-21', t:'Perfil e histórico', tela:'perfil'},
+  ]},
+  {grupo:'Requisitos Não-Funcionais (transversais)', items:[
+    {id:'RNF-01', t:'Desempenho (LCP <2,5s)'},
+    {id:'RNF-02', t:'Disponibilidade 99,5%'},
+    {id:'RNF-03', t:'Segurança (2FA, JWT)'},
+    {id:'RNF-04', t:'LGPD', tela:'perfil', acao:()=>{nav('perfil');setTimeout(()=>{const t=document.querySelectorAll('#screen-perfil .tab');trocarTab('privacidade',t[3])},300)}},
+    {id:'RNF-05', t:'Responsivo + PWA'},
+    {id:'RNF-06', t:'SEO'},
+    {id:'RNF-07', t:'Acessibilidade WCAG AA'},
+    {id:'RNF-08', t:'Auditoria 12 meses', tela:'moderacao'},
+    {id:'RNF-09', t:'Identidade visual'},
+  ]},
+];
+
+/* ============================================================
+   STATE
+   ============================================================ */
+let personaAtual = 'consumidor';
+let wizStep = 1, wizStars = 4;
+let wizMarca = MARCAS[0];
+let validacao = (function(){try{return JSON.parse(localStorage.getItem('eqi-v3-val')||'{}')}catch(e){return {}}})();
+
+/* ============================================================
+   MODE SWITCH (Mobile / Web) — coração do v3
+   ============================================================ */
+function setMode(m){
+  document.body.dataset.mode = m;
+  document.querySelectorAll('#seg button').forEach(b=>b.classList.toggle('on', b.dataset.m===m));
+  toast(m==='mobile' ? '📱 Visualização Mobile (PWA)' : '🖥 Visualização Web (Desktop)');
+}
+
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
+function nav(tela){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));
+  const el = document.getElementById('screen-'+tela);
+  if(el) el.classList.add('on');
+  ['home','marca','indicar','perfil','moderacao','requisitos'].forEach(t=>{
+    document.getElementById('nav-'+t)?.classList.toggle('on', t===tela);
+    document.getElementById('snav-'+t)?.classList.toggle('on', t===tela);
+    document.getElementById('bnav-'+t)?.classList.toggle('on', t===tela);
+  });
+  document.getElementById('screens').scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ============================================================
+   PERSONA SWITCH
+   ============================================================ */
+function trocarPersona(p){
+  personaAtual = p;
+  const persona = PERSONAS[p];
+  const avTop = document.getElementById('avatar-top');
+  const avMob = document.getElementById('avatar-mob');
+  const btnAc = document.getElementById('btn-acesso-top');
+  const moderNavTop = document.getElementById('nav-moderacao');
+  const moderNavSide = document.getElementById('snav-moderacao');
+  const moderNavBot = document.getElementById('bnav-moderacao');
+  const mobLabel = document.getElementById('mob-persona-label');
+
+  if(p === 'publico'){
+    avTop.hidden = true; avMob.hidden = true; btnAc.hidden = false;
+    moderNavTop.hidden = true; moderNavSide.hidden = true; moderNavBot.hidden = true;
+    if(['perfil','moderacao'].includes(currentTela())) nav('home');
+    if(mobLabel) mobLabel.textContent = 'Visitante';
+  } else if(p === 'moderador'){
+    avTop.hidden = false; avMob.hidden = false; btnAc.hidden = true;
+    avTop.textContent = persona.initials; avTop.style.background='linear-gradient(135deg,#041B33,#0a2d4f)'; avTop.style.color='#fff';
+    avMob.textContent = persona.initials; avMob.style.background='linear-gradient(135deg,#041B33,#0a2d4f)'; avMob.style.color='#fff';
+    moderNavTop.hidden = false; moderNavSide.hidden = false; moderNavBot.hidden = false;
+    if(mobLabel) mobLabel.textContent = 'Admin EQI · ' + persona.initials;
+    nav('moderacao');
+  } else {
+    avTop.hidden = false; avMob.hidden = false; btnAc.hidden = true;
+    avTop.textContent = persona.initials; avTop.style.background='var(--grad-green)'; avTop.style.color='var(--navy)';
+    avMob.textContent = persona.initials; avMob.style.background='var(--grad-green)'; avMob.style.color='var(--navy)';
+    moderNavTop.hidden = true; moderNavSide.hidden = true; moderNavBot.hidden = true;
+    if(currentTela()==='moderacao') nav('home');
+    if(mobLabel) mobLabel.textContent = persona.nome.split(' ')[0] + ' · ' + persona.initials;
+    atualizarPerfil();
+  }
+}
+function currentTela(){
+  const el = document.querySelector('.screen.on');
+  return el ? el.id.replace('screen-','') : 'home';
+}
+function atualizarPerfil(){
+  const p = PERSONAS[personaAtual];
+  if(!p || personaAtual==='publico' || personaAtual==='moderador') return;
+  document.getElementById('perfil-avatar').textContent = p.initials;
+  document.getElementById('pi-name').textContent = p.nome;
+  document.getElementById('pi-email').textContent = p.email;
+  document.getElementById('pi-verif').innerHTML = p.verificado ? '✓ Consumidor Verificado' : `⏳ ${p.stats.aprov}/5 para verificado`;
+  document.getElementById('ps-total').textContent = p.stats.total;
+  document.getElementById('ps-aprov').textContent = p.stats.aprov;
+  document.getElementById('ps-mod').textContent = p.stats.mod;
+  document.getElementById('vp-faltam').textContent = Math.max(0,5-p.stats.aprov);
+  const fill = document.querySelector('#verif-progress-card .verif-bar-fill');
+  if(fill){ fill.style.setProperty('--w', Math.min(100, (p.stats.aprov/5)*100)+'%'); }
+  document.getElementById('verif-progress-card').style.display = p.verificado?'none':'block';
+}
+
+/* ============================================================
+   MARCA
+   ============================================================ */
+function abrirMarca(id){
+  const m = MARCAS.find(x=>x.id===id);
+  if(!m) return;
+  document.getElementById('mh-logo').textContent = m.logo;
+  document.getElementById('mh-name').textContent = m.nome;
+  document.getElementById('mh-cat').textContent = m.cat + ' · Campinas, SP';
+  document.querySelector('#screen-marca .love-mega').style.setProperty('--pct', m.score||0);
+  document.querySelector('#screen-marca .love-mega-num').firstChild.textContent = m.score===null?'—':m.score;
+  document.querySelector('#screen-marca .marca-kpis .marca-kpi:nth-child(1) .mk-num').textContent = m.ind;
+  document.querySelector('#screen-marca .marca-kpis .marca-kpi:nth-child(4) .mk-num').textContent = '#'+(m.pos||'—');
+  nav('marca');
+}
+
+/* ============================================================
+   WIZARD
+   ============================================================ */
+function goWiz(n){
+  wizStep=n;
+  for(let i=1;i<=3;i++){
+    const s = document.getElementById('wstep-'+i);
+    s.classList.toggle('done', i<n);
+    s.classList.toggle('active', i===n);
+    document.getElementById('wiz-p'+i).hidden = i!==n;
+  }
+  if(n===3) atualizarPreview();
+}
+function setStars(n){
+  wizStars = n;
+  document.querySelectorAll('#stars-row .star-btn').forEach((b,i)=>b.classList.toggle('on', i<n));
+  const labels = ['Não recomendo','Não gostei','Ok','Gostei muito','Amo essa marca!'];
+  document.getElementById('star-label').textContent = `${n} estrela${n>1?'s':''} · ${labels[n-1]}`;
+  document.getElementById('neg-alert').hidden = n>2;
+}
+function atualizarPreview(){
+  document.getElementById('prev-logo').textContent = wizMarca.logo;
+  document.getElementById('prev-name').textContent = wizMarca.nome;
+  document.getElementById('prev-cat').textContent = wizMarca.cat;
+  document.getElementById('prev-stars').textContent = '★'.repeat(wizStars)+'☆'.repeat(5-wizStars);
+  document.getElementById('prev-text').textContent = document.getElementById('ind-text').value;
+  const attrs = [...document.querySelectorAll('#attr-chips .attr-chip.sel')].map(b=>b.textContent);
+  document.getElementById('prev-attrs').innerHTML = attrs.map(a=>`<span class="prev-attr">${a}</span>`).join('');
+}
+function mostrarNovaMarca(){ document.getElementById('nova-marca').hidden = false }
+function confirmarNovaMarca(){
+  document.getElementById('nova-marca').hidden = true;
+  document.getElementById('ms-bar').hidden = false;
+  toast('Nova marca cadastrada (RF-06)');
+}
+function buscarMarcaWiz(q){
+  const cont = document.getElementById('ind-suggestions');
+  if(!q){ cont.innerHTML=''; return }
+  const matches = MARCAS.filter(m=>m.nome.toLowerCase().includes(q.toLowerCase())).slice(0,3);
+  cont.innerHTML = matches.length===0
+    ? '<div style="font-size:12.5px;color:var(--text-soft);padding:10px">Nenhuma marca encontrada.</div>'
+    : matches.map(m=>`<div class="ind-card" style="margin-bottom:7px;cursor:pointer" onclick="selecionarMarcaWiz('${m.id}')">
+        <div class="ind-logo">${m.logo}</div>
+        <div class="ind-info"><div class="ii-marca">${m.nome}</div><div class="ii-meta">${m.cat} · LS ${m.score||'curadoria'}</div></div>
+        <button class="btn sm">Escolher</button>
+      </div>`).join('');
+}
+function selecionarMarcaWiz(id){
+  const m = MARCAS.find(x=>x.id===id); if(!m) return;
+  wizMarca = m;
+  document.getElementById('ms-logo').textContent = m.logo;
+  document.getElementById('ms-name').textContent = m.nome;
+  document.getElementById('ms-cat').textContent = m.cat;
+  document.getElementById('ms-bar').hidden = false;
+  document.getElementById('ind-suggestions').innerHTML='';
+  document.getElementById('ind-search').value = m.nome;
+}
+function confirmarIndicacao(){
+  confettiBurst();
+  setTimeout(()=>{
+    toast('Indicação enviada! Vai para a moderação (RF-11).');
+    goWiz(1);
+    document.getElementById('ms-bar').hidden = true;
+    document.getElementById('ind-search').value='';
+    nav('perfil');
+  }, 1100);
+}
+
+function confettiBurst(){
+  const colors = ['#85C606','#9ee818','#041B33','#fff','#6ea805'];
+  for(let i=0;i<50;i++){
+    const c = document.createElement('div');
+    c.className='confetti';
+    c.style.left = (Math.random()*100)+'%';
+    c.style.top = '-20px';
+    c.style.background = colors[Math.floor(Math.random()*colors.length)];
+    c.style.transform = `rotate(${Math.random()*360}deg)`;
+    c.style.animationDelay = (Math.random()*0.4)+'s';
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(), 2400);
+  }
+}
+
+/* ============================================================
+   TABS (Perfil)
+   ============================================================ */
+function trocarTab(name, btn){
+  document.querySelectorAll('#screen-perfil .tab').forEach(b=>b.classList.remove('on'));
+  if(btn) btn.classList.add('on');
+  document.querySelectorAll('#screen-perfil .tab-content').forEach(c=>c.hidden=true);
+  const el = document.getElementById('tab-'+name);
+  if(el) el.hidden = false;
+}
+function confirmarExclusao(){
+  if(confirm('Tem certeza? Suas indicações serão anonimizadas (LGPD).')){
+    toast('Solicitação registrada (RF-04 · LGPD).');
+  }
+}
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+function toast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('on');
+  clearTimeout(window._tt);
+  window._tt = setTimeout(()=>t.classList.remove('on'), 3500);
+}
+
+/* ============================================================
+   SOBRE MODAL
+   ============================================================ */
+function abrirSobre(){ document.getElementById('sobre-modal').hidden = false }
+
+/* ============================================================
+   REQUISITOS
+   ============================================================ */
+function renderRequisitos(){
+  const cont = document.getElementById('req-list-container');
+  cont.innerHTML = REQS.map(g=>`
+    <div class="req-group">
+      <div class="req-group-title">${g.grupo}</div>
+      ${g.items.map(r=>{
+        const st = validacao[r.id]||'';
+        return `<div class="req-item">
+          <div class="req-id">${r.id}</div>
+          <div class="req-title">${r.t}</div>
+          <span class="req-prio">Essencial</span>
+          <div class="req-actions">
+            ${r.tela?`<button class="req-demo-btn" onclick="demoRF('${r.id}')">▶ Demo</button>`:''}
+            <select class="req-val-sel" data-rid="${r.id}" onchange="setVal('${r.id}',this.value)">
+              <option value="">Não validado</option>
+              <option value="ok" ${st==='ok'?'selected':''}>✓ Validado</option>
+              <option value="aj" ${st==='aj'?'selected':''}>! Ajustar</option>
+              <option value="dv" ${st==='dv'?'selected':''}>? Dúvida</option>
+            </select>
+          </div>
+        </div>`;
+      }).join('')}
+    </div>
+  `).join('');
+  atualizarReqProgresso();
+}
+function setVal(id, val){
+  if(val) validacao[id]=val; else delete validacao[id];
+  try{localStorage.setItem('eqi-v3-val', JSON.stringify(validacao))}catch(e){}
+  atualizarReqProgresso();
+}
+function atualizarReqProgresso(){
+  const total = REQS.flatMap(g=>g.items).length;
+  const done = Object.values(validacao).filter(v=>v==='ok').length;
+  const pct = Math.round((done/total)*100);
+  document.getElementById('req-pct').textContent = pct+'%';
+  document.getElementById('req-bar-fill').style.width = pct+'%';
+}
+function demoRF(id){
+  const item = REQS.flatMap(g=>g.items).find(x=>x.id===id);
+  if(!item) return;
+  toast(`▶ Demo ${id}: ${item.t}`);
+  if(item.acao) item.acao();
+  else if(item.tela) nav(item.tela);
+}
+
+/* ============================================================
+   ATTR CHIPS toggle
+   ============================================================ */
+document.addEventListener('click', e=>{
+  const c = e.target.closest('#attr-chips .attr-chip');
+  if(c) c.classList.toggle('sel');
+});
+
+/* ============================================================
+   APP MODE — abre como app (tela cheia, sem chrome de demo) quando:
+   (a) URL contém ?app  (o QR impresso aponta para .../?app), ou
+   (b) já está instalado e aberto pela tela inicial (PWA standalone).
+   Sem isso, segue o protótipo dual-mode normal (Web/Mobile) p/ demo.
+   ============================================================ */
+function ativarModoApp(){
+  document.body.classList.add('app-mode');
+  document.body.dataset.mode = 'mobile';   // sem toast (não é demo, é o app)
+  document.querySelectorAll('#seg button').forEach(b=>b.classList.toggle('on', b.dataset.m==='mobile'));
+  nav('home');
+}
+(function detectarApp(){
+  const params = new URLSearchParams(location.search);
+  const standalone = window.matchMedia('(display-mode: standalone)').matches
+                  || window.matchMedia('(display-mode: fullscreen)').matches
+                  || window.navigator.standalone === true;
+  if(params.has('app') || standalone){ ativarModoApp(); }
+})();
+
+/* Service Worker — habilita instalação na tela inicial e cache offline.
+   Só funciona via http(s) (GitHub Pages); ignorado ao abrir como file://. */
+if('serviceWorker' in navigator && location.protocol.startsWith('http')){
+  window.addEventListener('load', ()=>{
+    navigator.serviceWorker.register('sw.js').catch(()=>{});
+  });
+}
+
+/* ============================================================
+   INIT
+   ============================================================ */
+trocarPersona('consumidor');
+renderRequisitos();
+
+</script>
+</body>
+</html>
