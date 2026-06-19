@@ -1,0 +1,5 @@
+Corrige icones do app (iOS apple-touch-icon)
+
+- icon-180/192/512 estavam largos/descentralizados (iOS mostrava cortado)
+- regerados a partir do maskable-512 (lockup centralizado em quadrado navy)
+- sobe CACHE do SW para v5
