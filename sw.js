@@ -1,11 +1,13 @@
 /* Service Worker — Eu Que Indico (PWA do protótipo navegável)
-   Cache-first do app shell para instalação na tela inicial e uso offline.
-   Bump CACHE ao publicar uma nova versão para invalidar o cache antigo. */
-const CACHE = 'eqi-app-v2';
+   HTML/navegação = network-first (sempre pega a versão nova ao publicar;
+   cai no cache só se estiver offline). Estáticos (ícones/logo/manifest)
+   = cache-first. Bump CACHE ao publicar nova versão. */
+const CACHE = 'eqi-app-v3';
 const ASSETS = [
   './',
   './index.html',
   './manifest.webmanifest',
+  './logo.svg',
   './icons/icon-192.png',
   './icons/icon-512.png',
   './icons/icon-maskable-512.png',
@@ -31,20 +33,35 @@ self.addEventListener('activate', e => {
 self.addEventListener('fetch', e => {
   const req = e.request;
   if (req.method !== 'GET') return;
+
+  const isHTML = req.mode === 'navigate'
+    || (req.headers.get('accept') || '').includes('text/html');
+
+  if (isHTML) {
+    // network-first: versão fresca quando online; cache como fallback offline
+    e.respondWith(
+      fetch(req)
+        .then(res => {
+          const copy = res.clone();
+          caches.open(CACHE).then(c => c.put('./index.html', copy));
+          return res;
+        })
+        .catch(() => caches.match(req).then(hit => hit || caches.match('./index.html')))
+    );
+    return;
+  }
+
+  // estáticos: cache-first
   e.respondWith(
     caches.match(req).then(hit => {
       if (hit) return hit;
       return fetch(req).then(res => {
-        // guarda em cache respostas próprias (mesma origem) p/ uso offline
         if (res && res.ok && new URL(req.url).origin === location.origin) {
           const copy = res.clone();
           caches.open(CACHE).then(c => c.put(req, copy));
         }
         return res;
-      }).catch(() =>
-        // offline e sem cache: cai no app shell (SPA-like)
-        caches.match('./index.html')
-      );
+      });
     })
   );
 });

@@ -255,9 +255,9 @@ body.app-mode #aside{display:none}
 body.app-mode .notch{display:none}
 body.app-mode .browserbar{display:none}
 body.app-mode #device{
-  width:100vw !important;height:100vh !important;height:100dvh !important;
+  width:min(100vw,480px) !important;height:100vh !important;height:100dvh !important;
   max-height:none !important;border-radius:0 !important;box-shadow:none !important;
-  transition:none;
+  transition:none;margin:0 auto;
 }
 body.app-mode{overflow-x:hidden}
 body.app-mode[data-mode="mobile"] #appbar{padding:max(18px,env(safe-area-inset-top)) 18px 14px}
@@ -292,8 +292,8 @@ body[data-mode="mobile"] #appbar-mobile{display:block}
 .eqi-logo-mark{display:flex;align-items:center;cursor:pointer;flex:none}
 /* largura explícita (proporção 1074:604): width:auto quebra no Safari/iOS,
    gerando largura-fantasma de 1074px que empurra/corta a barra. */
-.eqi-logo-mark svg{height:44px;width:78px;aspect-ratio:1074/604;display:block;flex:none}
-body[data-mode="mobile"] .eqi-logo-mark svg{height:40px;width:71px}
+.eqi-logo-mark svg,.eqi-logo-mark img{height:44px;width:78px;aspect-ratio:1074/604;display:block;flex:none;object-fit:contain}
+body[data-mode="mobile"] .eqi-logo-mark svg,body[data-mode="mobile"] .eqi-logo-mark img{height:40px;width:71px}
 
 /* Topnav (web) */
 .topnav{display:flex;gap:2px;margin-left:24px}
@@ -1714,7 +1714,7 @@ body[data-mode="web"] .req-prio{display:none}
         <!-- Web Appbar -->
         <div id="appbar-web">
           <span class="eqi-logo-mark" onclick="nav('home')" title="Eu Que Indico">
-            <svg role="img" aria-label="Eu Que Indico"><use href="#eqi-logo"/></svg>
+            <img src="logo.svg" alt="Eu Que Indico" />
           </span>
           <nav class="topnav">
             <button id="nav-home" class="on" onclick="nav('home')">Home</button>
@@ -1743,7 +1743,7 @@ body[data-mode="web"] .req-prio{display:none}
         <div id="appbar-mobile">
           <div class="row1">
             <span class="eqi-logo-mark" onclick="nav('home')" title="Eu Que Indico">
-              <svg role="img" aria-label="Eu Que Indico"><use href="#eqi-logo"/></svg>
+              <img src="logo.svg" alt="Eu Que Indico" />
             </span>
             <div class="spacer"></div>
             <button class="iconbtn" onclick="toast('Notificações (mock)')"><svg><use href="#i-bell"/></svg></button>
