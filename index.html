@@ -1937,9 +1937,9 @@ body[data-mode="web"] .req-prio{display:none}
   <div class="filters">
     <div class="filters-search">
       <span class="filters-search-ico">🔍</span>
-      <input type="search" placeholder="Buscar marca, categoria ou cidade...">
+      <input type="search" id="mkt-search" placeholder="Buscar marca ou categoria..." oninput="filtrarMarcas()">
     </div>
-    <select class="filter-sel"><option>Todas categorias</option><option>Gastronomia</option><option>Beleza</option><option>Tecnologia</option></select>
+    <select class="filter-sel" id="mkt-cat" onchange="filtrarMarcas()"><option>Todas categorias</option><option>Gastronomia</option><option>Beleza</option><option>Tecnologia</option><option>Varejo</option><option>Saúde</option><option>Educação</option></select>
     <select class="filter-sel"><option>Todas regiões</option><option>Sudeste</option><option>Sul</option><option>Nordeste</option></select>
     <button class="btn-indicar-fab" onclick="nav('indicar')"><span class="plus">+</span> Indicar</button>
   </div>
@@ -2000,6 +2000,12 @@ body[data-mode="web"] .req-prio{display:none}
         <div class="rc-bar"><div class="rc-bar-fill" style="--pct:60%"></div></div>
       </div>
     </div>
+  </div>
+
+  <!-- Estado vazio do filtro -->
+  <div id="mkt-empty" hidden style="text-align:center;padding:36px 20px;color:var(--text-mute)">
+    <div style="font-family:var(--font-display);font-weight:700;color:var(--navy);font-size:16px;margin-bottom:4px">Nenhuma marca encontrada</div>
+    <div style="font-size:13px">Tente outro nome ou categoria.</div>
   </div>
 
   <!-- B2B Conversion -->
@@ -2966,6 +2972,37 @@ if('serviceWorker' in navigator && location.protocol.startsWith('http')){
   window.addEventListener('load', ()=>{
     navigator.serviceWorker.register('sw.js').catch(()=>{});
   });
+}
+
+/* ============================================================
+   FILTRO DE MARCAS (busca + categoria) — atua sobre os cards do
+   pódio e do ranking que já estão na página (nome + categoria).
+   ============================================================ */
+function filtrarMarcas(){
+  const q = (document.getElementById('mkt-search')?.value || '').trim().toLowerCase();
+  const catSel = document.getElementById('mkt-cat');
+  let cat = (catSel?.value || '').toLowerCase();
+  if(cat.startsWith('todas')) cat = '';
+
+  const cards = document.querySelectorAll('.podium-card, .rank-card');
+  let visiveis = 0;
+  cards.forEach(card=>{
+    const nome = (card.querySelector('.pod-name, .rc-name')?.textContent || '').toLowerCase();
+    const categoria = (card.querySelector('.pod-cat, .rc-cat')?.textContent || '').toLowerCase();
+    const okBusca = !q || (nome + ' ' + categoria).includes(q);
+    const okCat = !cat || categoria.includes(cat);
+    const mostrar = okBusca && okCat;
+    card.style.display = mostrar ? '' : 'none';
+    if(mostrar) visiveis++;
+  });
+
+  const filtrando = !!(q || cat);
+  const empty = document.getElementById('mkt-empty');
+  if(empty) empty.hidden = !(filtrando && visiveis === 0);
+
+  // ao filtrar, oculta o cabeçalho do pódio (some o "Top 3 por Love Score")
+  const podioSec = document.getElementById('podio-sec');
+  if(podioSec) podioSec.style.display = filtrando ? 'none' : '';
 }
 
 /* ============================================================
