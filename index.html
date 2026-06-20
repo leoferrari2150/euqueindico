@@ -1885,6 +1885,17 @@ body[data-mode="web"] .req-prio{display:none}
     </div>
   </div>
 
+  <!-- FILTERS -->
+  <div class="filters">
+    <div class="filters-search">
+      <span class="filters-search-ico">🔍</span>
+      <input type="search" id="mkt-search" placeholder="Buscar marca ou categoria..." oninput="filtrarMarcas()">
+    </div>
+    <select class="filter-sel" id="mkt-cat" onchange="filtrarMarcas()"><option>Todas categorias</option><option>Gastronomia</option><option>Beleza</option><option>Tecnologia</option><option>Varejo</option><option>Saúde</option><option>Educação</option></select>
+    <select class="filter-sel"><option>Todas regiões</option><option>Norte</option><option>Nordeste</option><option>Sudeste</option><option>Sul</option></select>
+    <button class="btn-indicar-fab" onclick="nav('indicar')"><span class="plus">+</span> Indicar</button>
+  </div>
+
   <!-- PÓDIO -->
   <div class="sec-head" id="podio-sec">
     <div>
@@ -1933,19 +1944,8 @@ body[data-mode="web"] .req-prio{display:none}
     </div>
   </div>
 
-  <!-- FILTERS -->
-  <div class="filters">
-    <div class="filters-search">
-      <span class="filters-search-ico">🔍</span>
-      <input type="search" id="mkt-search" placeholder="Buscar marca ou categoria..." oninput="filtrarMarcas()">
-    </div>
-    <select class="filter-sel" id="mkt-cat" onchange="filtrarMarcas()"><option>Todas categorias</option><option>Gastronomia</option><option>Beleza</option><option>Tecnologia</option><option>Varejo</option><option>Saúde</option><option>Educação</option></select>
-    <select class="filter-sel"><option>Todas regiões</option><option>Sudeste</option><option>Sul</option><option>Nordeste</option></select>
-    <button class="btn-indicar-fab" onclick="nav('indicar')"><span class="plus">+</span> Indicar</button>
-  </div>
-
   <!-- RANKING continuação -->
-  <div class="sec-head">
+  <div class="sec-head" id="ranking-sec">
     <div>
       <h2>Continuação do ranking</h2>
       <span class="sec-sub">Posições 4 em diante</span>
@@ -3000,9 +3000,12 @@ function filtrarMarcas(){
   const empty = document.getElementById('mkt-empty');
   if(empty) empty.hidden = !(filtrando && visiveis === 0);
 
-  // ao filtrar, oculta o cabeçalho do pódio (some o "Top 3 por Love Score")
+  // ao filtrar, oculta os cabeçalhos das seções → resultados aparecem
+  // direto embaixo do filtro, como uma lista única de busca
   const podioSec = document.getElementById('podio-sec');
   if(podioSec) podioSec.style.display = filtrando ? 'none' : '';
+  const rankingSec = document.getElementById('ranking-sec');
+  if(rankingSec) rankingSec.style.display = filtrando ? 'none' : '';
 }
 
 /* ============================================================
