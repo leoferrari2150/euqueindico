@@ -2,7 +2,7 @@
    HTML/navegação = network-first (sempre pega a versão nova ao publicar;
    cai no cache só se estiver offline). Estáticos (ícones/logo/manifest)
    = cache-first. Bump CACHE ao publicar nova versão. */
-const CACHE = 'eqi-app-v9';
+const CACHE = 'eqi-app-v10';
 const ASSETS = [
   './',
   './index.html',

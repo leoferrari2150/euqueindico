@@ -768,7 +768,8 @@ body[data-mode="web"] .sec-head h2{font-size:22px}
    ============================================================ */
 .podium{display:grid;margin-bottom:28px}
 body[data-mode="mobile"] .podium{grid-template-columns:1fr;gap:12px}
-body[data-mode="web"] .podium{grid-template-columns:1fr 1.15fr 1fr;gap:16px;align-items:end}
+/* HTML em ordem de ranking #1,#2,#3; no web a 1ª coluna (campeã) é a destacada */
+body[data-mode="web"] .podium{grid-template-columns:1.15fr 1fr 1fr;gap:16px;align-items:end}
 
 .podium-card{
   background:linear-gradient(180deg, #fff 0%, #f9faff 100%);
@@ -1906,18 +1907,6 @@ body[data-mode="web"] .req-prio{display:none}
   </div>
 
   <div class="podium">
-    <div class="podium-card silver" onclick="abrirMarca('studio-bela')">
-      <div class="pod-rank">#2</div>
-      <div class="pod-medal-circle">2</div>
-      <div class="pod-logo">SB</div>
-      <div class="pod-name">Studio Bela Forma</div>
-      <div class="pod-cat">Beleza</div>
-      <div class="pod-score-ring" style="--pct:79">
-        <svg width="100" height="100"><circle cx="50" cy="50" r="45" class="track"/><circle cx="50" cy="50" r="45" class="fill"/></svg>
-        <div class="pod-score-content"><div class="pod-score-num">79</div><div class="pod-score-lbl">Love Score</div></div>
-      </div>
-      <div class="pod-ind"><strong>218</strong> indicações</div>
-    </div>
     <div class="podium-card gold" onclick="abrirMarca('grao-fino')">
       <div class="pod-rank">#1</div>
       <div class="pod-medal-circle">★</div>
@@ -1929,6 +1918,18 @@ body[data-mode="web"] .req-prio{display:none}
         <div class="pod-score-content"><div class="pod-score-num">84</div><div class="pod-score-lbl">Love Score</div></div>
       </div>
       <div class="pod-ind"><strong>342</strong> indicações</div>
+    </div>
+    <div class="podium-card silver" onclick="abrirMarca('studio-bela')">
+      <div class="pod-rank">#2</div>
+      <div class="pod-medal-circle">2</div>
+      <div class="pod-logo">SB</div>
+      <div class="pod-name">Studio Bela Forma</div>
+      <div class="pod-cat">Beleza</div>
+      <div class="pod-score-ring" style="--pct:79">
+        <svg width="100" height="100"><circle cx="50" cy="50" r="45" class="track"/><circle cx="50" cy="50" r="45" class="fill"/></svg>
+        <div class="pod-score-content"><div class="pod-score-num">79</div><div class="pod-score-lbl">Love Score</div></div>
+      </div>
+      <div class="pod-ind"><strong>218</strong> indicações</div>
     </div>
     <div class="podium-card bronze" onclick="abrirMarca('techshop')">
       <div class="pod-rank">#3</div>
